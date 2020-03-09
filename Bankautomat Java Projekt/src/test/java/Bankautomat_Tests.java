@@ -55,6 +55,15 @@ public class Bankautomat_Tests {
 
     }
 
+    @Test
+    public void test_toReadClient_WrongFile(){
+
+        final ClientRepository cr = new ClientRepository();
+
+        assertEquals(null, cr.findClient("wrongFile"));
+
+    }
+
     @org.junit.Test
     public void test_ToRead_Client_Positive(){
 

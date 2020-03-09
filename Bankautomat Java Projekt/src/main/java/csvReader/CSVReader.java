@@ -34,7 +34,7 @@ public class CSVReader {
 
             client = new Client(values[0], values[1], values[2], values[3], BigDecimal.valueOf(
                     Double.parseDouble(values[4])));
-        }catch(IOException | IllegalArgumentException e){
+        }catch(final IOException | IllegalArgumentException e){
             e.printStackTrace();
         }
 
