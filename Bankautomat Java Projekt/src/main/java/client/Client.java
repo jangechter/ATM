@@ -1,7 +1,7 @@
 /*
  * Client.java
  *
- * Created on 2020-03-03
+ * Created on 2020-03-13
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -18,14 +18,16 @@ public class Client {
     private String iban;
     private String pin;
     private BigDecimal bankBalance;
+    private boolean isActive;
 
     public Client(final String name, final String firstname, final String iban, final String pin,
-                  final BigDecimal bankBalance) {
+                  final BigDecimal bankBalance, final boolean isActive) {
         this.name = name;
         this.firstname = firstname;
         this.iban = iban;
         this.pin = pin;
         this.bankBalance = bankBalance;
+        this.isActive = isActive;
     }
 
     public String getName() {
@@ -48,12 +50,20 @@ public class Client {
         return bankBalance;
     }
 
+    public boolean isActive() {
+        return isActive;
+    }
+
     public void setPin(final String pin) {
         this.pin = pin;
     }
 
     public void setBankBalance(final BigDecimal bankBalance) {
         this.bankBalance = bankBalance;
+    }
+
+    public void setActive(final boolean active) {
+        isActive = active;
     }
 
     @Override
