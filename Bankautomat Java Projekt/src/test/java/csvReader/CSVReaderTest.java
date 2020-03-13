@@ -8,17 +8,21 @@
 
 package csvReader;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.math.BigDecimal;
 
-import org.junit.Test;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import ClientRepository.ClientRepository;
 import client.Client;
+import clientRepository.ClientRepository;
 
-public class CSVReaderTest {
+class CSVReaderTest {
 
     private static final String TEST_NAME = "Mustermann";
     private static final double TEST_BANK_BALANCE = 100.00;
@@ -26,34 +30,33 @@ public class CSVReaderTest {
     private static final String TEST_IBAN = "DE01 2345 6789 0123 4567 89";
     private static final String TEST_PIN = "1234";
     private static final boolean IS_ACTIVE = true;
-    private static final Client CLIENT = new Client(TEST_NAME, TEST_FIRSTNAME, TEST_IBAN, TEST_PIN, BigDecimal
+    private static final File TEST_FILE = new File(System.getProperty("user.dir") + "/src/main/resources/" + TEST_IBAN + ".csv");
+    private static final Client TEST_CLIENT = new Client(TEST_NAME, TEST_FIRSTNAME, TEST_IBAN, TEST_PIN, BigDecimal
             .valueOf(TEST_BANK_BALANCE), IS_ACTIVE);
 
     @Test
-    public void testToReadClientNegative() {
+    void testToReadClientNegative() throws IOException{
 
-        final ClientRepository cr = new ClientRepository();
+        CSVReader reader = new CSVReader();
 
-        CLIENT.setPin("5555");
+        TEST_CLIENT.setPin("5555");
 
-        assertFalse(CLIENT.equals(cr.findClient(TEST_IBAN)));
+        assertFalse(reader.readClient(TEST_FILE).equals(TEST_CLIENT));
 
-        CLIENT.setPin(TEST_PIN);
+        TEST_CLIENT.setPin(TEST_PIN);
     }
 
     @Test
-    public void testToReadClientWrongFile() {
-
-        final ClientRepository cr = new ClientRepository();
-
-        assertNull(cr.findClient("wrongFile"));
+    void testToReadClientWrongFile() {
+        final CSVReader reader = new CSVReader();
+        assertThrows(FileNotFoundException.class, ()->reader.readClient(new File("abc")));
     }
 
-    @org.junit.Test
-    public void testToReadClientPositive() {
+    @Test
+    void testToReadClientPositive() throws IOException {
+        CSVReader reader = new CSVReader();
 
-        final ClientRepository cr = new ClientRepository();
-
-        assertTrue(cr.findClient(TEST_IBAN).equals(CLIENT));
+        assertDoesNotThrow(()->reader.readClient(TEST_FILE));
+        assertTrue(reader.readClient(TEST_FILE).equals(TEST_CLIENT));
     }
 }

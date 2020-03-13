@@ -10,12 +10,13 @@ package ATMTest;
 
 import java.math.BigDecimal;
 
-import org.junit.Test;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import org.junit.jupiter.api.Test;
 
-import ClientRepository.ClientRepository;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import clientRepository.ClientRepository;
 import authentication.Authentication;
 import client.Client;
 
@@ -66,12 +67,12 @@ public class Bankautomat_Tests {
         assertEquals(null, cr.findClient("wrongFile"));
     }
 
-    @org.junit.Test
+    @Test
     public void test_ToRead_Client_Positive() {
 
         final ClientRepository cr = new ClientRepository();
 
-        assertTrue("Clients Equal", client.equals(cr.findClient(TEST_IBAN)));
+        assertTrue(client.equals(cr.findClient(TEST_IBAN)));
     }
 
     @Test
@@ -114,8 +115,7 @@ public class Bankautomat_Tests {
 
         try {
 
-            assertEquals(auth.getClient().getBankBalance().compareTo(BigDecimal.valueOf(TEST_BANK_BALANCE)) == 0,
-                         true);
+            assertTrue(auth.getClient().getBankBalance().compareTo(BigDecimal.valueOf(TEST_BANK_BALANCE)) == 0);
         } catch (NullPointerException e) {
             e.printStackTrace();
         }

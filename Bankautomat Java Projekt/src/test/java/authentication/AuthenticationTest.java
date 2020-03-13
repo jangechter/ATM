@@ -9,11 +9,11 @@
 package authentication;
 
 import java.math.BigDecimal;
+import org.junit.jupiter.api.Test;
 
-import org.junit.Test;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import client.Client;
 
@@ -26,8 +26,8 @@ public class AuthenticationTest {
     private static final String TEST_IBAN = "DE01 2345 6789 0123 4567 89";
     private static final String TEST__PIN = "1234";
     private static final boolean IS_ACTIVE = true;
-    private static final Client client = new Client(TEST_NAME, TEST_FIRSTNAME, TEST_IBAN, TEST__PIN,
-                                                    BigDecimal.valueOf(TEST_BANK_BALANCE), IS_ACTIVE);
+    private static final Client TEST_CLIENT = new Client(TEST_NAME, TEST_FIRSTNAME, TEST_IBAN, TEST__PIN,
+                                                         BigDecimal.valueOf(TEST_BANK_BALANCE), IS_ACTIVE);
 
     @Test
     public void testCheckbankBalanceNegative() {
@@ -54,8 +54,7 @@ public class AuthenticationTest {
 
         try {
 
-            assertEquals(auth.getClient().getBankBalance().compareTo(BigDecimal.valueOf(TEST_BANK_BALANCE)) == 0,
-                         true);
+            assertTrue(auth.getClient().getBankBalance().compareTo(BigDecimal.valueOf(TEST_BANK_BALANCE)) == 0);
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
