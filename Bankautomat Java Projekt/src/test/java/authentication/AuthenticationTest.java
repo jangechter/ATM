@@ -29,9 +29,8 @@ public class AuthenticationTest {
     private static final Client client = new Client(TEST_NAME, TEST_FIRSTNAME, TEST_IBAN, TEST__PIN,
                                                     BigDecimal.valueOf(TEST_BANK_BALANCE), IS_ACTIVE);
 
-
     @Test
-    public void test_Check_bankBalance_Negative(){
+    public void testCheckbankBalanceNegative() {
 
         final Authentication auth = new Authentication();
 
@@ -47,7 +46,7 @@ public class AuthenticationTest {
     }
 
     @Test
-    public void test__Check_bankBalance_Positive() {
+    public void testCheckBankBalancePositive() {
 
         final Authentication auth = new Authentication();
 
@@ -63,7 +62,7 @@ public class AuthenticationTest {
     }
 
     @Test
-    public void test_Check_Pin_Negative() {
+    public void testCheckPinNegative() {
 
         final Authentication auth = new Authentication();
 
@@ -71,7 +70,7 @@ public class AuthenticationTest {
     }
 
     @Test
-    public void test_Check_Pin_Positive() {
+    public void testCheckPinPositive() {
 
         final Authentication auth = new Authentication();
 

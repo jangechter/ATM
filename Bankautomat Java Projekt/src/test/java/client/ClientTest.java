@@ -26,7 +26,7 @@ public class ClientTest {
             .valueOf(TEST_BANK_BALANCE), IS_ACTIVE);
 
     @Test
-    public void testEquals_Positive() {
+    public void testEqualsPositive() {
 
         assertTrue(client.equals(client));
         assertTrue(client.equals(
@@ -35,7 +35,7 @@ public class ClientTest {
     }
 
     @Test
-    public void test_Client_Equals_Negative() {
+    public void testClientEqualsNegative() {
         assertFalse(client.equals(null));
         assertFalse(client.equals(
                 new Client(" ", " ", TEST_IBAN, TEST__PIN, BigDecimal.valueOf(TEST_BANK_BALANCE), IS_ACTIVE)));

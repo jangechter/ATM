@@ -71,19 +71,20 @@ public class Client {
         if (this == o) {
             return true;
         }
-        if ((o == null) || (getClass() != o.getClass())) {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
         final Client client = (Client) o;
-        return Objects.equals(name, client.name) &&
-               Objects.equals(firstname, client.firstname) &&
-               Objects.equals(iban, client.iban) &&
-               Objects.equals(pin, client.pin) &&
-               Objects.equals(bankBalance, client.bankBalance);
+        return isActive == client.isActive &&
+               name.equals(client.name) &&
+               firstname.equals(client.firstname) &&
+               iban.equals(client.iban) &&
+               pin.equals(client.pin) &&
+               bankBalance.equals(client.bankBalance);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, firstname, iban, pin, bankBalance);
+        return Objects.hash(name, firstname, iban, pin, bankBalance, isActive);
     }
 }

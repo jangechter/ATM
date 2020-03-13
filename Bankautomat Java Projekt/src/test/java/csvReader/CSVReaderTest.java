@@ -11,8 +11,8 @@ package csvReader;
 import java.math.BigDecimal;
 
 import org.junit.Test;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import ClientRepository.ClientRepository;
@@ -24,36 +24,36 @@ public class CSVReaderTest {
     private static final double TEST_BANK_BALANCE = 100.00;
     private static final String TEST_FIRSTNAME = "Max";
     private static final String TEST_IBAN = "DE01 2345 6789 0123 4567 89";
-    private static final String TEST__PIN = "1234";
+    private static final String TEST_PIN = "1234";
     private static final boolean IS_ACTIVE = true;
-    private static final Client client = new Client(TEST_NAME, TEST_FIRSTNAME, TEST_IBAN, TEST__PIN, BigDecimal
+    private static final Client CLIENT = new Client(TEST_NAME, TEST_FIRSTNAME, TEST_IBAN, TEST_PIN, BigDecimal
             .valueOf(TEST_BANK_BALANCE), IS_ACTIVE);
 
     @Test
-    public void test_toReadClient_Negative() {
+    public void testToReadClientNegative() {
 
         final ClientRepository cr = new ClientRepository();
 
-        client.setPin("5555");
+        CLIENT.setPin("5555");
 
-        assertFalse(client.equals(cr.findClient(TEST_IBAN)));
+        assertFalse(CLIENT.equals(cr.findClient(TEST_IBAN)));
 
-        client.setPin(TEST__PIN);
+        CLIENT.setPin(TEST_PIN);
     }
 
     @Test
-    public void test_toReadClient_WrongFile() {
+    public void testToReadClientWrongFile() {
 
         final ClientRepository cr = new ClientRepository();
 
-        assertEquals(null, cr.findClient("wrongFile"));
+        assertNull(cr.findClient("wrongFile"));
     }
 
     @org.junit.Test
-    public void test_ToRead_Client_Positive() {
+    public void testToReadClientPositive() {
 
         final ClientRepository cr = new ClientRepository();
 
-        assertTrue("Clients Equal", client.equals(cr.findClient(TEST_IBAN)));
+        assertTrue(cr.findClient(TEST_IBAN).equals(CLIENT));
     }
 }
