@@ -1,7 +1,7 @@
 /*
  * ClientRepository.java
  *
- * Created on 2020-03-03
+ * Created on 2020-03-16
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -9,22 +9,47 @@
 package clientRepository;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+
+import org.jetbrains.annotations.Nullable;
 
 import client.Client;
 import csvReader.CSVReader;
 
 public class ClientRepository {
 
-    private CSVReader csvReader = new CSVReader();
+    private static final String SRC_MAIN_RESOURCES = "/src/main/resources/";
+    private static final String SRC_TEST_RESOURCES = "/src/test/resources/";
+    private static final String CSV = ".csv";
+    private final CSVReader reader = new CSVReader();
 
-    public Client findClient(final String iban) {
+    public File findFileByIBAN(String iban) throws FileNotFoundException {
 
-        final String path = System.getProperty("user.dir") + "/src/main/resources/" + iban + ".csv";
+        String path = System.getProperty("user.dir") + SRC_MAIN_RESOURCES + iban + CSV;
+
+        final File file = new File(path);
+
+        if (!file.canRead()) {
+            path = System.getProperty("user.dir") + SRC_TEST_RESOURCES + iban + CSV;
+            final File testFile = new File(path);
+
+            if (!testFile.canRead()) {
+                throw new FileNotFoundException("Invalid IBAN");
+            }
+
+            return testFile;
+        }
+
+        return file;
+    }
+
+    public @Nullable Client findClient(final String iban) {
 
         try {
-            return csvReader.readClient(new File(path));
-        } catch (IOException e) {
+
+            return reader.readClient(findFileByIBAN(iban));
+        } catch (final IOException e) {
             e.printStackTrace();
 
             return null;

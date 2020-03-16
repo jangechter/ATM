@@ -1,37 +1,54 @@
 /*
  * Authentication.java
  *
- * Created on 2020-03-03
+ * Created on 2020-03-16
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
 
 package authentication;
 
-import clientRepository.ClientRepository;
 import client.Client;
+import clientRepository.ClientRepository;
 
 public class Authentication {
 
-    private ClientRepository cr = new ClientRepository();
-    private Client client;
+    private final ClientRepository cr = new ClientRepository();
+    private Client client = null;
+    private Integer numberAttempts = 0;
+    private boolean isClientLoggedIN = false;
 
-    public boolean logIn(String iban, String pin) {
+    public Integer getNumberAttempts() {
+        return numberAttempts;
+    }
 
-        client = cr.findClient(iban);
-
-        if (client != null) {
-
-            if (client.getPin().equals(pin)) {
-                return true;
-            } else {
-                client = null;
-            }
-        }
-        return false;
+    public boolean isClientLoggedIN() {
+        return isClientLoggedIN;
     }
 
     public Client getClient() {
         return client;
+    }
+
+    public boolean logIn(final String iban, final String pin) {
+
+        client = cr.findClient(iban);
+
+        if ((!isClientLoggedIN) && (client != null)) {
+
+            if (numberAttempts < 3) {
+                if (client.getPin().equals(pin)) {
+                    isClientLoggedIN = true;
+                    return true;
+                } else {
+                    numberAttempts++;
+                }
+            } else {
+                client.setActive(false);
+                //TODO CSV.writeClient for save the blocking of the Account
+            }
+        }
+
+        return false;
     }
 }

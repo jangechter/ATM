@@ -1,7 +1,7 @@
 /*
  * Client.java
  *
- * Created on 2020-03-13
+ * Created on 2020-03-16
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -13,17 +13,17 @@ import java.util.Objects;
 
 public class Client {
 
-    private String name;
-    private String firstname;
-    private String iban;
+    private final String name;
+    private final String firstName;
+    private final String iban;
     private String pin;
     private BigDecimal bankBalance;
     private boolean isActive;
 
-    public Client(final String name, final String firstname, final String iban, final String pin,
+    public Client(final String name, final String firstName, final String iban, final String pin,
                   final BigDecimal bankBalance, final boolean isActive) {
         this.name = name;
-        this.firstname = firstname;
+        this.firstName = firstName;
         this.iban = iban;
         this.pin = pin;
         this.bankBalance = bankBalance;
@@ -34,8 +34,8 @@ public class Client {
         return name;
     }
 
-    public String getFirstname() {
-        return firstname;
+    public String getFirstName() {
+        return firstName;
     }
 
     public String getIban() {
@@ -67,17 +67,17 @@ public class Client {
     }
 
     @Override
-    public boolean equals(final Object o) {
-        if (this == o) {
+    public boolean equals(final Object obj) {
+        if (this == obj) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if ((obj == null) || (getClass() != obj.getClass())) {
             return false;
         }
-        final Client client = (Client) o;
-        return isActive == client.isActive &&
+        final Client client = (Client) obj;
+        return (isActive == client.isActive) &&
                name.equals(client.name) &&
-               firstname.equals(client.firstname) &&
+               firstName.equals(client.firstName) &&
                iban.equals(client.iban) &&
                pin.equals(client.pin) &&
                bankBalance.equals(client.bankBalance);
@@ -85,6 +85,6 @@ public class Client {
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, firstname, iban, pin, bankBalance, isActive);
+        return Objects.hash(name, firstName, iban, pin, bankBalance, isActive);
     }
 }

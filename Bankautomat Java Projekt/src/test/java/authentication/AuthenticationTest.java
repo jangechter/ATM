@@ -1,79 +1,119 @@
 /*
  * AuthenticationTest.java
  *
- * Created on 2020-03-13
+ * Created on 2020-03-16
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
 
 package authentication;
 
+import java.io.File;
 import java.math.BigDecimal;
-import org.junit.jupiter.api.Test;
+import java.util.ResourceBundle;
 
+import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import client.Client;
 
-public class AuthenticationTest {
+class AuthenticationTest {
 
-
-    private static final String TEST_NAME = "Mustermann";
+    private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle("TestData");
+    private static final String TEST_NAME = RESOURCE_BUNDLE.getString("name");
     private static final double TEST_BANK_BALANCE = 100.00;
-    private static final String TEST_FIRSTNAME = "Max";
-    private static final String TEST_IBAN = "DE01 2345 6789 0123 4567 89";
-    private static final String TEST__PIN = "1234";
-    private static final boolean IS_ACTIVE = true;
-    private static final Client TEST_CLIENT = new Client(TEST_NAME, TEST_FIRSTNAME, TEST_IBAN, TEST__PIN,
-                                                         BigDecimal.valueOf(TEST_BANK_BALANCE), IS_ACTIVE);
+    private static final String TEST_FIRSTNAME = RESOURCE_BUNDLE.getString("firstname");
+    private static final String TEST_IBAN = RESOURCE_BUNDLE.getString("de01.2345.6789.0123.4567.89");
+    private static final String TEST_PIN = RESOURCE_BUNDLE.getString("pin");
+    private static final boolean IS_ACTIVE = Boolean.parseBoolean(RESOURCE_BUNDLE.getString("status"));
 
+    private static final File TEST_FILE = new File(System.getProperty("user.dir") + "/src/test/resources/" +
+                                                   TEST_IBAN + ".csv");
+    private static final Client TEST_CLIENT = new Client(TEST_NAME, TEST_FIRSTNAME, TEST_IBAN, TEST_PIN, BigDecimal
+            .valueOf(TEST_BANK_BALANCE), IS_ACTIVE);
     @Test
-    public void testCheckbankBalanceNegative() {
+    void testCheckbankBalanceNegative() {
 
         final Authentication auth = new Authentication();
 
-        auth.logIn(TEST_IBAN, TEST__PIN);
+        auth.logIn(TEST_IBAN, TEST_PIN);
+        assertTrue(auth.getClient().isActive());
+        assertTrue(auth.isClientLoggedIN());
 
         try {
-
             assertFalse(auth.getClient().getBankBalance().compareTo(BigDecimal.valueOf(Double.MIN_VALUE)) == 0);
-        } catch (NullPointerException e) {
+        } catch (final NullPointerException e) {
             e.printStackTrace();
         }
-
     }
 
     @Test
-    public void testCheckBankBalancePositive() {
+    void testCheckBankBalancePositive() {
 
         final Authentication auth = new Authentication();
 
-        auth.logIn(TEST_IBAN, TEST__PIN);
+        auth.logIn(TEST_IBAN, TEST_PIN);
+        assertTrue(auth.getClient().isActive());
+        assertTrue(auth.isClientLoggedIN());
 
         try {
 
-            assertTrue(auth.getClient().getBankBalance().compareTo(BigDecimal.valueOf(TEST_BANK_BALANCE)) == 0);
-        } catch (NullPointerException e) {
+            assertEquals(0, auth.getClient().getBankBalance().compareTo(BigDecimal.valueOf(TEST_BANK_BALANCE)));
+        } catch (final NullPointerException e) {
             e.printStackTrace();
         }
     }
 
     @Test
-    public void testCheckPinNegative() {
+    void testCheckPinNegative() {
 
         final Authentication auth = new Authentication();
 
         assertFalse(auth.logIn(TEST_IBAN, "0000"));
+        assertTrue(auth.getClient().isActive());
+        assertFalse(auth.isClientLoggedIN());
     }
 
     @Test
-    public void testCheckPinPositive() {
+    void testCheckPinPositive() {
 
         final Authentication auth = new Authentication();
 
-        assertTrue(auth.logIn(TEST_IBAN, TEST__PIN));
+        assertTrue(auth.logIn(TEST_IBAN, TEST_PIN));
+        assertTrue(auth.getClient().isActive());
+        assertTrue(auth.isClientLoggedIN());
+    }
+
+    @Test
+    void testBlockingAfter3Attempts() {
+
+        final Authentication auth = new Authentication();
+
+        //try to login with wrong credentials 3 times
+        auth.logIn(TEST_IBAN, "0000");
+        auth.logIn(TEST_IBAN, "0000");
+        auth.logIn(TEST_IBAN, "0000");
+        auth.logIn(TEST_IBAN, "0000");
+
+        assertFalse(auth.getClient().isActive());
+        assertFalse(auth.isClientLoggedIN());
+    }
+
+    @Test
+    void testNoBlockingAfter2Attempts() {
+
+        final Authentication auth = new Authentication();
+
+        //try to login with wrong credentials after 3 times
+        auth.logIn(TEST_IBAN, "0000");
+        auth.logIn(TEST_IBAN, "0000");
+        auth.logIn(TEST_IBAN, TEST_PIN);
+
+        assertTrue(auth.getClient().isActive());
+        assertTrue(auth.getNumberAttempts() < 3);
+        assertTrue(auth.isClientLoggedIN());
     }
 
 }
