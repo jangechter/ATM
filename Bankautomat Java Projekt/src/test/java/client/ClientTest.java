@@ -24,13 +24,14 @@ public class ClientTest extends TestData {
         assertTrue(TEST_CLIENT.equals(TEST_CLIENT));
         assertTrue(TEST_CLIENT.equals(
                 new Client(TEST_NAME, TEST_FIRSTNAME, TEST_IBAN, TEST_PIN, BigDecimal.valueOf(TEST_BANK_BALANCE),
-                           IS_ACTIVE)));
+                           IS_ACTIVE, TEST_NUMBER_ATTEMPTS)));
     }
 
     @Test
     void testClientEqualsNegative() {
         assertFalse(TEST_CLIENT.equals(null));
         assertFalse(TEST_CLIENT.equals(
-                new Client(" ", " ", TEST_IBAN, TEST_PIN, BigDecimal.valueOf(TEST_BANK_BALANCE), IS_ACTIVE)));
+                new Client(" ", " ", TEST_IBAN, TEST_PIN, BigDecimal.valueOf(TEST_BANK_BALANCE), IS_ACTIVE,
+                           TEST_NUMBER_ATTEMPTS)));
     }
 }

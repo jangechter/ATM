@@ -15,11 +15,6 @@ public class Authentication {
 
     private final ClientRepository cr = new ClientRepository();
     private Client client = null;
-    private Integer numberAttempts = 0;
-
-    public Integer getNumberAttempts() {
-        return numberAttempts;
-    }
 
     public Client getClient() {
         return client;
@@ -30,17 +25,20 @@ public class Authentication {
 
         client = cr.findClient(iban);
 
-        if (client != null) {
+        if ((client != null) && client.isActive()) {
 
-            if (numberAttempts < 3) {
+            if (client.getNumberAttempts() < 3) {
                 if (client.getPin().equals(pin)) {
                     return true;
                 } else {
-                    numberAttempts++;
+                    client.setNumberAttempts(client.getNumberAttempts() + 1);
+
+                    if (!(client.getNumberAttempts() < 3)) {
+                        client.setActive(false);
+                    }
+
+                    //TODO CSV.writeClient to persist the Attempts
                 }
-            } else {
-                client.setActive(false);
-                //TODO CSV.writeClient for save the blocking of the Account
             }
         }
 

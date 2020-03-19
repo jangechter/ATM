@@ -31,7 +31,7 @@ public class CSVReader {
         br.close();
 
         client = new Client(values[0], values[1], values[2], values[3], BigDecimal.valueOf(
-                Double.parseDouble(values[4])), Boolean.parseBoolean(values[5]));
+                Double.parseDouble(values[4])), Boolean.parseBoolean(values[5]), Integer.valueOf(values[6]));
 
         return client;
     }

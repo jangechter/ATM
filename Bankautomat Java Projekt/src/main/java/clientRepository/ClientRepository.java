@@ -23,14 +23,12 @@ public class ClientRepository {
 
     private File createFileByIBAN(final String iban) {
 
-        String path = System.getProperty("user.dir") + CLIENTS + iban + CSV;
+        final String path = System.getProperty("user.dir") + CLIENTS + iban + CSV;
 
         return new File(path);
     }
 
     public Client findClient(final String iban) {
-
-
 
         try {
 
