@@ -1,7 +1,7 @@
 /*
  * CSVReader.java
  *
- * Created on 2020-03-16
+ * Created on 2020-03-19
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -18,7 +18,7 @@ import client.Client;
 
 public class CSVReader {
 
-    public Client readClient(final File file) throws IOException {
+    public static Client readClient(final File file) throws IOException {
 
         final Client client;
         final String[] values;

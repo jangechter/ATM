@@ -9,50 +9,34 @@
 package clientRepository;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-
-import org.jetbrains.annotations.Nullable;
 
 import client.Client;
 import csvReader.CSVReader;
 
 public class ClientRepository {
 
-    private static final String SRC_MAIN_RESOURCES = "/src/main/resources/";
-    private static final String SRC_TEST_RESOURCES = "/src/test/resources/";
-    private static final String CSV = ".csv";
     private final CSVReader reader = new CSVReader();
 
-    File findFileByIBAN(String iban) throws FileNotFoundException {
+    private static final String CLIENTS = "/Clients/";
+    private static final String CSV = ".csv";
 
-        String path = System.getProperty("user.dir") + SRC_MAIN_RESOURCES + iban + CSV;
+    private File createFileByIBAN(final String iban) {
 
-        final File file = new File(path);
+        String path = System.getProperty("user.dir") + CLIENTS + iban + CSV;
 
-        if (!file.canRead()) {
-            path = System.getProperty("user.dir") + SRC_TEST_RESOURCES + iban + CSV;
-            final File testFile = new File(path);
-
-            if (!testFile.canRead()) {
-                throw new FileNotFoundException("Invalid IBAN");
-            }
-
-            return testFile;
-        }
-
-        return file;
+        return new File(path);
     }
 
-    public @Nullable Client findClient(final String iban) {
+    public Client findClient(final String iban) {
+
+
 
         try {
 
-            return reader.readClient(findFileByIBAN(iban));
+            return CSVReader.readClient(createFileByIBAN(iban));
         } catch (final IOException e) {
-            e.printStackTrace();
-
-            return null;
         }
+        return null;
     }
 }
