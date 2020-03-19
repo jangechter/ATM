@@ -1,7 +1,7 @@
 /*
  * AuthenticationTest.java
  *
- * Created on 2020-03-16
+ * Created on 2020-03-19
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -55,7 +55,6 @@ class AuthenticationTest {
         assertTrue(auth.isClientLoggedIN());
 
         try {
-
             assertEquals(0, auth.getClient().getBankBalance().compareTo(BigDecimal.valueOf(TEST_BANK_BALANCE)));
         } catch (final NullPointerException e) {
             e.printStackTrace();

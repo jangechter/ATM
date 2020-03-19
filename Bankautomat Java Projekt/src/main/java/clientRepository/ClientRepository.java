@@ -1,7 +1,7 @@
 /*
  * ClientRepository.java
  *
- * Created on 2020-03-16
+ * Created on 2020-03-19
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -24,7 +24,7 @@ public class ClientRepository {
     private static final String CSV = ".csv";
     private final CSVReader reader = new CSVReader();
 
-    public File findFileByIBAN(String iban) throws FileNotFoundException {
+    File findFileByIBAN(String iban) throws FileNotFoundException {
 
         String path = System.getProperty("user.dir") + SRC_MAIN_RESOURCES + iban + CSV;
 
