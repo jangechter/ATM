@@ -1,7 +1,7 @@
 /*
  * AuthenticationTest.java
  *
- * Created on 2020-03-19
+ * Created on 2020-03-20
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -92,7 +92,7 @@ class AuthenticationTest extends TestData {
         auth.logIn(TEST_IBAN, TEST_PIN);
 
         assertTrue(auth.getClient().isActive());
-        assertTrue(auth.getNumberAttempts() < 3);
+        assertTrue(auth.getClient().getNumberAttempts() < 3);
     }
 
 }
