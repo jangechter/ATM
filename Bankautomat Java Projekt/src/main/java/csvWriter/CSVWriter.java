@@ -35,6 +35,8 @@ public class CSVWriter {
 
             pw.println(header);
             pw.println(clientInformation);
+
+            pw.close();
         } else {
             throw new NullPointerException();
         }

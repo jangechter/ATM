@@ -13,10 +13,12 @@ import java.io.IOException;
 import java.math.BigDecimal;
 
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import client.Client;
+import csvReader.CSVReader;
 import testData.TestData;
 
 class CSVWriterTest extends TestData {
@@ -28,7 +30,7 @@ class CSVWriterTest extends TestData {
                                                           TEST_NUMBER_ATTEMPTS);
 
     @Test
-    void writeClientTestPositive() throws IOException {
+    void writeClientTestPositiveFileExists() throws IOException {
 
         csvWriter.CSVWriter.writeClient(TEST_CLIENT2);
 
@@ -40,8 +42,44 @@ class CSVWriterTest extends TestData {
     }
 
     @Test
-    void writeClientTestNegativeNullCliente() throws IOException {
+    void writeClientTestPositiveContentValid() throws IOException {
+
+        csvWriter.CSVWriter.writeClient(TEST_CLIENT2);
+
+        File file = new File(System.getProperty("user.dir") + "/Clients/" + TEST_IBAN2 + ".csv");
+
+        assertTrue(TEST_CLIENT2.equals(CSVReader.readClient(file)));
+
+        assertTrue(file.delete());
+    }
+
+    @Test
+    void writeClientTestNegativeNullPointer() {
 
         assertThrows(NullPointerException.class, () -> csvWriter.CSVWriter.writeClient(null));
+    }
+
+    @Test
+    void writeClientTestNegativeContentInvalid() throws IOException {
+
+        CSVWriter.writeClient(TEST_CLIENT2);
+
+        File file = new File(System.getProperty("user.dir") + "/Clients/" + TEST_IBAN2 + ".csv");
+
+        TEST_CLIENT2.setPin("0000");
+
+        assertFalse(TEST_CLIENT2.equals(CSVReader.readClient(file)));
+
+        TEST_CLIENT2.setPin(TEST_PIN);
+    }
+
+    @Test
+    void writeClientTestNegativeFileDoesNotExists() throws IOException {
+
+        CSVWriter.writeClient(TEST_CLIENT2);
+
+        File file = new File(System.getProperty("user.dir") + "/Clients/" + TEST_IBAN2 + "Wrong Iban" + ".csv");
+
+        assertFalse(file.exists());
     }
 }
