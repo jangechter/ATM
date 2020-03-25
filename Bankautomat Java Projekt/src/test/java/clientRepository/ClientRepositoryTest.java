@@ -1,7 +1,7 @@
 /*
  * ClientRepositoryTest.java
  *
- * Created on 2020-03-19
+ * Created on 2020-03-25
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -43,7 +43,9 @@ class ClientRepositoryTest extends TestData {
         final ClientRepository cr = new ClientRepository();
 
         assertNull(cr.findClient(" "));
-
     }
 
+    void updtaeClientTestNullPointer() {
+
+    }
 }

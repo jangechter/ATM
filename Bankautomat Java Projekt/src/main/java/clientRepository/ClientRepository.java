@@ -1,7 +1,7 @@
 /*
  * ClientRepository.java
  *
- * Created on 2020-03-19
+ * Created on 2020-03-25
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -13,10 +13,9 @@ import java.io.IOException;
 
 import client.Client;
 import csvReader.CSVReader;
+import csvWriter.CSVWriter;
 
 public class ClientRepository {
-
-    private final CSVReader reader = new CSVReader();
 
     private static final String CLIENTS = "/Clients/";
     private static final String CSV = ".csv";
@@ -36,5 +35,14 @@ public class ClientRepository {
         } catch (final IOException e) {
         }
         return null;
+    }
+
+    public void persistClient(final Client client) {
+
+        try {
+            CSVWriter.writeClient(client);
+        } catch (final IOException e) {
+            e.printStackTrace();
+        }
     }
 }

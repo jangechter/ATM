@@ -1,13 +1,14 @@
 /*
  * AuthenticationTest.java
  *
- * Created on 2020-03-20
+ * Created on 2020-03-25
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
 
 package authentication;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 
 import org.junit.jupiter.api.Test;
@@ -15,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import csvWriter.CSVWriter;
 import testData.TestData;
 
 class AuthenticationTest extends TestData {
@@ -56,6 +58,9 @@ class AuthenticationTest extends TestData {
 
         assertFalse(auth.logIn(TEST_IBAN, "0000"));
         assertTrue(auth.getClient().isActive());
+
+        auth.getClient().setActive(true);
+        auth.getClient().setNumberAttempts(0);
     }
 
     @Test
@@ -68,7 +73,7 @@ class AuthenticationTest extends TestData {
     }
 
     @Test
-    void testBlockingAfter3Attempts() {
+    void testBlockingAfter3Attempts() throws IOException {
 
         final Authentication auth = new Authentication();
 
@@ -79,6 +84,11 @@ class AuthenticationTest extends TestData {
         auth.logIn(TEST_IBAN, "0000");
 
         assertFalse(auth.getClient().isActive());
+
+        auth.getClient().setActive(true);
+        auth.getClient().setNumberAttempts(0);
+
+        CSVWriter.writeClient(auth.getClient());
     }
 
     @Test

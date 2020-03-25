@@ -1,7 +1,7 @@
 /*
  * CSVWriterTest.java
  *
- * Created on 2020-03-20
+ * Created on 2020-03-25
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -56,7 +56,7 @@ class CSVWriterTest extends TestData {
     @Test
     void writeClientTestNegativeNullPointer() {
 
-        assertThrows(NullPointerException.class, () -> csvWriter.CSVWriter.writeClient(null));
+        assertThrows(IllegalArgumentException.class, () -> csvWriter.CSVWriter.writeClient(null));
     }
 
     @Test

@@ -1,7 +1,7 @@
 /*
  * CSVReader.java
  *
- * Created on 2020-03-19
+ * Created on 2020-03-25
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -14,11 +14,12 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.math.BigDecimal;
 
+import Exceptions.ClientParsingException;
 import client.Client;
 
 public class CSVReader {
 
-    public static Client readClient(final File file) throws IOException {
+    public static Client readClient(final File file) throws IOException, ClientParsingException {
 
         final Client client;
         final String[] values;

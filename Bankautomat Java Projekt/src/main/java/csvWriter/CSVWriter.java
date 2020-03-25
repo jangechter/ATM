@@ -1,7 +1,7 @@
 /*
  * CSVWriter.java
  *
- * Created on 2020-03-20
+ * Created on 2020-03-25
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -38,7 +38,7 @@ public class CSVWriter {
 
             pw.close();
         } else {
-            throw new NullPointerException();
+            throw new IllegalArgumentException();
         }
     }
 }
