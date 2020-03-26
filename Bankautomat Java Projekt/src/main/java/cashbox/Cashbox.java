@@ -18,31 +18,33 @@ import moneynote.Moneynote;
 public class Cashbox {
 
     private HashMap<Moneynote, Integer> notes;
-    public final List<Moneynote> possibleNotes = new LinkedList<>();
+    public static final List<Moneynote> POSSIBLE_NOTES = new LinkedList<>();
 
     public Cashbox(final HashMap<Moneynote, Integer> notes) {
         this.notes = notes;
 
-        possibleNotes.add(new Moneynote(200));
-        possibleNotes.add(new Moneynote(100));
-        possibleNotes.add(new Moneynote(50));
-        possibleNotes.add(new Moneynote(20));
-        possibleNotes.add(new Moneynote(10));
-        possibleNotes.add(new Moneynote(5));
+        POSSIBLE_NOTES.add(new Moneynote(500));
+        POSSIBLE_NOTES.add(new Moneynote(200));
+        POSSIBLE_NOTES.add(new Moneynote(100));
+        POSSIBLE_NOTES.add(new Moneynote(50));
+        POSSIBLE_NOTES.add(new Moneynote(20));
+        POSSIBLE_NOTES.add(new Moneynote(10));
+        POSSIBLE_NOTES.add(new Moneynote(5));
+        POSSIBLE_NOTES.add(new Moneynote(2));
+        POSSIBLE_NOTES.add(new Moneynote(1));
     }
 
     public HashMap<Moneynote, Integer> withdraw(final Integer amount) throws IllegalArgumentException {
-
         return calculateDenominations(amount);
     }
 
     private Moneynote getNextMoneynote(Integer ammount) {
 
-        if (possibleNotes.contains(new Moneynote(ammount))) {
-            return possibleNotes.get(possibleNotes.indexOf(new Moneynote(ammount)));
+        if (POSSIBLE_NOTES.contains(new Moneynote(ammount))) {
+            return POSSIBLE_NOTES.get(POSSIBLE_NOTES.indexOf(new Moneynote(ammount)));
         }
 
-        for (Moneynote m : possibleNotes) {
+        for (Moneynote m : POSSIBLE_NOTES) {
 
             if (m.getValue() < ammount) {
                 return m;

@@ -10,7 +10,7 @@ package moneynote;
 
 import java.util.Objects;
 
-public class Moneynote {
+public class Moneynote implements Comparable<Moneynote> {
 
     private Integer value;
 
@@ -38,5 +38,21 @@ public class Moneynote {
     @Override
     public int hashCode() {
         return Objects.hash(value);
+    }
+
+    @Override
+    public int compareTo(final Moneynote o) {
+
+        if(o.getValue().equals(value)){
+            return 0;
+        }else{
+            if(value > 0){
+                return 1;
+            }else{
+                return -1;
+            }
+        }
+
+
     }
 }

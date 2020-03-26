@@ -25,5 +25,8 @@ public class TestData {
             .valueOf(TEST_BANK_BALANCE), IS_ACTIVE, TEST_NUMBER_ATTEMPTS);
     public static final String CLIENTS = "/Clients/";
     public static final String CSV = ".csv";
-    public static final File TEST_FILE = new File(System.getProperty("user.dir") + CLIENTS + TEST_IBAN + CSV);
+    public static final String CASHBOX = "/Cashbox/";
+    public static final String CURRENCY = "Euro";
+    public static final File TEST_FILE_CLIENT = new File(System.getProperty("user.dir") + CLIENTS + TEST_IBAN + CSV);
+    public static final File TEST_FILE_CASHBOX = new File(System.getProperty("user.dir") + CASHBOX + CURRENCY + CSV);
 }
