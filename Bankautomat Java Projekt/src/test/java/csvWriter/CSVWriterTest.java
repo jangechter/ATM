@@ -145,8 +145,6 @@ class CSVWriterTest extends TestData {
 
     @Test
     void writeCashboxTestNegativeIllegalArgument() {
-
-        assertThrows(IllegalArgumentException.class, ()-> CSVWriter.writeCashbox(null));
-
+        assertThrows(IllegalArgumentException.class, () -> CSVWriter.writeCashbox(null));
     }
 }

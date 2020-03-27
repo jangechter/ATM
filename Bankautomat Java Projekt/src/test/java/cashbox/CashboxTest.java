@@ -10,7 +10,6 @@ package cashbox;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Currency;
 import java.util.HashMap;
 
 import org.junit.jupiter.api.Test;
@@ -74,5 +73,24 @@ class CashboxTest extends TestData {
         cb.withdraw(100);
 
         assertTrue(new Cashbox(notes).equals(cb));
+    }
+
+    @Test
+    void withdrawTestPositiveDollarWithReadCSV() throws IOException {
+
+        Cashbox cb1 = CSVReader.readCashbox(new File(System.getProperty("user.dir") + CASHBOX + USDollar + CSV));
+
+        HashMap<Moneynote, Integer> notes = new HashMap<>();
+
+        notes.put(new Moneynote(1), 100);
+        notes.put(new Moneynote(2), 100);
+        notes.put(new Moneynote(5), 100);
+        notes.put(new Moneynote(20), 100);
+        notes.put(new Moneynote(50), 100);
+        notes.put(new Moneynote(100), 100);
+        notes.put(new Moneynote(200), 100);
+        notes.put(new Moneynote(500), 100);
+
+        Cashbox cb2 = new Cashbox(notes);
     }
 }

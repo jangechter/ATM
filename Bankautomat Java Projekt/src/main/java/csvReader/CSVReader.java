@@ -44,21 +44,23 @@ public class CSVReader {
     public static Cashbox readCashbox(final File file) throws IOException {
 
         final Cashbox cashbox;
-        final String[] values;
+        String[] values;
         final BufferedReader br = new BufferedReader(new FileReader(file));
-
+        String line;
         final HashMap<Moneynote, Integer> notes = new HashMap<>();
 
         br.readLine();
 
-        values = br.readLine().split(";");
+        do {
 
-        for (final String s : values) {
-            if (!s.equals("") && !s.contains("-")) {
-                notes.put(new Moneynote(Integer.parseInt(s.split(",")[0].trim())),
-                          Integer.parseInt(s.split(",")[1].trim()));
+            line = br.readLine();
+
+            if (line != null) {
+
+                values = line.split(",");
+                notes.put(new Moneynote(Integer.parseInt(values[0])), Integer.parseInt(values[1]));
             }
-        }
+        } while (line != null);
 
         cashbox = new Cashbox(notes);
 

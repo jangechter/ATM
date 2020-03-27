@@ -12,9 +12,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Collection;
-import java.util.Set;
-import java.util.TreeMap;
+import java.util.function.BiConsumer;
 
 import cashbox.Cashbox;
 import client.Client;
@@ -54,19 +52,20 @@ public class CSVWriter {
 
         if (cb != null) {
 
-            final String header = "-- Moneynote,quantity";
-            final String[] notesInformation = {""};
-
-            cb.getNotes().forEach((moneynote, integer) -> notesInformation[0] += moneynote.getValue() + "," + integer + ";");
+            final String header = "Moneynote,quantity";
+            final StringBuilder notesInformation = new StringBuilder();
 
             pw = new PrintWriter(
                     new File(System.getProperty("user.dir") + "/Cashbox/" + "CashboxNotes" + ".csv"));
 
             pw.println(header);
-            pw.println(notesInformation[0]);
+
+            cb.getNotes().forEach((moneynote, integer) -> pw.println(moneynote.getValue() + "," + integer));
+
             pw.close();
         } else {
             throw new IllegalArgumentException("Cashbox is null");
         }
     }
+
 }

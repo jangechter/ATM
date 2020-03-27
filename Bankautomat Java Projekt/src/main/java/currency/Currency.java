@@ -11,7 +11,7 @@ package currency;
 public enum Currency {
 
     Euro,
-    US_Dollar,
+    USDollar,
     Rubel,
     Kuna,
 

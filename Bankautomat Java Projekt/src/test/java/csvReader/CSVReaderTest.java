@@ -22,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import cashbox.Cashbox;
 import moneynote.Moneynote;
 import testData.TestData;
+import static currency.Currency.USDollar;
 
 class CSVReaderTest extends TestData {
 
@@ -104,5 +105,26 @@ class CSVReaderTest extends TestData {
 
         assertThrows(FileNotFoundException.class, () -> CSVReader.readCashbox(new File("abc")));
 
+    }
+
+    @Test
+    void testToReadCashboxPositiveDollar() throws IOException {
+        HashMap<Moneynote, Integer> notes = new HashMap<>();
+
+        notes.put(new Moneynote(1), 100);
+        notes.put(new Moneynote(2), 100);
+        notes.put(new Moneynote(5), 100);
+        notes.put(new Moneynote(10), 100);
+        notes.put(new Moneynote(20), 100);
+        notes.put(new Moneynote(50), 100);
+        notes.put(new Moneynote(100), 100);
+        notes.put(new Moneynote(200), 100);
+        notes.put(new Moneynote(500), 100);
+        final Cashbox cashbox = new Cashbox(notes);
+
+        assertDoesNotThrow(() -> CSVReader.readCashbox(new File(System.getProperty("user.dir") + CASHBOX + USDollar
+                                                                + CSV)));
+        assertTrue(cashbox.equals(CSVReader.readCashbox(new File(System.getProperty("user.dir") + CASHBOX + USDollar
+                                                                 + CSV))));
     }
 }
