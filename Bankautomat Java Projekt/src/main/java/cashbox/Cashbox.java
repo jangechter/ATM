@@ -1,18 +1,20 @@
 /*
  * Cashbox.java
  *
- * Created on 2020-03-25
+ * Created on 2020-04-01
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
 
 package cashbox;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
+import Exceptions.WithdrawNotPossibleException;
 import moneynote.Moneynote;
 
 public class Cashbox {
@@ -34,70 +36,83 @@ public class Cashbox {
         POSSIBLE_NOTES.add(new Moneynote(1));
     }
 
-    public HashMap<Moneynote, Integer> withdraw(final Integer amount) throws IllegalArgumentException {
-        return calculateDenominations(amount);
+    public HashMap<Moneynote, Integer> withdraw(final Integer amount) {
+
+        final HashMap<Moneynote, Integer> withdrawMoneynotes;
+
+        if (isWithdrawPossible(amount)) {
+
+            return calculateHashMap(amount);
+        } else {
+            throw new IllegalArgumentException("invalid value");
+        }
     }
 
-    private Moneynote getNextMoneynote(Integer ammount) {
+    private Moneynote getNextMoneynote(int amount) {
 
-        if (POSSIBLE_NOTES.contains(new Moneynote(ammount))) {
-            return POSSIBLE_NOTES.get(POSSIBLE_NOTES.indexOf(new Moneynote(ammount)));
-        }
+        amount--;
 
         for (Moneynote m : POSSIBLE_NOTES) {
 
-            if (m.getValue() < ammount) {
+            if ((m.getValue() < amount) && notes.containsKey(m) && (notes.get(m) > 0)) {
                 return m;
             }
         }
 
-        return null;
+        return getLowestAvaiableMoneynoteInCashbox();
     }
 
-    private HashMap<Moneynote, Integer> calculateDenominations(Integer amount) {
+    private Moneynote getLowestAvaiableMoneynoteInCashbox() {
 
-        HashMap<Moneynote, Integer> withdrawMoneynotes = new HashMap<>();
+        return Collections.min(notes.keySet());
+    }
+
+    private boolean isWithdrawPossible(Integer amount) {
+
+        return ((amount % getLowestAvaiableMoneynoteInCashbox().getValue()) == 0) && (amount != 0);
+    }
+
+    private HashMap<Moneynote, Integer> calculateHashMap(Integer amount) {
+        final HashMap<Moneynote, Integer> withdrawMoneynotes = new HashMap<>();
         Moneynote nextLowerMoneynote;
-        Moneynote moneynoteEvenAmount;
 
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 30; i++) {
 
             if (amount <= 0) {
                 break;
             }
 
-            if (notes.containsKey(new Moneynote(amount)) && (amount < 50)) {
+            if (notes.containsKey(new Moneynote(amount)) && (amount <= 50) && (notes.get(new Moneynote(amount)) > 0)) {
 
-                moneynoteEvenAmount = new Moneynote(amount);
-                withdrawMoneynotes.put(moneynoteEvenAmount, 1);
-
-                notes.put(new Moneynote(amount), notes.get(moneynoteEvenAmount) - 1);
+                syncHashMaps(new Moneynote(amount), withdrawMoneynotes);
 
                 amount = 0;
             } else {
-                amount--;
 
                 nextLowerMoneynote = getNextMoneynote(amount);
-                if (notes.containsKey(nextLowerMoneynote)) {
 
-                    if (withdrawMoneynotes.containsKey(nextLowerMoneynote)) {
-                        withdrawMoneynotes.put(nextLowerMoneynote, withdrawMoneynotes.get(nextLowerMoneynote) + 1);
-                    } else {
-                        withdrawMoneynotes.put(nextLowerMoneynote, 1);
-                    }
+                syncHashMaps(nextLowerMoneynote, withdrawMoneynotes);
 
-                    notes.put(nextLowerMoneynote, notes.get(nextLowerMoneynote) - 1);
-
-                    if (amount % 5 != 0) {
-                        amount++;
-                    }
-
-                    amount -= nextLowerMoneynote.getValue();
-                }
+                amount -= nextLowerMoneynote.getValue();
             }
         }
 
         return withdrawMoneynotes;
+    }
+
+    private void syncHashMaps(final Moneynote moneynote, final HashMap<Moneynote, Integer> withdrawMoneynotes) {
+
+        if (withdrawMoneynotes.containsKey(moneynote)) {
+            withdrawMoneynotes.put(moneynote, withdrawMoneynotes.get(moneynote) + 1);
+        } else {
+            withdrawMoneynotes.put(moneynote, 1);
+        }
+
+        if ((notes.get(moneynote) - 1) >= 0) {
+            notes.put(moneynote, notes.get(moneynote) - 1);
+        } else {
+            throw new WithdrawNotPossibleException("Not enough moneynotes");
+        }
     }
 
     public HashMap<Moneynote, Integer> getNotes() {

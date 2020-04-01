@@ -1,7 +1,7 @@
 /*
  * Moneynote.java
  *
- * Created on 2020-03-25
+ * Created on 2020-04-01
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -43,16 +43,7 @@ public class Moneynote implements Comparable<Moneynote> {
     @Override
     public int compareTo(final Moneynote o) {
 
-        if(o.getValue().equals(value)){
-            return 0;
-        }else{
-            if(value > 0){
-                return 1;
-            }else{
-                return -1;
-            }
-        }
-
+        return Integer.compare(value, o.getValue());
 
     }
 }
