@@ -1,7 +1,7 @@
 /*
  * CashboxTest.java
  *
- * Created on 2020-04-01
+ * Created on 2020-04-02
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -391,5 +391,130 @@ class CashboxTest extends TestData {
         final Cashbox cb = new Cashbox(notes);
 
         assertThrows(IllegalArgumentException.class, () -> cb.withdraw(0));
+    }
+
+    @Test
+    void depositTestPositive() {
+
+        final HashMap<Moneynote, Integer> notes = new HashMap<>();
+
+        notes.put(new Moneynote(1), 100);
+        notes.put(new Moneynote(2), 100);
+        notes.put(new Moneynote(5), 100);
+        notes.put(new Moneynote(10), 100);
+        notes.put(new Moneynote(20), 100);
+        notes.put(new Moneynote(50), 100);
+        notes.put(new Moneynote(100), 100);
+        notes.put(new Moneynote(200), 100);
+        notes.put(new Moneynote(500), 100);
+
+        final Cashbox cb = new Cashbox(notes);
+
+        final HashMap<Moneynote, Integer> depositNotes = new HashMap<>();
+
+        depositNotes.put(new Moneynote(1), 100);
+        depositNotes.put(new Moneynote(2), 100);
+        depositNotes.put(new Moneynote(5), 100);
+        depositNotes.put(new Moneynote(10), 100);
+        depositNotes.put(new Moneynote(20), 100);
+        depositNotes.put(new Moneynote(50), 98);
+        depositNotes.put(new Moneynote(100), 100);
+        depositNotes.put(new Moneynote(200), 98);
+        depositNotes.put(new Moneynote(500), 97);
+
+        cb.deposit(depositNotes);
+
+        final HashMap<Moneynote, Integer> notesAfterDeposit = new HashMap<>();
+
+        notesAfterDeposit.put(new Moneynote(1), 200);
+        notesAfterDeposit.put(new Moneynote(2), 200);
+        notesAfterDeposit.put(new Moneynote(5), 200);
+        notesAfterDeposit.put(new Moneynote(10), 200);
+        notesAfterDeposit.put(new Moneynote(20), 200);
+        notesAfterDeposit.put(new Moneynote(50), 198);
+        notesAfterDeposit.put(new Moneynote(100), 200);
+        notesAfterDeposit.put(new Moneynote(200), 198);
+        notesAfterDeposit.put(new Moneynote(500), 197);
+
+        final Cashbox cbAfterDeposit = new Cashbox(notesAfterDeposit);
+
+        assertEquals(cb, cbAfterDeposit);
+    }
+
+    @Test
+    void depositTestPositive2() {
+
+        final HashMap<Moneynote, Integer> notes = new HashMap<>();
+
+        notes.put(new Moneynote(1), 100);
+        notes.put(new Moneynote(2), 100);
+        notes.put(new Moneynote(5), 100);
+        notes.put(new Moneynote(10), 100);
+        notes.put(new Moneynote(20), 100);
+        notes.put(new Moneynote(50), 100);
+        notes.put(new Moneynote(100), 100);
+
+        final Cashbox cb = new Cashbox(notes);
+
+        final HashMap<Moneynote, Integer> depositNotes = new HashMap<>();
+
+        depositNotes.put(new Moneynote(200), 100);
+        depositNotes.put(new Moneynote(500), 100);
+
+        cb.deposit(depositNotes);
+
+        final HashMap<Moneynote, Integer> notesAfterDeposit = new HashMap<>();
+
+        notesAfterDeposit.put(new Moneynote(1), 100);
+        notesAfterDeposit.put(new Moneynote(2), 100);
+        notesAfterDeposit.put(new Moneynote(5), 100);
+        notesAfterDeposit.put(new Moneynote(10), 100);
+        notesAfterDeposit.put(new Moneynote(20), 100);
+        notesAfterDeposit.put(new Moneynote(50), 100);
+        notesAfterDeposit.put(new Moneynote(100), 100);
+        notesAfterDeposit.put(new Moneynote(200), 100);
+        notesAfterDeposit.put(new Moneynote(500), 100);
+
+        final Cashbox cbAfterDeposit = new Cashbox(notesAfterDeposit);
+
+        assertEquals(cb, cbAfterDeposit);
+    }
+
+    @Test
+    void depositTestPositiveEmptyCashbox() {
+
+        final HashMap<Moneynote, Integer> notes = new HashMap<>();
+
+        final Cashbox cb = new Cashbox(notes);
+
+        final HashMap<Moneynote, Integer> depositNotes = new HashMap<>();
+
+        depositNotes.put(new Moneynote(1), 100);
+        depositNotes.put(new Moneynote(2), 100);
+        depositNotes.put(new Moneynote(5), 100);
+        depositNotes.put(new Moneynote(10), 100);
+        depositNotes.put(new Moneynote(20), 100);
+        depositNotes.put(new Moneynote(50), 100);
+        depositNotes.put(new Moneynote(100), 100);
+        depositNotes.put(new Moneynote(200), 100);
+        depositNotes.put(new Moneynote(500), 100);
+
+        cb.deposit(depositNotes);
+
+        final HashMap<Moneynote, Integer> notesAfterDeposit = new HashMap<>();
+
+        notesAfterDeposit.put(new Moneynote(1), 100);
+        notesAfterDeposit.put(new Moneynote(2), 100);
+        notesAfterDeposit.put(new Moneynote(5), 100);
+        notesAfterDeposit.put(new Moneynote(10), 100);
+        notesAfterDeposit.put(new Moneynote(20), 100);
+        notesAfterDeposit.put(new Moneynote(50), 100);
+        notesAfterDeposit.put(new Moneynote(100), 100);
+        notesAfterDeposit.put(new Moneynote(200), 100);
+        notesAfterDeposit.put(new Moneynote(500), 100);
+
+        final Cashbox cbAfterDeposit = new Cashbox(notesAfterDeposit);
+
+        assertEquals(cb, cbAfterDeposit);
     }
 }

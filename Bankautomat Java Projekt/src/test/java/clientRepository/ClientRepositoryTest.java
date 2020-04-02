@@ -1,18 +1,23 @@
 /*
  * ClientRepositoryTest.java
  *
- * Created on 2020-03-25
+ * Created on 2020-04-02
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
 
 package clientRepository;
 
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import java.io.File;
+import java.io.IOException;
 
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import csvReader.CSVReader;
 import testData.TestData;
 
 class ClientRepositoryTest extends TestData {
@@ -20,9 +25,9 @@ class ClientRepositoryTest extends TestData {
     @Test
     void findClientTestPositive() {
 
-        ClientRepository cr = new ClientRepository();
+        final ClientRepository cr = new ClientRepository();
 
-        assertTrue(cr.findClient(TEST_IBAN).equals(TEST_CLIENT));
+        assertEquals(TEST_CLIENT, cr.findClient(TEST_IBAN));
     }
 
     @Test
@@ -32,7 +37,7 @@ class ClientRepositoryTest extends TestData {
 
         TEST_CLIENT.setPin("5555");
 
-        assertFalse(cr.findClient(TEST_IBAN).equals(TEST_CLIENT));
+        assertNotEquals(TEST_CLIENT, cr.findClient(TEST_IBAN));
 
         TEST_CLIENT.setPin(TEST_PIN);
     }
@@ -45,7 +50,22 @@ class ClientRepositoryTest extends TestData {
         assertNull(cr.findClient(" "));
     }
 
-    void updtaeClientTestNullPointer() {
+    @Test
+    void persistClientTestPositive() throws IOException {
 
+        final ClientRepository cr = new ClientRepository();
+
+        cr.persistClient(TEST_CLIENT);
+
+        assertEquals(TEST_CLIENT,
+                     CSVReader.readClient(new File(System.getProperty("user.dir") + CLIENTS + TEST_IBAN + CSV)));
+    }
+
+    @Test
+    void persistClientTestNegativeNPE() {
+
+        final ClientRepository cr = new ClientRepository();
+
+        assertThrows(IllegalArgumentException.class, () -> cr.persistClient(null));
     }
 }

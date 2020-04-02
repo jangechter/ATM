@@ -1,7 +1,7 @@
 /*
  * ClientRepository.java
  *
- * Created on 2020-03-25
+ * Created on 2020-04-02
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -30,7 +30,6 @@ public class ClientRepository {
     public Client findClient(final String iban) {
 
         try {
-
             return CSVReader.readClient(createFileByIBAN(iban));
         } catch (final IOException e) {
         }

@@ -1,7 +1,7 @@
 /*
  * Cashbox.java
  *
- * Created on 2020-04-01
+ * Created on 2020-04-02
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -10,9 +10,12 @@ package cashbox;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import Exceptions.WithdrawNotPossibleException;
 import moneynote.Moneynote;
@@ -24,18 +27,24 @@ public class Cashbox {
 
     public Cashbox(final HashMap<Moneynote, Integer> notes) {
         this.notes = notes;
-
-        POSSIBLE_NOTES.add(new Moneynote(500));
-        POSSIBLE_NOTES.add(new Moneynote(200));
-        POSSIBLE_NOTES.add(new Moneynote(100));
-        POSSIBLE_NOTES.add(new Moneynote(50));
-        POSSIBLE_NOTES.add(new Moneynote(20));
-        POSSIBLE_NOTES.add(new Moneynote(10));
-        POSSIBLE_NOTES.add(new Moneynote(5));
-        POSSIBLE_NOTES.add(new Moneynote(2));
-        POSSIBLE_NOTES.add(new Moneynote(1));
     }
 
+    //add the deposit cash into the cashbox
+    public void deposit(final HashMap<Moneynote, Integer> depositMoneynotes) {
+
+        depositMoneynotes.forEach((moneynote, integer) -> {
+
+            //to avoid nullpointer
+            if (notes.containsKey(moneynote)) {
+
+                notes.put(moneynote, notes.get(moneynote) + depositMoneynotes.get(moneynote));
+            } else {
+                notes.put(moneynote, depositMoneynotes.get(moneynote));
+            }
+        });
+    }
+
+    //return the amount in a map of moneynotes
     public HashMap<Moneynote, Integer> withdraw(final Integer amount) {
 
         final HashMap<Moneynote, Integer> withdrawMoneynotes;
@@ -48,39 +57,43 @@ public class Cashbox {
         }
     }
 
-    private Moneynote getNextMoneynote(int amount) {
+    //return the next lower available
+    private Moneynote getNextLowerMoneynote(int amount) {
 
         amount--;
 
-        for (Moneynote m : POSSIBLE_NOTES) {
+        final Set<Moneynote> moneynotes = notes.keySet().stream().sorted(Collections.reverseOrder()).collect(
+                Collectors.toCollection(LinkedHashSet::new));
 
-            if ((m.getValue() < amount) && notes.containsKey(m) && (notes.get(m) > 0)) {
+        //find the next lower moneynote in cashbox
+        for (Moneynote m : moneynotes) {
+            if ((m.getValue() < amount) && (notes.get(m) > 0)) {
                 return m;
             }
         }
 
-        return getLowestAvaiableMoneynoteInCashbox();
+        return getLowestavAilableMoneynoteInCashbox();
     }
 
-    private Moneynote getLowestAvaiableMoneynoteInCashbox() {
+    //return the lowest available moneynote
+    private Moneynote getLowestavAilableMoneynoteInCashbox() {
 
         return Collections.min(notes.keySet());
     }
 
+    //check if the withdraw with this amount and the current currency is possible
     private boolean isWithdrawPossible(Integer amount) {
 
-        return ((amount % getLowestAvaiableMoneynoteInCashbox().getValue()) == 0) && (amount != 0);
+        return ((amount % getLowestavAilableMoneynoteInCashbox().getValue()) == 0) && (amount != 0);
     }
 
+    //calculate the map
     private HashMap<Moneynote, Integer> calculateHashMap(Integer amount) {
-        final HashMap<Moneynote, Integer> withdrawMoneynotes = new HashMap<>();
-        Moneynote nextLowerMoneynote;
+        final HashMap<Moneynote, Integer> withdrawMoneynotes
+                = new HashMap<>(); //map which contains the moneynotes to withdraw
+        Moneynote nextLowerMoneynote;                                           //temp moneynote for the calculation
 
-        for (int i = 0; i < 30; i++) {
-
-            if (amount <= 0) {
-                break;
-            }
+        while (amount > 0) {
 
             if (notes.containsKey(new Moneynote(amount)) && (amount <= 50) && (notes.get(new Moneynote(amount)) > 0)) {
 
@@ -89,7 +102,7 @@ public class Cashbox {
                 amount = 0;
             } else {
 
-                nextLowerMoneynote = getNextMoneynote(amount);
+                nextLowerMoneynote = getNextLowerMoneynote(amount);
 
                 syncHashMaps(nextLowerMoneynote, withdrawMoneynotes);
 
@@ -100,17 +113,22 @@ public class Cashbox {
         return withdrawMoneynotes;
     }
 
-    private void syncHashMaps(final Moneynote moneynote, final HashMap<Moneynote, Integer> withdrawMoneynotes) {
+    //synchronize notes with the notes which will withdraw
+    private void syncHashMaps(final Moneynote moneynote, final HashMap<Moneynote, Integer> withdrawMoneynotes)
+            throws WithdrawNotPossibleException {
 
+        //put moneynote in withdraw map
         if (withdrawMoneynotes.containsKey(moneynote)) {
             withdrawMoneynotes.put(moneynote, withdrawMoneynotes.get(moneynote) + 1);
         } else {
             withdrawMoneynotes.put(moneynote, 1);
         }
 
+        //take moneynote out of notes map
         if ((notes.get(moneynote) - 1) >= 0) {
             notes.put(moneynote, notes.get(moneynote) - 1);
         } else {
+            //if there are no notes anymore
             throw new WithdrawNotPossibleException("Not enough moneynotes");
         }
     }
