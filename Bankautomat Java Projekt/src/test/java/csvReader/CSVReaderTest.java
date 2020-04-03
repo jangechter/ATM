@@ -1,7 +1,7 @@
 /*
  * CSVReaderTest.java
  *
- * Created on 2020-03-19
+ * Created on 2020-04-03
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -19,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import Exceptions.ClientParsingException;
 import cashbox.Cashbox;
 import moneynote.Moneynote;
 import testData.TestData;
@@ -27,7 +28,7 @@ import static currency.Currency.USDollar;
 class CSVReaderTest extends TestData {
 
     @Test
-    void testToReadClientNegative() throws IOException{
+    void testToReadClientNegative() throws IOException {
 
         CSVReader reader = new CSVReader();
 
@@ -101,10 +102,9 @@ class CSVReaderTest extends TestData {
     }
 
     @Test
-    void testToReadCashboxWrongFile(){
+    void testToReadCashboxWrongFile() {
 
         assertThrows(FileNotFoundException.class, () -> CSVReader.readCashbox(new File("abc")));
-
     }
 
     @Test
@@ -126,5 +126,14 @@ class CSVReaderTest extends TestData {
                                                                 + CSV)));
         assertTrue(cashbox.equals(CSVReader.readCashbox(new File(System.getProperty("user.dir") + CASHBOX + USDollar
                                                                  + CSV))));
+    }
+
+    @Test
+    void testToReadClientNegativeClientParsingException() {
+
+        assertThrows(ClientParsingException.class, () -> CSVReader.readClient(new File(System.getProperty("user.dir")
+                                                                                       + CLIENTS
+                                                                                       + "DE00 0000 0000 0000 0000 00"
+                                                                                       + CSV)));
     }
 }
