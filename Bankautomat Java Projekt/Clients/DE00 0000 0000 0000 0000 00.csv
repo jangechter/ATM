@@ -1,0 +1,2 @@
+Name,Firstname,Iban ,Pin ,Bank Balance,Status,AnzahlVersuche
+Mustermann,Max,DE01 2345 6789 0123 4567 89,1234,hundertEuro,true,0
