@@ -1,7 +1,7 @@
 /*
  * CSVReader.java
  *
- * Created on 2020-03-25
+ * Created on 2020-04-03
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -10,7 +10,6 @@ package csvReader;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -35,8 +34,12 @@ public class CSVReader {
 
         br.close();
 
-        client = new Client(values[0], values[1], values[2], values[3], BigDecimal.valueOf(
-                Double.parseDouble(values[4])), Boolean.parseBoolean(values[5]), Integer.valueOf(values[6]));
+        try {
+            client = new Client(values[0], values[1], values[2], values[3], BigDecimal.valueOf(
+                    Double.parseDouble(values[4])), Boolean.parseBoolean(values[5]), Integer.valueOf(values[6]));
+        } catch (IllegalArgumentException e) {
+            throw new ClientParsingException("cannot parse client with this data");
+        }
 
         return client;
     }

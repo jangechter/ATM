@@ -1,7 +1,7 @@
 /*
  * Client.java
  *
- * Created on 2020-03-19
+ * Created on 2020-04-03
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -23,6 +23,7 @@ public class Client {
 
     public Client(final String name, final String firstName, final String iban, final String pin,
                   final BigDecimal bankBalance, final boolean isActive, final Integer numberAttempts) {
+
         this.name = name;
         this.firstName = firstName;
         this.iban = iban;
