@@ -1,7 +1,7 @@
 /*
  * CSVWriterTest.java
  *
- * Created on 2020-03-25
+ * Created on 2020-04-20
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -9,7 +9,6 @@
 package csvWriter;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.HashMap;

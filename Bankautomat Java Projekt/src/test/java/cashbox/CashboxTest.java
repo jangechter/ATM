@@ -1,7 +1,7 @@
 /*
  * CashboxTest.java
  *
- * Created on 2020-04-02
+ * Created on 2020-04-20
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -140,9 +140,9 @@ class CashboxTest extends TestData {
         notes2.put(new Moneynote(1), 100);
         notes2.put(new Moneynote(2), 100);
         notes2.put(new Moneynote(5), 100);
-        notes2.put(new Moneynote(10), 100);
-        notes2.put(new Moneynote(20), 100);
-        notes2.put(new Moneynote(50), 98);
+        notes2.put(new Moneynote(10), 99);
+        notes2.put(new Moneynote(20), 98);
+        notes2.put(new Moneynote(50), 99);
         notes2.put(new Moneynote(100), 100);
         notes2.put(new Moneynote(200), 100);
         notes2.put(new Moneynote(500), 100);
@@ -207,9 +207,9 @@ class CashboxTest extends TestData {
 
         notes2.put(new Moneynote(1), 100);
         notes2.put(new Moneynote(2), 100);
-        notes2.put(new Moneynote(5), 100);
-        notes2.put(new Moneynote(10), 100);
-        notes2.put(new Moneynote(20), 95);
+        notes2.put(new Moneynote(5), 98);
+        notes2.put(new Moneynote(10), 99);
+        notes2.put(new Moneynote(20), 96);
 
         final Cashbox cb2 = new Cashbox(notes2);
 
@@ -268,9 +268,9 @@ class CashboxTest extends TestData {
         notes2.put(new Moneynote(1), 100);
         notes2.put(new Moneynote(2), 100);
         notes2.put(new Moneynote(5), 100);
-        notes2.put(new Moneynote(10), 100);
-        notes2.put(new Moneynote(20), 100);
-        notes2.put(new Moneynote(50), 98);
+        notes2.put(new Moneynote(10), 99);
+        notes2.put(new Moneynote(20), 98);
+        notes2.put(new Moneynote(50), 99);
         notes2.put(new Moneynote(100), 100);
         notes2.put(new Moneynote(200), 98);
         notes2.put(new Moneynote(500), 97);
@@ -354,6 +354,30 @@ class CashboxTest extends TestData {
         final HashMap<Moneynote, Integer> notes2 = new HashMap<>();
 
         notes2.put(new Moneynote(1), 4);
+
+        final Cashbox cb2 = new Cashbox(notes2);
+
+        assertEquals(cb, cb2);
+    }
+
+    @Test
+    void withdrawTestPositiveDollar10() {
+
+        final HashMap<Moneynote, Integer> notes = new HashMap<>();
+
+        notes.put(new Moneynote(5), 10);
+        notes.put(new Moneynote(10), 10);
+        notes.put(new Moneynote(20), 10);
+
+        final Cashbox cb = new Cashbox(notes);
+
+        cb.withdraw(100);
+
+        final HashMap<Moneynote, Integer> notes2 = new HashMap<>();
+
+        notes2.put(new Moneynote(5), 10);
+        notes2.put(new Moneynote(10), 8);
+        notes2.put(new Moneynote(20), 6);
 
         final Cashbox cb2 = new Cashbox(notes2);
 

@@ -1,7 +1,7 @@
 /*
  * CSVWriter.java
  *
- * Created on 2020-03-25
+ * Created on 2020-04-20
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -12,11 +12,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.function.BiConsumer;
 
 import cashbox.Cashbox;
 import client.Client;
-import moneynote.Moneynote;
 
 public class CSVWriter {
 

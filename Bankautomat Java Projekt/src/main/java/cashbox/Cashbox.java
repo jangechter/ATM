@@ -1,13 +1,14 @@
 /*
  * Cashbox.java
  *
- * Created on 2020-04-02
+ * Created on 2020-04-20
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
 
 package cashbox;
 
+import java.io.FileNotFoundException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
@@ -18,6 +19,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import Exceptions.WithdrawNotPossibleException;
+import csvWriter.CSVWriter;
 import moneynote.Moneynote;
 
 public class Cashbox {
@@ -87,15 +89,41 @@ public class Cashbox {
         return ((amount % getLowestavAilableMoneynoteInCashbox().getValue()) == 0) && (amount != 0);
     }
 
+    private Moneynote getMiddleMoneynotes() {
+
+        if (notes.size() >= 3) {
+            if ((notes.size() % 2) != 0) {
+
+                return notes.keySet().stream().sorted().collect(Collectors.toList()).get(((notes.size() + 1) / 2) - 1);
+            } else {
+                List<Moneynote> list = notes.keySet().stream().sorted().collect(Collectors.toList());
+
+                return new Moneynote(Math.round((list.get((notes.size() / 2) - 1).getValue() + list.get(
+                        (notes.size() / 2)).getValue()) / 2));
+            }
+        }
+
+        return getLowestavAilableMoneynoteInCashbox();
+    }
+
+    private void persistCashbox() {
+
+        try {
+            CSVWriter.writeCashbox(this);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
     //calculate the map
     private HashMap<Moneynote, Integer> calculateHashMap(Integer amount) {
         final HashMap<Moneynote, Integer> withdrawMoneynotes
-                = new HashMap<>(); //map which contains the moneynotes to withdraw
+                = new HashMap<>();                                  //map which contains the moneynotes to withdraw
         Moneynote nextLowerMoneynote;                                           //temp moneynote for the calculation
 
         while (amount > 0) {
 
-            if (notes.containsKey(new Moneynote(amount)) && (amount <= 50) && (notes.get(new Moneynote(amount)) > 0)) {
+            if ((notes.getOrDefault(new Moneynote(amount), 0) != 0) && (amount <= getMiddleMoneynotes().getValue())) {
 
                 syncHashMaps(new Moneynote(amount), withdrawMoneynotes);
 
@@ -109,6 +137,8 @@ public class Cashbox {
                 amount -= nextLowerMoneynote.getValue();
             }
         }
+
+        persistCashbox();
 
         return withdrawMoneynotes;
     }

@@ -1,7 +1,7 @@
 /*
  * Authentication.java
  *
- * Created on 2020-03-25
+ * Created on 2020-04-20
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -14,7 +14,7 @@ import clientRepository.ClientRepository;
 public class Authentication {
 
     private final ClientRepository repository = new ClientRepository();
-    private Client client = null;
+    private Client client;
 
     public Client getClient() {
         return client;
@@ -45,5 +45,15 @@ public class Authentication {
         }
 
         return false;
+    }
+
+    public boolean logout() {
+
+        if (client != null) {
+            client = null;
+            return true;
+        } else {
+            return false;
+        }
     }
 }

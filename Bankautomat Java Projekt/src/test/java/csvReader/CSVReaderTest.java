@@ -1,7 +1,7 @@
 /*
  * CSVReaderTest.java
  *
- * Created on 2020-04-03
+ * Created on 2020-04-20
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -15,6 +15,7 @@ import java.util.HashMap;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -23,7 +24,6 @@ import Exceptions.ClientParsingException;
 import cashbox.Cashbox;
 import moneynote.Moneynote;
 import testData.TestData;
-import static currency.Currency.USDollar;
 
 class CSVReaderTest extends TestData {
 
@@ -122,10 +122,10 @@ class CSVReaderTest extends TestData {
         notes.put(new Moneynote(500), 100);
         final Cashbox cashbox = new Cashbox(notes);
 
-        assertDoesNotThrow(() -> CSVReader.readCashbox(new File(System.getProperty("user.dir") + CASHBOX + USDollar
+        assertDoesNotThrow(() -> CSVReader.readCashbox(new File(System.getProperty("user.dir") + CASHBOX + "USDollar"
                                                                 + CSV)));
-        assertTrue(cashbox.equals(CSVReader.readCashbox(new File(System.getProperty("user.dir") + CASHBOX + USDollar
-                                                                 + CSV))));
+        assertEquals(cashbox, CSVReader.readCashbox(new File(System.getProperty("user.dir") + CASHBOX + "USDollar"
+                                                             + CSV)));
     }
 
     @Test
