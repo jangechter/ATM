@@ -32,6 +32,7 @@ public class ClientRepository {
         try {
             return CSVReader.readClient(createFileByIBAN(iban));
         } catch (final IOException e) {
+            System.out.println("Cannot find this iban");
         }
         return null;
     }

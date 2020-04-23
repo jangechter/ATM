@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="csvWriter.CSVWriterTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2020-04-03T07:57:57" hostname="Jans-MacBook-Pro.local" time="0.018">
+  <properties/>
+  <testcase name="writeClientTestPositiveFileExists()" classname="csvWriter.CSVWriterTest" time="0.002"/>
+  <testcase name="writeClientTestPositiveContentValid()" classname="csvWriter.CSVWriterTest" time="0.001"/>
+  <testcase name="writeCashboxTestFileExist()" classname="csvWriter.CSVWriterTest" time="0.007"/>
+  <testcase name="writeCashboxTestPositive()" classname="csvWriter.CSVWriterTest" time="0.001"/>
+  <testcase name="writeCashboxTestNegative()" classname="csvWriter.CSVWriterTest" time="0.001"/>
+  <testcase name="writeClientTestNegativeFileDoesNotExists()" classname="csvWriter.CSVWriterTest" time="0.001"/>
+  <testcase name="writeCashboxTestNegativeIllegalArgument()" classname="csvWriter.CSVWriterTest" time="0.0"/>
+  <testcase name="writeClientTestNegativeIllegalArgument()" classname="csvWriter.CSVWriterTest" time="0.0"/>
+  <testcase name="writeClientTestNegativeContentInvalid()" classname="csvWriter.CSVWriterTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

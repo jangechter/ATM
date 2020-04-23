@@ -82,6 +82,8 @@ public class ATM {
                 loggedInClient.getClient().setBankBalance(
                         loggedInClient.getClient().getBankBalance().subtract(convertMoneynotesToAmount(withdrawNotes)));
 
+                loggedInClient.persistClient();
+
                 return Optional.of(withdrawNotes);
             }
         }
@@ -96,6 +98,8 @@ public class ATM {
 
             loggedInClient.getClient().setBankBalance(
                     loggedInClient.getClient().getBankBalance().add(convertMoneynotesToAmount(amount)));
+
+            loggedInClient.persistClient();
         }
     }
 
@@ -115,6 +119,10 @@ public class ATM {
 
     public String getCurrency() {
         return currency;
+    }
+
+    public Cashbox getCashbox() {
+        return cashbox;
     }
 
     public void setLoggedInClient(final Authentication loggedInClient) {

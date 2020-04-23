@@ -20,7 +20,6 @@ public class Authentication {
         return client;
     }
 
-    //überarbeiten
     public boolean logIn(final String iban, final String pin) {
 
         client = repository.findClient(iban);
@@ -33,6 +32,9 @@ public class Authentication {
                     repository.persistClient(client);
                     return true;
                 } else {
+
+                    System.out.println("Invalid credentials");
+
                     client.setNumberAttempts(client.getNumberAttempts() + 1);
 
                     if (!(client.getNumberAttempts() < 3)) {
@@ -45,6 +47,11 @@ public class Authentication {
         }
 
         return false;
+    }
+
+    public void persistClient() {
+
+        repository.persistClient(client);
     }
 
     public boolean logout() {

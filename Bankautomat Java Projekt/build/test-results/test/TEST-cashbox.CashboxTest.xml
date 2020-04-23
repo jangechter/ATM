@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="cashbox.CashboxTest" tests="18" skipped="0" failures="0" errors="0" timestamp="2020-04-03T07:57:57" hostname="Jans-MacBook-Pro.local" time="0.029">
+  <properties/>
+  <testcase name="withdrawTestPositiveDollar()" classname="cashbox.CashboxTest" time="0.009"/>
+  <testcase name="withdrawTestPositiveDollar2()" classname="cashbox.CashboxTest" time="0.001"/>
+  <testcase name="withdrawTestPositiveDollar3()" classname="cashbox.CashboxTest" time="0.0"/>
+  <testcase name="withdrawTestPositiveDollar4()" classname="cashbox.CashboxTest" time="0.0"/>
+  <testcase name="withdrawTestPositiveDollar5()" classname="cashbox.CashboxTest" time="0.001"/>
+  <testcase name="withdrawTestPositiveDollar6()" classname="cashbox.CashboxTest" time="0.001"/>
+  <testcase name="withdrawTestPositiveDollar7()" classname="cashbox.CashboxTest" time="0.001"/>
+  <testcase name="withdrawTestPositiveDollar8()" classname="cashbox.CashboxTest" time="0.001"/>
+  <testcase name="withdrawTestPositiveDollar9()" classname="cashbox.CashboxTest" time="0.0"/>
+  <testcase name="withdrawTestPositiveEuro()" classname="cashbox.CashboxTest" time="0.0"/>
+  <testcase name="depositTestPositiveEmptyCashbox()" classname="cashbox.CashboxTest" time="0.001"/>
+  <testcase name="depositTestPositive2()" classname="cashbox.CashboxTest" time="0.001"/>
+  <testcase name="withdrawTestNegativeNotEnoughMoneynotes()" classname="cashbox.CashboxTest" time="0.001"/>
+  <testcase name="withdrawTestNegativeEuroWithdrawNotPossible()" classname="cashbox.CashboxTest" time="0.001"/>
+  <testcase name="withdrawTestPositiveEuro2()" classname="cashbox.CashboxTest" time="0.001"/>
+  <testcase name="withdrawTestPositiveEuro3()" classname="cashbox.CashboxTest" time="0.0"/>
+  <testcase name="depositTestPositive()" classname="cashbox.CashboxTest" time="0.001"/>
+  <testcase name="withdrawTestNegativeIllegalArgumentException()" classname="cashbox.CashboxTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

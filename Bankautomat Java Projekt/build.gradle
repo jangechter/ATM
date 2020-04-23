@@ -1,3 +1,13 @@
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.thoughtworks.gauge.gradle:gauge-gradle-plugin:+'
+    }
+}
+
 plugins {
     id 'java'
 }
@@ -18,4 +28,5 @@ test {
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
+    implementation 'com.thoughtworks.gauge:gauge-java:+'
 }
