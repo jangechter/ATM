@@ -1,7 +1,7 @@
 /*
  * CSVReaderTest.java
  *
- * Created on 2020-04-20
+ * Created on 2020-05-07
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -11,18 +11,15 @@ package csvReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import Exceptions.ClientParsingException;
-import cashbox.Cashbox;
-import moneynote.Moneynote;
 import testData.TestData;
 
 class CSVReaderTest extends TestData {
@@ -30,110 +27,69 @@ class CSVReaderTest extends TestData {
     @Test
     void testToReadClientNegative() throws IOException {
 
-        CSVReader reader = new CSVReader();
+        final String clientValues = TEST_NAME + "," + TEST_FIRSTNAME + "," + TEST_IBAN + "," + TEST_PIN + ","
+                                    + TEST_BANK_BALANCE + "," + true + "," + 0;
 
         TEST_CLIENT.setPin("5555");
 
-        assertFalse(CSVReader.readClient(TEST_FILE_CLIENT).equals(TEST_CLIENT));
+        assertEquals(CSVReader.readCSVFile(TEST_FILE_CLIENT).get(0), clientValues);
 
         TEST_CLIENT.setPin(TestData.TEST_PIN);
     }
 
     @Test
     void testToReadClientWrongFile() {
-        assertThrows(FileNotFoundException.class, () -> CSVReader.readClient(new File("abc")));
+        assertThrows(FileNotFoundException.class, () -> CSVReader.readCSVFile(new File("abc")));
     }
 
     @Test
     void testToReadClientPositive() throws IOException {
-        final CSVReader reader = new CSVReader();
 
-        assertDoesNotThrow(() -> CSVReader.readClient(TEST_FILE_CLIENT));
-        assertTrue(CSVReader.readClient(TEST_FILE_CLIENT).equals(TEST_CLIENT));
+        final String clientValues = TEST_NAME + "," + TEST_FIRSTNAME + "," + TEST_IBAN + "," + TEST_PIN + ","
+                                    + TEST_BANK_BALANCE + "," + true + "," + 0;
+
+        assertDoesNotThrow(() -> CSVReader.readCSVFile(TEST_FILE_CLIENT));
+        assertEquals(clientValues, CSVReader.readCSVFile(TEST_FILE_CLIENT).get(0));
     }
 
     @Test
     void testToReadCashboxPositiveEuro() throws IOException {
-        HashMap<Moneynote, Integer> notes = new HashMap<>();
 
-        notes.put(new Moneynote(5), 100);
-        notes.put(new Moneynote(10), 100);
-        notes.put(new Moneynote(20), 100);
-        notes.put(new Moneynote(50), 100);
-        notes.put(new Moneynote(100), 100);
-        notes.put(new Moneynote(200), 100);
-        final Cashbox cashbox = new Cashbox(notes);
+        List<String> cashboxValues = new ArrayList<>();
 
-        assertDoesNotThrow(() -> CSVReader.readCashbox(TEST_FILE_CASHBOX));
-        assertTrue(cashbox.equals(CSVReader.readCashbox(TEST_FILE_CASHBOX)));
-    }
+        cashboxValues.add("5,100");
+        cashboxValues.add("10,100");
+        cashboxValues.add("20,100");
+        cashboxValues.add("50,100");
+        cashboxValues.add("100,100");
+        cashboxValues.add("200,100");
 
-    @Test
-    void testToReadCashboxPositiveUSDollar() throws IOException {
-        HashMap<Moneynote, Integer> notes = new HashMap<>();
-
-        notes.put(new Moneynote(5), 100);
-        notes.put(new Moneynote(10), 100);
-        notes.put(new Moneynote(20), 100);
-        notes.put(new Moneynote(50), 100);
-        notes.put(new Moneynote(100), 100);
-        notes.put(new Moneynote(200), 100);
-        final Cashbox cashbox = new Cashbox(notes);
-
-        assertDoesNotThrow(() -> CSVReader.readCashbox(TEST_FILE_CASHBOX));
-        assertTrue(cashbox.equals(CSVReader.readCashbox(TEST_FILE_CASHBOX)));
+        assertDoesNotThrow(() -> CSVReader.readCSVFile(TEST_FILE_CASHBOX));
+        assertEquals(cashboxValues, CSVReader.readCSVFile(TEST_FILE_CASHBOX));
     }
 
     @Test
     void testToReadCashboxNegativeEuro() throws IOException {
-        HashMap<Moneynote, Integer> notes = new HashMap<>();
+        List<String> cashboxValues = new ArrayList<>();
 
-        notes.put(new Moneynote(5), 90);
-        notes.put(new Moneynote(10), 100);
-        notes.put(new Moneynote(20), 100);
-        notes.put(new Moneynote(50), 100);
-        notes.put(new Moneynote(100), 100);
-        notes.put(new Moneynote(200), 100);
+        cashboxValues.add("5,90");
+        cashboxValues.add("10,100");
+        cashboxValues.add("20,100");
+        cashboxValues.add("50,100");
+        cashboxValues.add("100,100");
+        cashboxValues.add("200,100");
 
-        final Cashbox cashbox = new Cashbox(notes);
-
-        assertDoesNotThrow(() -> CSVReader.readCashbox(TEST_FILE_CASHBOX));
-        assertFalse(cashbox.equals(CSVReader.readCashbox(TEST_FILE_CASHBOX)));
+        assertDoesNotThrow(() -> CSVReader.readCSVFile(TEST_FILE_CASHBOX));
+        assertNotEquals(cashboxValues, CSVReader.readCSVFile(TEST_FILE_CASHBOX));
     }
 
     @Test
     void testToReadCashboxWrongFile() {
 
-        assertThrows(FileNotFoundException.class, () -> CSVReader.readCashbox(new File("abc")));
+        assertThrows(FileNotFoundException.class, () -> CSVReader.readCSVFile(new File("abc")));
     }
 
-    @Test
-    void testToReadCashboxPositiveDollar() throws IOException {
-        HashMap<Moneynote, Integer> notes = new HashMap<>();
 
-        notes.put(new Moneynote(1), 100);
-        notes.put(new Moneynote(2), 100);
-        notes.put(new Moneynote(5), 100);
-        notes.put(new Moneynote(10), 100);
-        notes.put(new Moneynote(20), 100);
-        notes.put(new Moneynote(50), 100);
-        notes.put(new Moneynote(100), 100);
-        notes.put(new Moneynote(200), 100);
-        notes.put(new Moneynote(500), 100);
-        final Cashbox cashbox = new Cashbox(notes);
 
-        assertDoesNotThrow(() -> CSVReader.readCashbox(new File(System.getProperty("user.dir") + CASHBOX + "USDollar"
-                                                                + CSV)));
-        assertEquals(cashbox, CSVReader.readCashbox(new File(System.getProperty("user.dir") + CASHBOX + "USDollar"
-                                                             + CSV)));
-    }
 
-    @Test
-    void testToReadClientNegativeClientParsingException() {
-
-        assertThrows(ClientParsingException.class, () -> CSVReader.readClient(new File(System.getProperty("user.dir")
-                                                                                       + CLIENTS
-                                                                                       + "DE00 0000 0000 0000 0000 00"
-                                                                                       + CSV)));
-    }
 }

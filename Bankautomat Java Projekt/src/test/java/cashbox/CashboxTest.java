@@ -1,7 +1,7 @@
 /*
  * CashboxTest.java
  *
- * Created on 2020-04-20
+ * Created on 2020-05-07
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -113,7 +113,7 @@ class CashboxTest extends TestData {
 
         final Cashbox cb = new Cashbox(notes);
 
-        assertThrows(IllegalArgumentException.class, () -> cb.withdraw(222));
+        assertThrows(WithdrawNotPossibleException.class, () -> cb.withdraw(222));
     }
 
     @Test
@@ -205,9 +205,9 @@ class CashboxTest extends TestData {
 
         final HashMap<Moneynote, Integer> notes2 = new HashMap<>();
 
-        notes2.put(new Moneynote(1), 100);
-        notes2.put(new Moneynote(2), 100);
-        notes2.put(new Moneynote(5), 98);
+        notes2.put(new Moneynote(1), 99);
+        notes2.put(new Moneynote(2), 98);
+        notes2.put(new Moneynote(5), 99);
         notes2.put(new Moneynote(10), 99);
         notes2.put(new Moneynote(20), 96);
 
@@ -375,8 +375,8 @@ class CashboxTest extends TestData {
 
         final HashMap<Moneynote, Integer> notes2 = new HashMap<>();
 
-        notes2.put(new Moneynote(5), 10);
-        notes2.put(new Moneynote(10), 8);
+        notes2.put(new Moneynote(5), 8);
+        notes2.put(new Moneynote(10), 9);
         notes2.put(new Moneynote(20), 6);
 
         final Cashbox cb2 = new Cashbox(notes2);
@@ -414,7 +414,7 @@ class CashboxTest extends TestData {
 
         final Cashbox cb = new Cashbox(notes);
 
-        assertThrows(IllegalArgumentException.class, () -> cb.withdraw(0));
+        assertThrows(WithdrawNotPossibleException.class, () -> cb.withdraw(0));
     }
 
     @Test

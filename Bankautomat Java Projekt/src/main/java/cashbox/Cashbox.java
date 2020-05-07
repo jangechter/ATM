@@ -1,31 +1,58 @@
 /*
  * Cashbox.java
  *
- * Created on 2020-04-20
+ * Created on 2020-05-07
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
 
 package cashbox;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import Exceptions.WithdrawNotPossibleException;
+import csvReader.CSVReader;
 import csvWriter.CSVWriter;
 import moneynote.Moneynote;
 
 public class Cashbox {
 
     private HashMap<Moneynote, Integer> notes;
-    public static final List<Moneynote> POSSIBLE_NOTES = new LinkedList<>();
+    private final String CASHBOX = "/Cashbox/CashboxNotes.csv";
+
+    public Cashbox() {
+
+        File cashboxNotesFile = new File(System.getProperty("user.dir") + CASHBOX);
+        List<String> cashboxValues = null;
+
+        try {
+            cashboxValues = CSVReader.readCSVFile(cashboxNotesFile);
+        } catch (final IOException e) {
+            e.printStackTrace();
+        }
+
+        if (cashboxValues != null) {
+
+            notes = new HashMap<>();
+
+            for (String s : cashboxValues) {
+
+                Moneynote m = new Moneynote(Integer.parseInt(s.split(",")[0]));
+                Integer amount = Integer.parseInt(s.split(",")[1]);
+
+                notes.put(m, amount);
+            }
+        }
+    }
 
     public Cashbox(final HashMap<Moneynote, Integer> notes) {
         this.notes = notes;
@@ -44,10 +71,12 @@ public class Cashbox {
                 notes.put(moneynote, depositMoneynotes.get(moneynote));
             }
         });
+
+        persistCashbox();
     }
 
     //return the amount in a map of moneynotes
-    public HashMap<Moneynote, Integer> withdraw(final Integer amount) {
+    public HashMap<Moneynote, Integer> withdraw(final Integer amount) throws WithdrawNotPossibleException {
 
         final HashMap<Moneynote, Integer> withdrawMoneynotes;
 
@@ -55,7 +84,7 @@ public class Cashbox {
 
             return calculateHashMap(amount);
         } else {
-            throw new IllegalArgumentException("invalid value");
+            throw new WithdrawNotPossibleException("invalid amount");
         }
     }
 
@@ -123,7 +152,7 @@ public class Cashbox {
 
         while (amount > 0) {
 
-            if ((notes.getOrDefault(new Moneynote(amount), 0) != 0) && (amount <= getMiddleMoneynotes().getValue())) {
+            if ((notes.getOrDefault(new Moneynote(amount), 0) != 0) && (amount < getMiddleMoneynotes().getValue())) {
 
                 syncHashMaps(new Moneynote(amount), withdrawMoneynotes);
 

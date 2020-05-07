@@ -1,5 +1,5 @@
 /*
- * Main.java
+ * Main_v2.java
  *
  * Created on 2020-05-07
  *
@@ -9,16 +9,14 @@
 package main;
 
 import atm.ATM;
-import gui.GUI;
+import gui_v2.LoginUI;
 
-public class Main {
+public class Main_v2 {
 
     public static void main(String[] args) {
 
         ATM atm = new ATM();
-        GUI gui = new GUI(atm);
 
-        gui.showGUI();
+        LoginUI loginUI = new LoginUI(atm, null);
     }
-
 }

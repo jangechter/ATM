@@ -1,7 +1,7 @@
 /*
  * TestData.java
  *
- * Created on 2020-03-25
+ * Created on 2020-05-07
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -15,7 +15,7 @@ import client.Client;
 
 public class TestData {
     public static final String TEST_NAME = "Mustermann";
-    public static final double TEST_BANK_BALANCE = 100.00;
+    public static final Double TEST_BANK_BALANCE = 100.00;
     public static final String TEST_FIRSTNAME = "Max";
     public static final String TEST_IBAN = "DE01 2345 6789 0123 4567 89";
     public static final String TEST_PIN = "1234";

@@ -1,17 +1,15 @@
 /*
  * ATMTest.java
  *
- * Created on 2020-04-16
+ * Created on 2020-05-07
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
 
 package atm;
 
-import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.math.MathContext;
 import java.util.HashMap;
 
 import org.junit.jupiter.api.AfterEach;
@@ -19,11 +17,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import cashbox.Cashbox;
-import client.Client;
-import csvReader.CSVReader;
 import csvWriter.CSVWriter;
 import moneynote.Moneynote;
 import testData.TestData;
@@ -35,8 +30,7 @@ class ATMTest extends TestData {
     @BeforeEach
     void persistData() throws IOException {
 
-         cb = CSVReader.readCashbox(
-                new File(System.getProperty("user.dir") + CASHBOX + "CashboxNotes" + CSV));
+        cb = new Cashbox();
 
     }
 
@@ -48,7 +42,7 @@ class ATMTest extends TestData {
         CSVWriter.writeClient(TEST_CLIENT);
     }
 
-    @Test
+    //@Test
     void testWithdrawMoneyPositive() throws IOException {
 
         final ATM atm = new ATM();

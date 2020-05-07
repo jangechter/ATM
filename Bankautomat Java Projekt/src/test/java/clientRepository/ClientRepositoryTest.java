@@ -1,14 +1,13 @@
 /*
  * ClientRepositoryTest.java
  *
- * Created on 2020-04-02
+ * Created on 2020-05-07
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
 
 package clientRepository;
 
-import java.io.File;
 import java.io.IOException;
 
 import org.junit.jupiter.api.Test;
@@ -17,13 +16,13 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import csvReader.CSVReader;
+import Exceptions.ClientParsingException;
 import testData.TestData;
 
 class ClientRepositoryTest extends TestData {
 
     @Test
-    void findClientTestPositive() {
+    void findClientTestPositive() throws ClientParsingException {
 
         final ClientRepository cr = new ClientRepository();
 
@@ -31,7 +30,7 @@ class ClientRepositoryTest extends TestData {
     }
 
     @Test
-    void findClientTestNegative() {
+    void findClientTestNegative() throws ClientParsingException {
 
         final ClientRepository cr = new ClientRepository();
 
@@ -43,7 +42,7 @@ class ClientRepositoryTest extends TestData {
     }
 
     @Test
-    void findClientTestWrongIBAN() {
+    void findClientTestWrongIBAN() throws ClientParsingException {
 
         final ClientRepository cr = new ClientRepository();
 
@@ -58,7 +57,7 @@ class ClientRepositoryTest extends TestData {
         cr.persistClient(TEST_CLIENT);
 
         assertEquals(TEST_CLIENT,
-                     CSVReader.readClient(new File(System.getProperty("user.dir") + CLIENTS + TEST_IBAN + CSV)));
+                     cr.findClient(TEST_IBAN));
     }
 
     @Test
@@ -67,5 +66,13 @@ class ClientRepositoryTest extends TestData {
         final ClientRepository cr = new ClientRepository();
 
         assertThrows(IllegalArgumentException.class, () -> cr.persistClient(null));
+    }
+
+    @Test
+    void testToReadClientNegativeClientParsingException() {
+
+        final ClientRepository cr = new ClientRepository();
+
+        assertThrows(ClientParsingException.class, () -> cr.findClient("DE00 0000 0000 0000 0000 00"));
     }
 }

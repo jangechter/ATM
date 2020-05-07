@@ -1,7 +1,7 @@
 /*
  * CSVWriterTest.java
  *
- * Created on 2020-04-20
+ * Created on 2020-05-07
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -20,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import cashbox.Cashbox;
 import client.Client;
+import clientRepository.ClientRepository;
 import csvReader.CSVReader;
 import moneynote.Moneynote;
 import testData.TestData;
@@ -47,11 +48,13 @@ class CSVWriterTest extends TestData {
     @Test
     void writeClientTestPositiveContentValid() throws IOException {
 
+        ClientRepository cr = new ClientRepository();
+
         csvWriter.CSVWriter.writeClient(TEST_CLIENT2);
 
         File file = new File(System.getProperty("user.dir") + "/Clients/" + TEST_IBAN2 + ".csv");
 
-        assertTrue(TEST_CLIENT2.equals(CSVReader.readClient(file)));
+        assertTrue(TEST_CLIENT2.equals(cr.findClient(TEST_IBAN2)));
 
         assertTrue(file.delete());
     }
@@ -64,6 +67,7 @@ class CSVWriterTest extends TestData {
 
     @Test
     void writeClientTestNegativeContentInvalid() throws IOException {
+        ClientRepository cr = new ClientRepository();
 
         CSVWriter.writeClient(TEST_CLIENT2);
 
@@ -71,7 +75,7 @@ class CSVWriterTest extends TestData {
 
         TEST_CLIENT2.setPin("0000");
 
-        assertFalse(TEST_CLIENT2.equals(CSVReader.readClient(file)));
+        assertFalse(TEST_CLIENT2.equals(cr.findClient(TEST_IBAN2)));
 
         TEST_CLIENT2.setPin(TEST_PIN);
     }
@@ -101,8 +105,7 @@ class CSVWriterTest extends TestData {
 
         CSVWriter.writeCashbox(cashbox);
 
-        assertTrue(cashbox.equals(
-                CSVReader.readCashbox(new File(System.getProperty("user.dir") + CASHBOX + "CashboxNotes" + CSV))));
+        assertTrue(cashbox.equals(new Cashbox()));
     }
 
     @Test
@@ -123,21 +126,25 @@ class CSVWriterTest extends TestData {
         notes.put(new Moneynote(10), 900);
 
         assertFalse(cashbox.equals(
-                CSVReader.readCashbox(new File(System.getProperty("user.dir") + CASHBOX + "CashboxNotes" + CSV))));
+                CSVReader.readCSVFile(new File(System.getProperty("user.dir") + CASHBOX + "CashboxNotes" + CSV))));
     }
 
     @Test
     void writeCashboxTestFileExist() throws IOException {
         HashMap<Moneynote, Integer> notes = new HashMap<>();
 
+        notes.put(new Moneynote(5), 100);
+        notes.put(new Moneynote(10), 100);
+        notes.put(new Moneynote(20), 100);
+        notes.put(new Moneynote(50), 100);
+        notes.put(new Moneynote(100), 100);
+        notes.put(new Moneynote(200), 100);
+
         final Cashbox cashbox = new Cashbox(notes);
 
         CSVWriter.writeCashbox(cashbox);
 
         File file = new File(System.getProperty("user.dir") + CASHBOX + "CashboxNotes" + CSV);
-
-        assertTrue(cashbox.equals(
-                CSVReader.readCashbox(file)));
 
         assertTrue(file.exists());
     }

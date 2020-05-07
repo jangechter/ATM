@@ -1,7 +1,7 @@
 /*
- * MainGui.java
+ * GUI.java
  *
- * Created on 2020-04-23
+ * Created on 2020-05-07
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -22,7 +22,7 @@ public class GUI {
 
     private ATM atm;
 
-    private void clear() {
+    protected void clear() {
 
         for (int i = 0; i < 200; i++) {
 
@@ -30,9 +30,9 @@ public class GUI {
         }
     }
 
-    public GUI() {
+    public GUI(ATM atm) {
 
-        atm = new ATM();
+        this.atm = atm;
     }
 
     public void showGUI() {
@@ -41,10 +41,10 @@ public class GUI {
 
             if (atm.getLoggedInClient().getClient() == null) {
 
-                diplayLogin();
+                displayLogin();
             }
 
-            diplayMainGui();
+            displayMainGui();
 
             menuSelector();
         }
@@ -58,7 +58,7 @@ public class GUI {
 
             try {
                 menuPoint = Integer.valueOf(ConsoleInput.readConsoleInput());
-            } catch (IOException  | NumberFormatException e) {
+            } catch (IOException | NumberFormatException e) {
                 System.out.println("Invalid input, please enter a numeric Number");
             }
         }
@@ -66,7 +66,7 @@ public class GUI {
         return menuPoint;
     }
 
-    private void diplayMainGui() {
+    private void displayMainGui() {
 
         System.out.println("----------------------------");
         System.out.println("Choose...");
@@ -76,13 +76,17 @@ public class GUI {
         System.out.println(LOGOUT_MENU_INDEX + ": logout");
     }
 
+    public ATM getAtm() {
+        return atm;
+    }
+
     private void menuSelector() {
 
         switch (readNumericInput()) {
 
             case 1:
 
-                new WithdrawGUI().printWithdrawGui(atm);
+                new WithdrawGUI(atm).printWithdrawGui();
                 break;
             case 2:
                 System.out.println(
@@ -90,7 +94,7 @@ public class GUI {
                         + " of your main currency");
                 break;
             case 3:
-                new DepositGUI().printDepositGUI(atm);
+                new DepositGUI(atm).printDepositGUI();
                 break;
             case 4:
                 atm.logout();
@@ -99,13 +103,13 @@ public class GUI {
 
                 clear();
 
-                diplayLogin();
+                displayLogin();
             default:
                 System.out.println("Please select a valid menupoint");
         }
     }
 
-    private void diplayLogin() {
+    private void displayLogin() {
 
         String iban = null;
         String pin = null;

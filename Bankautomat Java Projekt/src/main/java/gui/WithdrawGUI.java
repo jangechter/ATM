@@ -1,7 +1,7 @@
 /*
  * WithdrawGUI.java
  *
- * Created on 2020-04-23
+ * Created on 2020-05-07
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -19,48 +19,78 @@ import moneynote.Moneynote;
 
 public class WithdrawGUI extends GUI {
 
-    public void printWithdrawGui(ATM atm) {
+    public WithdrawGUI(final ATM atm) {
+        super(atm);
+    }
 
+    public void printWithdrawGui() {
+
+        clear();
         int index = 1;
+        Integer amount;
         Optional<HashMap<Moneynote, Integer>> notes = Optional.empty();
         System.out.println("----------------------------");
+        System.out.println("0: back");
         System.out.println("Choose amount...");
 
-        for (Moneynote m : atm.getCashbox().getNotes().keySet().stream().sorted().collect(Collectors.toList())) {
+        for (Moneynote m : getAtm().getCashbox().getNotes().keySet().stream().sorted().collect(Collectors.toList())) {
 
-            System.out.println(index + ": " + m.getValue() + " " + atm.getCurrency());
+            System.out.println(index + ": " + m.getValue() + " " + getAtm().getCurrency());
             index++;
         }
 
         System.out.println(index + " Other amount");
 
-        try {
+        amount = amountSelector(index, getAtm().getCashbox());
 
-            notes = atm.withdrawMoney(amountSelector(index, atm.getCashbox()));
+        if (amount != 0) {
 
-        } catch (IllegalArgumentException | WithdrawNotPossibleException e) {
+            try {
 
-            System.out.println("Cannot withdraw ");
+                notes = getAtm().withdrawMoney(amount);
+            } catch (IllegalArgumentException | WithdrawNotPossibleException e) {
+
+                System.out.println("Cannot withdraw, invalid amount");
+
+                return;
+            }
+
+            if (notes.isPresent()) {
+
+                System.out.println("Following banknotes will be withdraw...");
+                System.out.println("Banknote, amount");
+                notes.get().forEach(
+                        (moneynote, integer) -> System.out.println(moneynote.getValue() + ",      " + integer));
+            }
         }
-
-        System.out.println("Following banknotes will be withdraw...");
-        System.out.println("Banknote, amount");
-
-        notes.get().forEach((moneynote, integer) -> System.out.println(moneynote.getValue() + ",      " + integer));
-
     }
 
     private Integer amountSelector(Integer numberMenupoints, Cashbox cb) {
 
-        Integer input = readNumericInput();
+        Integer input = null;
 
-        if (input < numberMenupoints) {
+        do {
 
-            return cb.getNotes().keySet().stream().sorted().collect(Collectors.toList()).get(input-1)
-                     .getValue();
+            input = readNumericInput();
+
+            if (input > numberMenupoints) {
+                System.out.println("invalid menupoint");
+                input = null;
+            }
+        } while (input == null);
+
+        if (input != 0) {
+
+            if (input < numberMenupoints) {
+
+                return cb.getNotes().keySet().stream().sorted().collect(Collectors.toList()).get(input - 1)
+                         .getValue();
+            } else {
+
+                return otherAmountGUI();
+            }
         } else {
-
-            return otherAmountGUI();
+            return 0;
         }
     }
 

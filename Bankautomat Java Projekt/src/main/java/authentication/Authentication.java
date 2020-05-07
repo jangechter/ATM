@@ -1,13 +1,14 @@
 /*
  * Authentication.java
  *
- * Created on 2020-04-20
+ * Created on 2020-05-07
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
 
 package authentication;
 
+import Exceptions.ClientParsingException;
 import client.Client;
 import clientRepository.ClientRepository;
 
@@ -22,7 +23,12 @@ public class Authentication {
 
     public boolean logIn(final String iban, final String pin) {
 
-        client = repository.findClient(iban);
+        try {
+
+            client = repository.findClient(iban);
+        } catch (ClientParsingException e) {
+            e.printStackTrace();
+        }
 
         if ((client != null) && client.isActive()) {
 
