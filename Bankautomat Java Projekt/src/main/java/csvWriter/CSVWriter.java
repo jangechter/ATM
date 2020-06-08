@@ -1,7 +1,7 @@
 /*
  * CSVWriter.java
  *
- * Created on 2020-04-20
+ * Created on 2020-06-08
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -18,7 +18,10 @@ import client.Client;
 
 public class CSVWriter {
 
-    public static void writeClient(Client client) throws IOException, IllegalArgumentException {
+    private CSVWriter() {
+    }
+
+    public static void writeClient(Client client) throws IOException {
 
         final PrintWriter pw;
 
@@ -44,14 +47,13 @@ public class CSVWriter {
         }
     }
 
-    public static void writeCashbox(Cashbox cb) throws FileNotFoundException, IllegalArgumentException {
+    public static void writeCashbox(Cashbox cb) throws FileNotFoundException {
 
         final PrintWriter pw;
 
         if (cb != null) {
 
             final String header = "Moneynote,quantity";
-            final StringBuilder notesInformation = new StringBuilder();
 
             pw = new PrintWriter(
                     new File(System.getProperty("user.dir") + "/Cashbox/" + "CashboxNotes" + ".csv"));

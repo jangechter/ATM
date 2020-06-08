@@ -1,7 +1,7 @@
 /*
  * Main_v2.java
  *
- * Created on 2020-05-07
+ * Created on 2020-06-08
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -18,5 +18,9 @@ public class Main_v2 {
         ATM atm = new ATM();
 
         LoginUI loginUI = new LoginUI(atm, null);
+
+        do {
+            loginUI.printMenu();
+        } while (true);
     }
 }

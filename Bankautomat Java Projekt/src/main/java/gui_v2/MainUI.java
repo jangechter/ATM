@@ -1,7 +1,7 @@
 /*
  * MainUI.java
  *
- * Created on 2020-05-07
+ * Created on 2020-06-08
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -23,23 +23,16 @@ public class MainUI extends UI {
         final WithdrawUI withdrawUI = new WithdrawUI(atm, this);
         final DepositUI depositUI = new DepositUI(atm, this);
         final BankBalanceUI bankBalanceUI = new BankBalanceUI(atm, this);
+        final LogoutUI logoutUI = new LogoutUI(atm, this);
 
         getNextPossibleUIs().put(1, withdrawUI);
         getNextPossibleUIs().put(2, bankBalanceUI);
         getNextPossibleUIs().put(3, depositUI);
-        getNextPossibleUIs().put(4, getParentUI());
+        getNextPossibleUIs().put(4, logoutUI);
     }
 
     @Override
-    public void printUI() {
-        super.printUI();
-
-        System.out.println("Choose...");
-        System.out.println(WITHDRAW_MONEY_MENU_INDEX + ": Withdraw money");
-        System.out.println(SHOW_BANKBALANCE_MENU_INDEX + ": Show bankbalance");
-        System.out.println(DEPOSITE_MONEY_MENU_INDEX + ": Deposit money");
-        System.out.println(LOGOUT_MENU_INDEX + ": logout");
-
-        menuSelector(readMenuPoint());
+    public String getName() {
+        return "Main UI";
     }
 }

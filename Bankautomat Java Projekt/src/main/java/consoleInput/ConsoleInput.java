@@ -1,7 +1,7 @@
 /*
  * ConsoleInput.java
  *
- * Created on 2020-05-07
+ * Created on 2020-06-08
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -14,6 +14,9 @@ import java.io.InputStreamReader;
 
 public class ConsoleInput {
 
+    private ConsoleInput() {
+    }
+
     public static String readConsoleInput() throws IOException {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -21,7 +24,7 @@ public class ConsoleInput {
         return br.readLine();
     }
 
-    public static Integer readNumericInput() throws IOException {
+    public static Integer readIntegerInput() throws IOException {
 
         Integer input;
 
@@ -30,7 +33,7 @@ public class ConsoleInput {
 
                 input = Integer.parseInt(readConsoleInput());
             } catch (final NumberFormatException e) {
-                System.out.println("Please enter a number");
+                System.out.println("Please enter an integer number");
                 input = null;
             }
         } while (input == null);

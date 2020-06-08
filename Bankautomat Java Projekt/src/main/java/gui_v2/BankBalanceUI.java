@@ -1,7 +1,7 @@
 /*
  * BankBalanceUI.java
  *
- * Created on 2020-05-07
+ * Created on 2020-06-08
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -17,13 +17,14 @@ public class BankBalanceUI extends UI {
     }
 
     @Override
-    public void printUI() {
-        super.printUI();
+    public String getName() {
+        return "Show bankbalance";
+    }
 
+    @Override
+    public void printContext() {
         System.out.println(
                 "Your current bank balance represents " + getAtm().getLoggedInClient().getClient().getBankBalance()
                 + " of your main currency");
-
-        getParentUI().printUI();
     }
 }

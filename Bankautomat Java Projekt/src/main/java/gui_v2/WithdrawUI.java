@@ -1,7 +1,7 @@
 /*
  * WithdrawUI.java
  *
- * Created on 2020-05-07
+ * Created on 2020-06-08
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -28,6 +28,11 @@ public class WithdrawUI extends UI {
 
     public WithdrawUI(final ATM atm, final UI parentUI) {
         super(atm, parentUI);
+    }
+
+    @Override
+    public String getName() {
+        return "Withdraw money";
     }
 
     private void printPossibleNotes() {
@@ -63,7 +68,7 @@ public class WithdrawUI extends UI {
 
             try {
 
-                final Integer amount = ConsoleInput.readNumericInput();
+                final Integer amount = ConsoleInput.readIntegerInput();
 
                 notes = getAtm().withdrawMoney(amount);
             } catch (final IOException e) {
@@ -78,9 +83,7 @@ public class WithdrawUI extends UI {
     }
 
     @Override
-    public void printUI() {
-        super.printUI();
-
+    public void printContext() {
         Integer menuPoint;
 
         printPossibleNotes();
@@ -93,7 +96,7 @@ public class WithdrawUI extends UI {
             withdraw(menuPoint);
         }
 
-        getParentUI().printUI();
+        getParentUI().printMenu();
     }
 
     @Override

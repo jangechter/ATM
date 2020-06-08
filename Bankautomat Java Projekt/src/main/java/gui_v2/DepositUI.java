@@ -1,7 +1,7 @@
 /*
  * DepositUI.java
  *
- * Created on 2020-05-07
+ * Created on 2020-06-08
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -22,21 +22,23 @@ public class DepositUI extends UI {
     }
 
     @Override
-    public void printUI() {
-        super.printUI();
+    public String getName() {
+        return "Deposit money";
+    }
+
+    @Override
+    public void printContext() {
 
         System.out.println("0: back");
-        System.out.println("How much different notes do you have ?");
+        System.out.println("How many different notes do you have ?");
         System.out.println("");
 
         try {
-            readNotesForDeposit().ifPresentOrElse(depositNotes -> getAtm().depositMoney(depositNotes),
-                                                  () -> getParentUI().printUI());
+            readNotesForDeposit().ifPresent(notes -> getAtm().depositMoney(notes));
         } catch (final IOException e) {
             e.printStackTrace();
         }
 
-        getParentUI().printUI();
     }
 
     private Optional<HashMap<Moneynote, Integer>> readNotesForDeposit() throws IOException {
@@ -45,18 +47,18 @@ public class DepositUI extends UI {
         Integer moneynoteValue = 0;
         Integer amount = 0;
 
-        Integer differentNotes = ConsoleInput.readNumericInput();
+        Integer differentNotes = ConsoleInput.readIntegerInput();
 
         if (differentNotes != 0) {
             for (int i = 0; i < differentNotes; i++) {
 
                 System.out.println("Banknote: ");
 
-                moneynoteValue = ConsoleInput.readNumericInput();
+                moneynoteValue = ConsoleInput.readIntegerInput();
 
                 System.out.println("Amount");
 
-                amount = ConsoleInput.readNumericInput();
+                amount = ConsoleInput.readIntegerInput();
 
                 notes.put(new Moneynote(moneynoteValue), amount);
             }

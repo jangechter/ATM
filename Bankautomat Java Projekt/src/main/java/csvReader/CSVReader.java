@@ -1,7 +1,7 @@
 /*
  * CSVReader.java
  *
- * Created on 2020-05-07
+ * Created on 2020-06-08
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -16,6 +16,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CSVReader {
+
+    private CSVReader() {
+    }
 
     public static List<String> readCSVFile(final File file) throws IOException {
 

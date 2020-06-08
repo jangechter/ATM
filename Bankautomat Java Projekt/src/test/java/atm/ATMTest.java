@@ -1,7 +1,7 @@
 /*
  * ATMTest.java
  *
- * Created on 2020-05-07
+ * Created on 2020-06-08
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -42,7 +42,7 @@ class ATMTest extends TestData {
         CSVWriter.writeClient(TEST_CLIENT);
     }
 
-    //@Test
+    @Test
     void testWithdrawMoneyPositive() throws IOException {
 
         final ATM atm = new ATM();

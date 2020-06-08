@@ -1,7 +1,7 @@
 /*
  * Authentication.java
  *
- * Created on 2020-05-07
+ * Created on 2020-06-08
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -32,23 +32,21 @@ public class Authentication {
 
         if ((client != null) && client.isActive()) {
 
-            if (client.getNumberAttempts() < 3) {
-                if (client.getPin().equals(pin)) {
-                    client.setNumberAttempts(0);
-                    repository.persistClient(client);
-                    return true;
-                } else {
+            if (client.getPin().equals(pin)) {
+                client.setNumberAttempts(0);
+                repository.persistClient(client);
+                return true;
+            } else {
 
-                    System.out.println("Invalid credentials");
+                System.out.println("Invalid credentials");
 
-                    client.setNumberAttempts(client.getNumberAttempts() + 1);
+                client.setNumberAttempts(client.getNumberAttempts() + 1);
 
-                    if (!(client.getNumberAttempts() < 3)) {
-                        client.setActive(false);
-                    }
-
-                    repository.persistClient(client);
+                if (!(client.getNumberAttempts() < 3)) {
+                    client.setActive(false);
                 }
+
+                repository.persistClient(client);
             }
         }
 

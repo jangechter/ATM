@@ -1,7 +1,7 @@
 /*
  * ATM.java
  *
- * Created on 2020-04-20
+ * Created on 2020-06-08
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -22,24 +22,18 @@ import java.util.stream.Collectors;
 
 import authentication.Authentication;
 import cashbox.Cashbox;
-import csvReader.CSVReader;
 import moneynote.Moneynote;
 
 public class ATM {
 
     private Authentication loggedInClient = new Authentication();
     private Cashbox cashbox;
-    private final String CASHBOX = "/Cashbox/CashboxNotes.csv";
 
     private String currency;
 
     public ATM() {
 
-        try {
-            cashbox = CSVReader.readCashbox(new File(System.getProperty("user.dir") + CASHBOX));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        cashbox = new Cashbox();
 
         Properties properties = new Properties();
 
@@ -85,6 +79,8 @@ public class ATM {
                 loggedInClient.persistClient();
 
                 return Optional.of(withdrawNotes);
+            } else {
+                System.out.println("Not enough money");
             }
         }
 
@@ -96,8 +92,9 @@ public class ATM {
         if (loggedInClient.getClient() != null) {
             cashbox.deposit(amount);
 
-            loggedInClient.getClient().setBankBalance(
-                    loggedInClient.getClient().getBankBalance().add(convertMoneynotesToAmount(amount)));
+            final BigDecimal currentBalance = loggedInClient.getClient().getBankBalance();
+            final BigDecimal newBankBalance = currentBalance.add(convertMoneynotesToAmount(amount));
+            loggedInClient.getClient().setBankBalance(newBankBalance);
 
             loggedInClient.persistClient();
         }

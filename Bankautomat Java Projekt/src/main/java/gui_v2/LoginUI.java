@@ -1,7 +1,7 @@
 /*
  * LoginUI.java
  *
- * Created on 2020-05-07
+ * Created on 2020-06-08
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -18,27 +18,28 @@ public class LoginUI extends UI {
     MainUI mainUI = new MainUI(getAtm(), this);
 
     public LoginUI(final ATM atm, final UI parentUI) {
+
         super(atm, parentUI);
-
-        getNextPossibleUIs().put(0, mainUI);
-
-        printUI();
     }
 
     @Override
-    public void printUI() {
+    public String getName() {
+        return "Login";
+    }
+
+    @Override
+    public void printContext() {
         String iban = null;
         String pin = null;
 
         do {
-            super.printUI();
 
             System.out.println("            ATM        ");
             System.out.println("IBAN:");
 
             try {
                 iban = ConsoleInput.readConsoleInput();
-            } catch (IOException e) {
+            } catch (final IOException e) {
                 e.printStackTrace();
             }
 
@@ -46,11 +47,13 @@ public class LoginUI extends UI {
 
             try {
                 pin = ConsoleInput.readConsoleInput();
-            } catch (IOException e) {
+            } catch (final IOException e) {
                 e.printStackTrace();
             }
         } while (!getAtm().login(iban, pin));
 
-        getNextPossibleUIs().get(0).printUI();
+        do {
+            mainUI.printMenu();
+        } while (getAtm().getLoggedInClient().getClient() != null);
     }
 }

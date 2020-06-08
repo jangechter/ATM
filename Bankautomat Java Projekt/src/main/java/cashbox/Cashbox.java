@@ -1,7 +1,7 @@
 /*
  * Cashbox.java
  *
- * Created on 2020-05-07
+ * Created on 2020-06-08
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -27,11 +28,11 @@ import moneynote.Moneynote;
 public class Cashbox {
 
     private HashMap<Moneynote, Integer> notes;
-    private final String CASHBOX = "/Cashbox/CashboxNotes.csv";
+    private static final String CASHBOX_PATH = "/Cashbox/CashboxNotes.csv";
 
     public Cashbox() {
 
-        File cashboxNotesFile = new File(System.getProperty("user.dir") + CASHBOX);
+        File cashboxNotesFile = new File(System.getProperty("user.dir") + CASHBOX_PATH);
         List<String> cashboxValues = null;
 
         try {
@@ -54,12 +55,12 @@ public class Cashbox {
         }
     }
 
-    public Cashbox(final HashMap<Moneynote, Integer> notes) {
-        this.notes = notes;
+    public Cashbox(final Map<Moneynote, Integer> notes) {
+        this.notes = (HashMap<Moneynote, Integer>) notes;
     }
 
     //add the deposit cash into the cashbox
-    public void deposit(final HashMap<Moneynote, Integer> depositMoneynotes) {
+    public void deposit(final Map<Moneynote, Integer> depositMoneynotes) {
 
         depositMoneynotes.forEach((moneynote, integer) -> {
 
@@ -76,9 +77,7 @@ public class Cashbox {
     }
 
     //return the amount in a map of moneynotes
-    public HashMap<Moneynote, Integer> withdraw(final Integer amount) throws WithdrawNotPossibleException {
-
-        final HashMap<Moneynote, Integer> withdrawMoneynotes;
+    public HashMap<Moneynote, Integer> withdraw(final Integer amount) {
 
         if (isWithdrawPossible(amount)) {
 
@@ -128,7 +127,7 @@ public class Cashbox {
                 List<Moneynote> list = notes.keySet().stream().sorted().collect(Collectors.toList());
 
                 return new Moneynote(Math.round((list.get((notes.size() / 2) - 1).getValue() + list.get(
-                        (notes.size() / 2)).getValue()) / 2));
+                        (notes.size() / 2)).getValue()) / (float) 2));
             }
         }
 
@@ -173,8 +172,7 @@ public class Cashbox {
     }
 
     //synchronize notes with the notes which will withdraw
-    private void syncHashMaps(final Moneynote moneynote, final HashMap<Moneynote, Integer> withdrawMoneynotes)
-            throws WithdrawNotPossibleException {
+    private void syncHashMaps(final Moneynote moneynote, final HashMap<Moneynote, Integer> withdrawMoneynotes) {
 
         //put moneynote in withdraw map
         if (withdrawMoneynotes.containsKey(moneynote)) {
