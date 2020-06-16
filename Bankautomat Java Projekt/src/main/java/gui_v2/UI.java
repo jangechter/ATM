@@ -1,7 +1,7 @@
 /*
  * UI.java
  *
- * Created on 2020-06-08
+ * Created on 2020-06-16
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -36,15 +36,6 @@ public abstract class UI {
         this.parentUI = parentUI;
     }
 
-    public void printStackTrace() {
-
-        try {
-            throw new Exception(getName());
-        } catch (final Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     public abstract String getName();
 
     public void printDashLine() {
@@ -54,8 +45,6 @@ public abstract class UI {
 
     public final void printMenu() {
         printDashLine();
-
-        //printStackTrace();
 
         if (!(nextPossibleUIs.get(0) instanceof MainUI)) {
             getNextPossibleUIs().forEach((k, v) -> System.out.println(k + ": " + v.getName()));

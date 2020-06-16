@@ -1,7 +1,7 @@
 /*
  * BankBalanceUI.java
  *
- * Created on 2020-06-08
+ * Created on 2020-06-16
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */

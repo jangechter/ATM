@@ -1,7 +1,7 @@
 /*
  * ClientRepository.java
  *
- * Created on 2020-05-07
+ * Created on 2020-06-16
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -25,7 +25,7 @@ public class ClientRepository {
 
     private File createFileByIBAN(final String iban) {
 
-        final String path = System.getProperty("user.dir") + CLIENTS + iban + CSV;
+        final String path = System.getProperty("user.dir") + CLIENTS + iban + "/" + iban + CSV;
 
         return new File(path);
     }

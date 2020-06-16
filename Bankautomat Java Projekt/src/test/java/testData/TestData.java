@@ -1,7 +1,7 @@
 /*
  * TestData.java
  *
- * Created on 2020-05-07
+ * Created on 2020-06-16
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -27,6 +27,7 @@ public class TestData {
     public static final String CSV = ".csv";
     public static final String CASHBOX = "/Cashbox/";
     public static final String CURRENCY = "Euro";
-    public static final File TEST_FILE_CLIENT = new File(System.getProperty("user.dir") + CLIENTS + TEST_IBAN + CSV);
+    public static final File TEST_FILE_CLIENT = new File(
+            System.getProperty("user.dir") + CLIENTS + TEST_IBAN + "/" + TEST_IBAN + CSV);
     public static final File TEST_FILE_CASHBOX = new File(System.getProperty("user.dir") + CASHBOX + CURRENCY + CSV);
 }

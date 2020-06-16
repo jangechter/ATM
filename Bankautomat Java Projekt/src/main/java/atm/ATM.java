@@ -1,7 +1,7 @@
 /*
  * ATM.java
  *
- * Created on 2020-06-08
+ * Created on 2020-06-16
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.Properties;
 import java.util.stream.Collectors;
@@ -129,23 +128,5 @@ public class ATM {
     private boolean isLoggedInClientsBankBalanceValid(final BigDecimal amount) {
 
         return (loggedInClient.getClient().getBankBalance().doubleValue() - amount.doubleValue()) >= 0;
-    }
-
-    @Override
-    public boolean equals(final Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        final ATM atm = (ATM) o;
-        return Objects.equals(loggedInClient, atm.loggedInClient) &&
-               cashbox.equals(atm.cashbox);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(loggedInClient, cashbox);
     }
 }

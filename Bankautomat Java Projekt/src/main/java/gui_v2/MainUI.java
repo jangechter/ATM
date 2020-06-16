@@ -1,7 +1,7 @@
 /*
  * MainUI.java
  *
- * Created on 2020-06-08
+ * Created on 2020-06-16
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -11,11 +11,6 @@ package gui_v2;
 import atm.ATM;
 
 public class MainUI extends UI {
-
-    private static final Integer WITHDRAW_MONEY_MENU_INDEX = 1;
-    private static final Integer SHOW_BANKBALANCE_MENU_INDEX = 2;
-    private static final Integer DEPOSITE_MONEY_MENU_INDEX = 3;
-    private static final Integer LOGOUT_MENU_INDEX = 4;
 
     public MainUI(final ATM atm, final UI parentUI) {
         super(atm, parentUI);

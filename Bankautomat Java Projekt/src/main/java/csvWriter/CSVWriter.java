@@ -1,7 +1,7 @@
 /*
  * CSVWriter.java
  *
- * Created on 2020-06-08
+ * Created on 2020-06-16
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -36,7 +36,8 @@ public class CSVWriter {
                                              client.getNumberAttempts();
 
             pw = new PrintWriter(
-                    new File(System.getProperty("user.dir") + "/Clients/" + client.getIban() + ".csv"));
+                    new File(System.getProperty("user.dir") + "/Clients/" + client.getIban() + "/" + client.getIban()
+                             + ".csv"));
 
             pw.println(header);
             pw.println(clientInformation);
@@ -67,5 +68,4 @@ public class CSVWriter {
             throw new IllegalArgumentException("Cashbox is null");
         }
     }
-
 }

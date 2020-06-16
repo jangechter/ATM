@@ -1,7 +1,7 @@
 /*
  * CSVWriterTest.java
  *
- * Created on 2020-05-07
+ * Created on 2020-06-16
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -38,7 +38,7 @@ class CSVWriterTest extends TestData {
 
         csvWriter.CSVWriter.writeClient(TEST_CLIENT2);
 
-        File file = new File(System.getProperty("user.dir") + "/Clients/" + TEST_IBAN2 + ".csv");
+        File file = new File(System.getProperty("user.dir") + "/Clients/" + TEST_IBAN2 + "/" + TEST_IBAN2 + ".csv");
 
         assertTrue(file.exists());
 
@@ -52,7 +52,7 @@ class CSVWriterTest extends TestData {
 
         csvWriter.CSVWriter.writeClient(TEST_CLIENT2);
 
-        File file = new File(System.getProperty("user.dir") + "/Clients/" + TEST_IBAN2 + ".csv");
+        File file = new File(System.getProperty("user.dir") + "/Clients/" + TEST_IBAN2 + "/" + TEST_IBAN2 + ".csv");
 
         assertTrue(TEST_CLIENT2.equals(cr.findClient(TEST_IBAN2)));
 
