@@ -1,12 +1,12 @@
 /*
  * ClientRepository.java
  *
- * Created on 2020-06-16
+ * Created on 2020-06-25
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
 
-package clientRepository;
+package repositories;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,21 +20,21 @@ import csvWriter.CSVWriter;
 
 public class ClientRepository {
 
-    private static final String CLIENTS = "/Clients/";
-    private static final String CSV = ".csv";
+    private static final java.lang.String CLIENTS = "/Clients/";
+    private static final java.lang.String CSV = ".csv";
 
-    private File createFileByIBAN(final String iban) {
+    private File createFileByIBAN(final java.lang.String iban) {
 
-        final String path = System.getProperty("user.dir") + CLIENTS + iban + "/" + iban + CSV;
+        final java.lang.String path = System.getProperty("user.dir") + CLIENTS + iban + "/" + iban + CSV;
 
         return new File(path);
     }
 
-    public Client findClient(final String iban) throws ClientParsingException {
+    public Client findClient(final java.lang.String iban) throws ClientParsingException {
 
         Client client;
-        final List<String> fileValues;
-        final String[] clientValues;
+        final List<java.lang.String> fileValues;
+        final java.lang.String[] clientValues;
 
         try {
 

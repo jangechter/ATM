@@ -1,61 +1,59 @@
 /*
  * CashTransfer.java
  *
- * Created on 2020-06-16
+ * Created on 2020-06-25
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
 
 package cashTransfer;
 
-import java.io.File;
 import java.math.BigDecimal;
-import java.util.Date;
-
-import client.Client;
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 public class CashTransfer {
 
-    private static final String CLIENTS = "/Clients/";
-    private final Client recipient;
-    private final Client applicant;
+    private final String transactionID;
+    private final String recipientIBAN;
+    private final String applicantIBAN;
     private final BigDecimal amount;
-    private final Date date;
+    private final LocalDateTime date;
     private final String purpose;
 
-    public CashTransfer(final Client recipient, final Client applicant, final BigDecimal amount, final Date date,
-                        final String purpose) {
-        this.recipient = recipient;
-        this.applicant = applicant;
+    public CashTransfer(final String recipientIBAN, final String applicantIBAN, final BigDecimal amount,
+                        final LocalDateTime date,
+                        final java.lang.String purpose) {
+        transactionID = UUID.randomUUID().toString();
+        this.recipientIBAN = recipientIBAN;
+        this.applicantIBAN = applicantIBAN;
         this.amount = amount;
         this.date = date;
         this.purpose = purpose;
     }
 
-    public Client getRecipient() {
-        return recipient;
+    public String getTransactionID() {
+        return transactionID;
     }
 
-    public Client getApplicant() {
-        return applicant;
+    public String getRecipientIBAN() {
+        return recipientIBAN;
+    }
+
+    public String getApplicantIBAN() {
+        return applicantIBAN;
     }
 
     public BigDecimal getAmount() {
         return amount;
     }
 
-    public Date getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public String getPurpose() {
+    public java.lang.String getPurpose() {
         return purpose;
     }
 
-    void persistCashTransfer() {
-
-        File cashTransferFile = new File(
-                System.getProperty("user.dir") + CLIENTS + recipient.getIban() + "/" + recipient.getIban()
-                + "_Cash_Transfers.csv");
-    }
 }

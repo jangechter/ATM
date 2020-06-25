@@ -1,7 +1,7 @@
 /*
  * Authentication.java
  *
- * Created on 2020-06-08
+ * Created on 2020-06-25
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -10,7 +10,7 @@ package authentication;
 
 import Exceptions.ClientParsingException;
 import client.Client;
-import clientRepository.ClientRepository;
+import repositories.ClientRepository;
 
 public class Authentication {
 
@@ -21,7 +21,7 @@ public class Authentication {
         return client;
     }
 
-    public boolean logIn(final String iban, final String pin) {
+    public boolean logIn(final java.lang.String iban, final java.lang.String pin) {
 
         try {
 

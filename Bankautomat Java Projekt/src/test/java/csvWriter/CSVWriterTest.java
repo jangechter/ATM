@@ -1,7 +1,7 @@
 /*
  * CSVWriterTest.java
  *
- * Created on 2020-06-16
+ * Created on 2020-06-25
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -14,20 +14,23 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 
 import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import Exceptions.ClientParsingException;
+import cashTransfer.CashTransfer;
 import cashbox.Cashbox;
 import client.Client;
-import clientRepository.ClientRepository;
 import csvReader.CSVReader;
 import moneynote.Moneynote;
+import repositories.ClientRepository;
 import testData.TestData;
 
 class CSVWriterTest extends TestData {
 
-    private static final String TEST_IBAN2 = "DE11 2222 3333 4444 5555 66";
+    private static final java.lang.String TEST_IBAN2 = "DE11 2222 3333 4444 5555 66";
     private static final Client TEST_CLIENT2 = new Client(TEST_NAME, TEST_FIRSTNAME, TEST_IBAN2,
                                                           TEST_PIN,
                                                           BigDecimal.valueOf(TEST_BANK_BALANCE), IS_ACTIVE,
@@ -152,5 +155,23 @@ class CSVWriterTest extends TestData {
     @Test
     void writeCashboxTestNegativeIllegalArgument() {
         assertThrows(IllegalArgumentException.class, () -> CSVWriter.writeCashbox(null));
+    }
+
+    @Test
+    void writeCashTransfer_successfully() throws ClientParsingException {
+
+        ClientRepository cr = new ClientRepository();
+
+        Client client = cr.findClient(TEST_APPLICANT_IBAN);
+
+        CashTransfer cf = TEST_CASH_TRANSFER;
+
+        client.getClientRepository().persistCashTransfer(cf);
+
+        File cfFile = new File(
+                System.getProperty("user.dir") + CLIENTS + TEST_APPLICANT_IBAN + "/" + TEST_APPLICANT_IBAN
+                + "_Cash_Transfers.csv");
+
+        assertThat(cfFile.exists()).isTrue();
     }
 }

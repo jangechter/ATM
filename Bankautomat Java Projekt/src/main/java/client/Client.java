@@ -1,7 +1,7 @@
 /*
  * Client.java
  *
- * Created on 2020-04-20
+ * Created on 2020-06-25
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -11,17 +11,21 @@ package client;
 import java.math.BigDecimal;
 import java.util.Objects;
 
+import repositories.CashTransferRepository;
+
 public class Client {
 
-    private final String name;
-    private final String firstName;
-    private final String iban;
-    private String pin;
+    private final java.lang.String name;
+    private final java.lang.String firstName;
+    private final java.lang.String iban;
+    private java.lang.String pin;
     private BigDecimal bankBalance;
     private boolean isActive;
     private Integer numberAttempts;
+    private CashTransferRepository clientRepository;
 
-    public Client(final String name, final String firstName, final String iban, final String pin,
+    public Client(final java.lang.String name, final java.lang.String firstName, final java.lang.String iban,
+                  final java.lang.String pin,
                   final BigDecimal bankBalance, final boolean isActive, final Integer numberAttempts) {
 
         this.name = name;
@@ -31,21 +35,26 @@ public class Client {
         this.bankBalance = bankBalance;
         this.isActive = isActive;
         this.numberAttempts = numberAttempts;
+        clientRepository = new CashTransferRepository(this);
     }
 
-    public String getName() {
+    public CashTransferRepository getClientRepository() {
+        return clientRepository;
+    }
+
+    public java.lang.String getName() {
         return name;
     }
 
-    public String getFirstName() {
+    public java.lang.String getFirstName() {
         return firstName;
     }
 
-    public String getIban() {
+    public java.lang.String getIban() {
         return iban;
     }
 
-    public String getPin() {
+    public java.lang.String getPin() {
         return pin;
     }
 
@@ -61,7 +70,7 @@ public class Client {
         return numberAttempts;
     }
 
-    public void setPin(final String pin) {
+    public void setPin(final java.lang.String pin) {
         this.pin = pin;
     }
 

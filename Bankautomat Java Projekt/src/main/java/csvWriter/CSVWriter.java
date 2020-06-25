@@ -1,7 +1,7 @@
 /*
  * CSVWriter.java
  *
- * Created on 2020-06-16
+ * Created on 2020-06-25
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -13,6 +13,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import cashTransfer.CashTransfer;
 import cashbox.Cashbox;
 import client.Client;
 
@@ -26,14 +27,14 @@ public class CSVWriter {
         final PrintWriter pw;
 
         if (client != null) {
-            final String header = "Name,Firstname,Iban ,Pin ,Bank Balance,Status,AnzahlVersuche";
-            final String clientInformation = client.getName() + "," +
-                                             client.getFirstName() + "," +
-                                             client.getIban() + "," +
-                                             client.getPin() + "," +
-                                             client.getBankBalance().toString() + "," +
-                                             client.isActive() + "," +
-                                             client.getNumberAttempts();
+            final java.lang.String header = "Name,Firstname,Iban ,Pin ,Bank Balance,Status,AnzahlVersuche";
+            final java.lang.String clientInformation = client.getName() + "," +
+                                                       client.getFirstName() + "," +
+                                                       client.getIban() + "," +
+                                                       client.getPin() + "," +
+                                                       client.getBankBalance().toString() + "," +
+                                                       client.isActive() + "," +
+                                                       client.getNumberAttempts();
 
             pw = new PrintWriter(
                     new File(System.getProperty("user.dir") + "/Clients/" + client.getIban() + "/" + client.getIban()
@@ -54,7 +55,7 @@ public class CSVWriter {
 
         if (cb != null) {
 
-            final String header = "Moneynote,quantity";
+            final java.lang.String header = "Moneynote,quantity";
 
             pw = new PrintWriter(
                     new File(System.getProperty("user.dir") + "/Cashbox/" + "CashboxNotes" + ".csv"));
@@ -66,6 +67,33 @@ public class CSVWriter {
             pw.close();
         } else {
             throw new IllegalArgumentException("Cashbox is null");
+        }
+    }
+
+    public static void writeCashTransfer(CashTransfer cf, File file) throws FileNotFoundException {
+
+        if (cf != null) {
+
+            try (final PrintWriter pw = new PrintWriter(file);) {
+
+                if (file.exists()) {
+
+                    pw.append(
+                            cf.getTransactionID() + "," + cf.getRecipientIBAN() + "," + cf.getApplicantIBAN() + "," + cf
+                                    .getAmount() + "," + cf.getDate() + "," + cf.getPurpose());
+                } else {
+
+                    String header = "TranactionID, RecipientIBAN, ApplicantIBAN, Amount, Date, Purpose";
+
+                    pw.println(header);
+
+                    pw.println(
+                            cf.getTransactionID() + "," + cf.getRecipientIBAN() + "," + cf.getApplicantIBAN() + "," + cf
+                                    .getAmount() + "," + cf.getDate() + "," + cf.getPurpose());
+                }
+            }
+        } else {
+            throw new IllegalArgumentException("CashTransfer is null");
         }
     }
 }

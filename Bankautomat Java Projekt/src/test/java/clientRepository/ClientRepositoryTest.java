@@ -1,7 +1,7 @@
 /*
  * ClientRepositoryTest.java
  *
- * Created on 2020-05-07
+ * Created on 2020-06-25
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -17,6 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import Exceptions.ClientParsingException;
+import repositories.ClientRepository;
 import testData.TestData;
 
 class ClientRepositoryTest extends TestData {
