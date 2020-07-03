@@ -1,7 +1,7 @@
 /*
  * Client.java
  *
- * Created on 2020-06-25
+ * Created on 2020-07-03
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -22,7 +22,7 @@ public class Client {
     private BigDecimal bankBalance;
     private boolean isActive;
     private Integer numberAttempts;
-    private CashTransferRepository clientRepository;
+    private CashTransferRepository cashRepository;
 
     public Client(final java.lang.String name, final java.lang.String firstName, final java.lang.String iban,
                   final java.lang.String pin,
@@ -35,11 +35,11 @@ public class Client {
         this.bankBalance = bankBalance;
         this.isActive = isActive;
         this.numberAttempts = numberAttempts;
-        clientRepository = new CashTransferRepository(this);
+        cashRepository = new CashTransferRepository(this);
     }
 
-    public CashTransferRepository getClientRepository() {
-        return clientRepository;
+    public CashTransferRepository getCashRepository() {
+        return cashRepository;
     }
 
     public java.lang.String getName() {

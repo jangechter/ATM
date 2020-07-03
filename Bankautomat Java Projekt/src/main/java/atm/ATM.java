@@ -1,7 +1,7 @@
 /*
  * ATM.java
  *
- * Created on 2020-06-16
+ * Created on 2020-07-03
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -13,13 +13,16 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
+import accSync.AccountSynchronizer;
 import authentication.Authentication;
+import cashTransfer.CashTransfer;
 import cashbox.Cashbox;
 import moneynote.Moneynote;
 
@@ -27,8 +30,8 @@ public class ATM {
 
     private Authentication loggedInClient = new Authentication();
     private Cashbox cashbox;
-
     private String currency;
+    private AccountSynchronizer accountSynchronizer;
 
     public ATM() {
 
@@ -99,13 +102,27 @@ public class ATM {
         }
     }
 
+    public void transferMoney(String recipientIBAN, BigDecimal amount, String purpose) {
+
+        CashTransfer cashTransfer = new CashTransfer(recipientIBAN, loggedInClient.getClient().getIban(), amount,
+                                                     LocalDateTime.now(), purpose);
+    }
+
     public boolean login(String iban, String pin) {
 
-        return loggedInClient.logIn(iban, pin);
+        if (loggedInClient.logIn(iban, pin)) {
+
+            accountSynchronizer = new AccountSynchronizer(loggedInClient.getClient());
+            return true;
+        } else {
+
+            return false;
+        }
     }
 
     public boolean logout() {
 
+        accountSynchronizer = null;
         return loggedInClient.logout();
     }
 

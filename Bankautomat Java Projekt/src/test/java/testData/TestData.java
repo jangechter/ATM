@@ -1,7 +1,7 @@
 /*
  * TestData.java
  *
- * Created on 2020-06-25
+ * Created on 2020-07-03
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -36,9 +36,14 @@ public class TestData {
     public static final String TEST_RECIPIENT_IBAN = "DE01 2345 5555 7777 0909 44";
     public static final String TEST_APPLICANT_IBAN = "DE01 2345 6789 0123 4567 89";
     public static final Double TEST_TRANSFER_AMOUNT = 50.00;
-    public static final LocalDateTime TEST_DATE = LocalDateTime.of(1970, 1, 1, 0, 0);
+    public static final LocalDateTime TEST_DATE = LocalDateTime.of(1970, 1, 1, 0, 0, 0);
     public static final String TEST_PURPOSE = "Unit-Test CashTransfer";
-    public static final CashTransfer TEST_CASH_TRANSFER = new CashTransfer(TEST_RECIPIENT_IBAN, TEST_APPLICANT_IBAN,
+    public static final CashTransfer TEST_CASH_TRANSFER = new CashTransfer(TEST_TRANSACTION_ID, TEST_RECIPIENT_IBAN,
+                                                                           TEST_APPLICANT_IBAN,
                                                                            BigDecimal.valueOf(TEST_TRANSFER_AMOUNT),
                                                                            TEST_DATE, TEST_PURPOSE);
+    public static final Client TEST_CLIENT2 = new Client("Mustermann", "Max", "DE11 2222 3333 4444 5555 66", "1234",
+                                                         BigDecimal.valueOf(2000), true, 0);
+
+    public static final String TEST_IBAN3 = "DE11 2222 3333 4444 5555 66";
 }

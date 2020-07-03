@@ -1,7 +1,7 @@
 /*
  * CashTransferRepository.java
  *
- * Created on 2020-06-25
+ * Created on 2020-07-03
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -9,12 +9,15 @@
 package repositories;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+import com.google.common.annotations.VisibleForTesting;
 
 import cashTransfer.CashTransfer;
 import client.Client;
@@ -25,50 +28,79 @@ public class CashTransferRepository {
 
     private static final String CLIENTS = "/Clients/";
     private final Client client;
-    private List<CashTransfer> cfList = new ArrayList<>();
-    private final File cfFromClient;
+    private List<CashTransfer> cTFList = new ArrayList<>();
+    private final File cTfFromClient;
 
     public CashTransferRepository(final Client client) {
         this.client = client;
 
-        cfFromClient = new File(
+        cTfFromClient = new File(
                 System.getProperty("user.dir") + CLIENTS + "/" + client.getIban() + "/" + client.getIban()
                 + "_Cash_Transfers.csv");
-
-        initiateRepository();
     }
 
     private void initiateRepository() {
 
         CashTransfer tempCf;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
         try {
-            for (String line : CSVReader.readCSVFile(cfFromClient)) {
+            for (String line : CSVReader.readCSVFile(cTfFromClient)) {
 
                 String[] cfData = line.split(",");
 
-                String transactionID = cfData[0];
-                String recipientIBAN = cfData[1];
-                String applicantIBAN = cfData[2];
-                BigDecimal amount = BigDecimal.valueOf(Double.parseDouble(cfData[3]));
-                LocalDateTime date = LocalDateTime.MIN;
-                String purpose = cfData[5];
+                if (!(line.equals(""))) {
+
+                    String transactionID = cfData[0];
+                    String recipientIBAN = cfData[1];
+                    String applicantIBAN = cfData[2];
+                    BigDecimal amount = BigDecimal.valueOf(Double.parseDouble(cfData[3]));
+
+                    LocalDateTime date = LocalDateTime.parse(cfData[4].replace('T', ' '), formatter);
+                    String purpose = cfData[5];
+
+                    tempCf = new CashTransfer(transactionID, recipientIBAN, applicantIBAN, amount, date, purpose);
+
+                    cTFList.add(tempCf);
+                }
             }
         } catch (final IOException e) {
             e.printStackTrace();
         }
     }
 
-    /*
-    public CashTransfer findCashTarnsfer(){
-        return new CashTransfer()
+    public List<CashTransfer> getCashTransfers() {
+
+        return Collections.unmodifiableList(cTFList);
     }
-    */
-    public void persistCashTransfer(CashTransfer cf) {
+
+    public void addCashTransfer(CashTransfer cashTransfer) {
+
+        if (!cTFList.contains(cashTransfer)) {
+            cTFList.add(cashTransfer);
+            persistCashTransfer(cashTransfer);
+        } else {
+            throw new IllegalArgumentException("no duplicated cash tranfers");
+        }
+    }
+
+    public CashTransfer findCashTarnsfer(String transactionID) {
+
+        if (!cTFList.isEmpty()) {
+            return cTFList.stream().filter(ct -> ct.getTransactionID().equals(transactionID)).findFirst().get();
+        } else {
+            initiateRepository();
+
+            return cTFList.stream().filter(ct -> ct.getTransactionID().equals(transactionID)).findFirst().get();
+        }
+    }
+
+    @VisibleForTesting
+    private void persistCashTransfer(CashTransfer cf) {
 
         try {
-            CSVWriter.writeCashTransfer(cf, cfFromClient);
-        } catch (final FileNotFoundException e) {
+            CSVWriter.writeCashTransfer(cf, cTfFromClient);
+        } catch (final IOException e) {
             e.printStackTrace();
         }
     }

@@ -1,7 +1,7 @@
 /*
  * CashTransfer.java
  *
- * Created on 2020-06-25
+ * Created on 2020-07-03
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -10,6 +10,7 @@ package cashTransfer;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.UUID;
 
 public class CashTransfer {
@@ -25,6 +26,17 @@ public class CashTransfer {
                         final LocalDateTime date,
                         final java.lang.String purpose) {
         transactionID = UUID.randomUUID().toString();
+        this.recipientIBAN = recipientIBAN;
+        this.applicantIBAN = applicantIBAN;
+        this.amount = amount;
+        this.date = date;
+        this.purpose = purpose;
+    }
+
+    public CashTransfer(final String transactionID, final String recipientIBAN, final String applicantIBAN,
+                        final BigDecimal amount, final LocalDateTime date, final String purpose) {
+
+        this.transactionID = transactionID;
         this.recipientIBAN = recipientIBAN;
         this.applicantIBAN = applicantIBAN;
         this.amount = amount;
@@ -56,4 +68,26 @@ public class CashTransfer {
         return purpose;
     }
 
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if ((o == null) || (getClass() != o.getClass())) {
+            return false;
+        }
+        final CashTransfer that = (CashTransfer) o;
+        return transactionID.equals(that.getTransactionID()) &&
+               recipientIBAN.equals(that.getRecipientIBAN()) &&
+               applicantIBAN.equals(that.getApplicantIBAN()) &&
+               (amount.compareTo(that.getAmount()) == 0) &&
+               date.equals(that.getDate()) &&
+               purpose.equals(that.getPurpose());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getTransactionID(), getRecipientIBAN(), getApplicantIBAN(), getAmount(), getDate(),
+                            getPurpose());
+    }
 }

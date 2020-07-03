@@ -1,0 +1,2 @@
+Name,Firstname,Iban ,Pin ,Bank Balance,Status,AnzahlVersuche
+Mustermann,Max,AccountSyncClientB,1234,8000.0,true,0

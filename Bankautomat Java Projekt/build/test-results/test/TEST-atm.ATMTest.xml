@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="atm.ATMTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2020-05-07T13:06:38" hostname="Jans-MacBook-Pro.local" time="0.055">
+  <properties/>
+  <testcase name="testLogoutPositive()" classname="atm.ATMTest" time="0.045"/>
+  <testcase name="testLogoutNegative()" classname="atm.ATMTest" time="0.002"/>
+  <testcase name="testLoginPositive()" classname="atm.ATMTest" time="0.001"/>
+  <testcase name="testDepositMoneyPositive()" classname="atm.ATMTest" time="0.002"/>
+  <testcase name="testWithdrawMoneyInvalidAmount()" classname="atm.ATMTest" time="0.004"/>
+  <system-out><![CDATA[Not enough money
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

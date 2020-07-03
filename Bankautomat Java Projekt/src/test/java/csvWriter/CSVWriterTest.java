@@ -1,7 +1,7 @@
 /*
  * CSVWriterTest.java
  *
- * Created on 2020-06-25
+ * Created on 2020-07-03
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.HashMap;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -20,7 +21,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import Exceptions.ClientParsingException;
-import cashTransfer.CashTransfer;
 import cashbox.Cashbox;
 import client.Client;
 import csvReader.CSVReader;
@@ -157,21 +157,53 @@ class CSVWriterTest extends TestData {
         assertThrows(IllegalArgumentException.class, () -> CSVWriter.writeCashbox(null));
     }
 
+    @AfterAll
+    static void resetFile() {
+
+        File cfFile = new File(
+                System.getProperty("user.dir") + CLIENTS + TEST_APPLICANT_IBAN + "/" + TEST_APPLICANT_IBAN
+                + "_Cash_Transfers.csv");
+
+        cfFile.delete();
+    }
+
     @Test
-    void writeCashTransfer_successfully() throws ClientParsingException {
+    void writeCashTransferSuccessfully() throws ClientParsingException {
 
         ClientRepository cr = new ClientRepository();
 
         Client client = cr.findClient(TEST_APPLICANT_IBAN);
 
-        CashTransfer cf = TEST_CASH_TRANSFER;
-
-        client.getClientRepository().persistCashTransfer(cf);
+        client.getCashRepository().addCashTransfer(
+                TEST_CASH_TRANSFER);
 
         File cfFile = new File(
                 System.getProperty("user.dir") + CLIENTS + TEST_APPLICANT_IBAN + "/" + TEST_APPLICANT_IBAN
                 + "_Cash_Transfers.csv");
 
         assertThat(cfFile.exists()).isTrue();
+
+        resetFile();
+    }
+
+    @Test
+    void writeCashTransferContentValid() throws ClientParsingException {
+
+        ClientRepository cr = new ClientRepository();
+
+        Client client = cr.findClient(TEST_APPLICANT_IBAN);
+
+        client.getCashRepository().addCashTransfer(TEST_CASH_TRANSFER);
+
+        assertThat(client.getCashRepository().findCashTarnsfer(TEST_TRANSACTION_ID).equals(TEST_CASH_TRANSFER))
+                .isTrue();
+
+        resetFile();
+    }
+
+    @Test
+    void writeCashTransferWithNullThrowsIllegalArgumentException() {
+
+        assertThrows(IllegalArgumentException.class, () -> CSVWriter.writeCashTransfer(null, null));
     }
 }

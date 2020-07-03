@@ -1,15 +1,17 @@
 /*
  * CSVWriter.java
  *
- * Created on 2020-06-25
+ * Created on 2020-07-03
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
 
 package csvWriter;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -70,26 +72,30 @@ public class CSVWriter {
         }
     }
 
-    public static void writeCashTransfer(CashTransfer cf, File file) throws FileNotFoundException {
+    public static void writeCashTransfer(CashTransfer cf, File file) throws IOException {
 
         if (cf != null) {
 
-            try (final PrintWriter pw = new PrintWriter(file);) {
+            try (final BufferedWriter bw = new BufferedWriter(new FileWriter(file, true));) {
 
-                if (file.exists()) {
+                if (file.length() != 0) {
 
-                    pw.append(
+                    bw.append(
                             cf.getTransactionID() + "," + cf.getRecipientIBAN() + "," + cf.getApplicantIBAN() + "," + cf
                                     .getAmount() + "," + cf.getDate() + "," + cf.getPurpose());
+                    bw.newLine();
                 } else {
 
                     String header = "TranactionID, RecipientIBAN, ApplicantIBAN, Amount, Date, Purpose";
 
-                    pw.println(header);
+                    bw.write(header);
 
-                    pw.println(
+                    bw.newLine();
+
+                    bw.append(
                             cf.getTransactionID() + "," + cf.getRecipientIBAN() + "," + cf.getApplicantIBAN() + "," + cf
                                     .getAmount() + "," + cf.getDate() + "," + cf.getPurpose());
+                    bw.newLine();
                 }
             }
         } else {
