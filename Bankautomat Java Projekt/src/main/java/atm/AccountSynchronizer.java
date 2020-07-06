@@ -1,17 +1,18 @@
 /*
  * AccountSynchronizer.java
  *
- * Created on 2020-07-03
+ * Created on 2020-07-06
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
 
-package accSync;
+package atm;
 
 import java.math.BigDecimal;
 
 import Exceptions.AccountSynchronisationException;
 import Exceptions.ClientParsingException;
+import cashTransfer.CashTransfer;
 import client.Client;
 import repositories.ClientRepository;
 
@@ -50,6 +51,8 @@ public class AccountSynchronizer {
 
             BigDecimal newBankBalanceAfterSub = loggedInClient.getBankBalance().subtract(amount);
 
+            loggedInClient.setBankBalance(newBankBalanceAfterSub);
+
             clientRepository.persistClient(loggedInClient);
 
             return true;
@@ -57,5 +60,15 @@ public class AccountSynchronizer {
 
             throw new AccountSynchronisationException("Recipient account not available for synchronisation");
         }
+    }
+
+    public void addCashTransferToRecipient(CashTransfer ctf) {
+
+        recipientClient.getCashRepository().addCashTransfer(ctf);
+    }
+
+    public void addCashTransferToApplicant(CashTransfer ctf) {
+
+        loggedInClient.getCashRepository().addCashTransfer(ctf);
     }
 }

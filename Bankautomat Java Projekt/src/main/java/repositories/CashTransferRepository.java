@@ -1,7 +1,7 @@
 /*
  * CashTransferRepository.java
  *
- * Created on 2020-07-03
+ * Created on 2020-07-06
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -37,6 +37,8 @@ public class CashTransferRepository {
         cTfFromClient = new File(
                 System.getProperty("user.dir") + CLIENTS + "/" + client.getIban() + "/" + client.getIban()
                 + "_Cash_Transfers.csv");
+
+        initiateRepository();
     }
 
     private void initiateRepository() {
@@ -45,23 +47,28 @@ public class CashTransferRepository {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
         try {
-            for (String line : CSVReader.readCSVFile(cTfFromClient)) {
 
-                String[] cfData = line.split(",");
+            if (cTfFromClient.exists()) {
 
-                if (!(line.equals(""))) {
+                for (final String line : CSVReader.readCSVFile(cTfFromClient)) {
 
-                    String transactionID = cfData[0];
-                    String recipientIBAN = cfData[1];
-                    String applicantIBAN = cfData[2];
-                    BigDecimal amount = BigDecimal.valueOf(Double.parseDouble(cfData[3]));
+                    String[] cfData = line.split(",");
 
-                    LocalDateTime date = LocalDateTime.parse(cfData[4].replace('T', ' '), formatter);
-                    String purpose = cfData[5];
+                    if (!(line.equals(""))) {
 
-                    tempCf = new CashTransfer(transactionID, recipientIBAN, applicantIBAN, amount, date, purpose);
+                        String transactionID = cfData[0];
+                        String recipientIBAN = cfData[1];
+                        String applicantIBAN = cfData[2];
+                        BigDecimal amount = BigDecimal.valueOf(Double.parseDouble(cfData[3]));
 
-                    cTFList.add(tempCf);
+                        LocalDateTime date = LocalDateTime.parse(cfData[4].replace('T', ' ').substring(0, 16),
+                                                                 formatter);
+                        String purpose = cfData[5];
+
+                        tempCf = new CashTransfer(transactionID, recipientIBAN, applicantIBAN, amount, date, purpose);
+
+                        cTFList.add(tempCf);
+                    }
                 }
             }
         } catch (final IOException e) {

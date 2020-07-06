@@ -1,7 +1,7 @@
 /*
  * ATMTest.java
  *
- * Created on 2020-06-08
+ * Created on 2020-07-06
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -18,9 +18,12 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import Exceptions.ClientParsingException;
 import cashbox.Cashbox;
+import client.Client;
 import csvWriter.CSVWriter;
 import moneynote.Moneynote;
+import repositories.ClientRepository;
 import testData.TestData;
 
 class ATMTest extends TestData {
@@ -31,7 +34,6 @@ class ATMTest extends TestData {
     void persistData() throws IOException {
 
         cb = new Cashbox();
-
     }
 
     @AfterEach
@@ -58,7 +60,6 @@ class ATMTest extends TestData {
         assertEquals(notes, atm.withdrawMoney(100).get());
 
         assertEquals(BigDecimal.valueOf(0.0), atm.getLoggedInClient().getClient().getBankBalance());
-
     }
 
     @Test
@@ -69,7 +70,6 @@ class ATMTest extends TestData {
         atm.login(TEST_IBAN, TEST_PIN);
 
         assertThat(atm.withdrawMoney(111)).isEmpty();
-
     }
 
     @Test
@@ -89,7 +89,6 @@ class ATMTest extends TestData {
 
         assertEquals(BigDecimal.valueOf(TEST_BANK_BALANCE + 100),
                      atm.getLoggedInClient().getClient().getBankBalance());
-
     }
 
     @Test
@@ -116,5 +115,37 @@ class ATMTest extends TestData {
         ATM atm = new ATM();
 
         assertThat(atm.logout()).isFalse();
+    }
+
+    @Test
+    void performACashTransfer() throws ClientParsingException {
+
+        ATM atm = new ATM();
+
+        ClientRepository cr = new ClientRepository();
+
+        Client clientA = cr.findClient("AccountSyncClientA");
+
+        Client clientB = cr.findClient("AccountSyncClientB");
+
+        atm.login("AccountSyncClientA", "1234");
+
+        Integer ctfListSize = atm.getLoggedInClient().getClient().getCashRepository().getCashTransfers().size();
+
+        atm.transferMoney("AccountSyncClientB", BigDecimal.valueOf(1000), "UnitTest");
+
+        assertThat(
+                clientA.getBankBalance().subtract(BigDecimal.valueOf(1000))
+                       .compareTo(atm.getLoggedInClient().getClient().getBankBalance()))
+                .isEqualTo(0);
+
+        assertThat(atm.getLoggedInClient().getClient().getCashRepository().getCashTransfers().size()).isGreaterThan(
+                ctfListSize);
+
+        clientA.setBankBalance(BigDecimal.valueOf(5000));
+        clientB.setBankBalance(BigDecimal.valueOf(5000));
+
+        cr.persistClient(clientA);
+        cr.persistClient(clientB);
     }
 }

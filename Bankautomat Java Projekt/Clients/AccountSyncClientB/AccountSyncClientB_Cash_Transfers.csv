@@ -1,0 +1,3 @@
+TranactionID, RecipientIBAN, ApplicantIBAN, Amount, Date, Purpose
+e334e202-ee70-4eb7-bfbb-102731dce6a4,AccountSyncClientB,AccountSyncClientA,1000,2020-07-06T08:44:52.823814,UnitTest
+7ad6c1b2-81b3-4c37-a109-50ce9f64b27e,AccountSyncClientB,AccountSyncClientA,1000,2020-07-06T08:45:23.432365,UnitTest

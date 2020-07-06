@@ -1,0 +1,5 @@
+TranactionID, RecipientIBAN, ApplicantIBAN, Amount, Date, Purpose
+975fea42-38b1-453f-ba1a-b81c5ac38e15,AccountSyncClientA,AccountSyncClientB,-1000,2020-07-06T08:44:52.831780,UnitTest
+cb603142-ff87-4f79-aea1-4ad261424b19,AccountSyncClientA,AccountSyncClientB,-1000,2020-07-06T08:45:23.439903,UnitTest
+cb603142-ff87-4f79-aea1-4ad261424b19,AccountSyncClientA,AccountSyncClientB,-100000,2020-07-06T08:45:23.439903,UnitTest
+cb603142-ff87-4f79-aea1-4ad261424b19,AccountSyncClientA,AccountSyncClientB,-100000,2020-07-06T08:45:23.439903,UnitTest UnitTest UnitTest UnitTest UnitTest UnitTest UnitTest UnitTest UnitTest UnitTest
