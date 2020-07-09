@@ -1,7 +1,7 @@
 /*
  * CashTransferRepository.java
  *
- * Created on 2020-07-06
+ * Created on 2020-07-09
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -87,19 +87,13 @@ public class CashTransferRepository {
             cTFList.add(cashTransfer);
             persistCashTransfer(cashTransfer);
         } else {
-            throw new IllegalArgumentException("no duplicated cash tranfers");
+            throw new IllegalArgumentException("no duplicated cash transfers");
         }
     }
 
     public CashTransfer findCashTarnsfer(String transactionID) {
 
-        if (!cTFList.isEmpty()) {
-            return cTFList.stream().filter(ct -> ct.getTransactionID().equals(transactionID)).findFirst().get();
-        } else {
-            initiateRepository();
-
-            return cTFList.stream().filter(ct -> ct.getTransactionID().equals(transactionID)).findFirst().get();
-        }
+        return cTFList.stream().filter(ct -> ct.getTransactionID().equals(transactionID)).findFirst().get();
     }
 
     @VisibleForTesting

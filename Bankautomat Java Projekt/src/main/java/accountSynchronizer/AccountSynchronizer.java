@@ -1,12 +1,12 @@
 /*
  * AccountSynchronizer.java
  *
- * Created on 2020-07-06
+ * Created on 2020-07-09
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
 
-package atm;
+package accountSynchronizer;
 
 import java.math.BigDecimal;
 
@@ -62,13 +62,11 @@ public class AccountSynchronizer {
         }
     }
 
-    public void addCashTransferToRecipient(CashTransfer ctf) {
+    public void addCashTransferToClients(CashTransfer ctf) {
 
         recipientClient.getCashRepository().addCashTransfer(ctf);
-    }
 
-    public void addCashTransferToApplicant(CashTransfer ctf) {
-
+        ctf.negateAmount();
         loggedInClient.getCashRepository().addCashTransfer(ctf);
     }
 }

@@ -1,7 +1,7 @@
 /*
  * ConsoleInput.java
  *
- * Created on 2020-06-08
+ * Created on 2020-07-09
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -19,12 +19,29 @@ public class ConsoleInput {
 
     public static String readConsoleInput() throws IOException {
 
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        final BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         return br.readLine();
     }
 
-    public static Integer readIntegerInput() throws IOException {
+    public static Double readDoubleInput() {
+
+        Double input;
+
+        do {
+            try {
+
+                input = Double.parseDouble(readConsoleInput());
+            } catch (final NumberFormatException | IOException e) {
+                System.out.println("Please enter a double number");
+                input = null;
+            }
+        } while (input == null);
+
+        return input;
+    }
+
+    public static Integer readIntegerInput() {
 
         Integer input;
 
@@ -32,7 +49,7 @@ public class ConsoleInput {
             try {
 
                 input = Integer.parseInt(readConsoleInput());
-            } catch (final NumberFormatException e) {
+            } catch (final NumberFormatException | IOException e) {
                 System.out.println("Please enter an integer number");
                 input = null;
             }

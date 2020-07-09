@@ -1,14 +1,13 @@
 /*
  * UI.java
  *
- * Created on 2020-06-16
+ * Created on 2020-07-09
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
 
 package gui_v2;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -83,11 +82,7 @@ public abstract class UI {
 
         do {
 
-            try {
-                input = ConsoleInput.readIntegerInput();
-            } catch (final IOException e) {
-                e.printStackTrace();
-            }
+            input = ConsoleInput.readIntegerInput();
 
             if (!nextPossibleUIs.containsKey(input)) {
                 System.out.println("inavlid menupoint please enter a number between 1 and " + nextPossibleUIs.size());

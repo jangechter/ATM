@@ -1,7 +1,7 @@
 /*
  * ATM.java
  *
- * Created on 2020-07-06
+ * Created on 2020-07-09
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -20,11 +20,11 @@ import java.util.Optional;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
+import accountSynchronizer.AccountSynchronizer;
 import authentication.Authentication;
 import cashTransfer.CashTransfer;
 import cashbox.Cashbox;
 import moneynote.Moneynote;
-
 
 public class ATM {
 
@@ -104,17 +104,18 @@ public class ATM {
 
     public void transferMoney(String recipientIBAN, BigDecimal amount, String purpose) {
 
-        CashTransfer recCashTransfer = new CashTransfer(recipientIBAN, loggedInClient.getClient().getIban(), amount,
-                                                        LocalDateTime.now(), purpose);
+        if (isLoggedInClientsBankBalanceValid(amount)) {
 
-        CashTransfer appCashTransfer = new CashTransfer(loggedInClient.getClient().getIban(), recipientIBAN,
-                                                        amount.negate(),
-                                                        LocalDateTime.now(), purpose);
+            CashTransfer cashTransfer = new CashTransfer(recipientIBAN, loggedInClient.getClient().getIban(), amount,
+                                                         LocalDateTime.now(), purpose);
 
-        accountSynchronizer.sychronizeAccounts(recipientIBAN, amount);
+            accountSynchronizer.sychronizeAccounts(recipientIBAN, amount);
 
-        accountSynchronizer.addCashTransferToApplicant(appCashTransfer);
-        accountSynchronizer.addCashTransferToRecipient(recCashTransfer);
+            accountSynchronizer.addCashTransferToClients(cashTransfer);
+        } else {
+
+            System.out.println("Not enough money");
+        }
     }
 
     public boolean login(String iban, String pin) {

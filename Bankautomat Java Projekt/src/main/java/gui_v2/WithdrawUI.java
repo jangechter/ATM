@@ -1,7 +1,7 @@
 /*
  * WithdrawUI.java
  *
- * Created on 2020-06-08
+ * Created on 2020-07-09
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -71,8 +71,6 @@ public class WithdrawUI extends UI {
                 final Integer amount = ConsoleInput.readIntegerInput();
 
                 notes = getAtm().withdrawMoney(amount);
-            } catch (final IOException e) {
-                e.printStackTrace();
             } catch (final WithdrawNotPossibleException e) {
                 System.out.println("invalid amount for withdraw");
             }

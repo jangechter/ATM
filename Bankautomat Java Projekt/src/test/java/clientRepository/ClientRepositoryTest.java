@@ -1,7 +1,7 @@
 /*
  * ClientRepositoryTest.java
  *
- * Created on 2020-06-25
+ * Created on 2020-07-09
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -71,6 +71,14 @@ class ClientRepositoryTest extends TestData {
 
     @Test
     void testToReadClientNegativeClientParsingException() {
+
+        final ClientRepository cr = new ClientRepository();
+
+        assertThrows(ClientParsingException.class, () -> cr.findClient("DE00 0000 0000 0000 0000 00"));
+    }
+
+    @Test
+    void findClientThrowsClientParsingException() {
 
         final ClientRepository cr = new ClientRepository();
 

@@ -1,7 +1,7 @@
 /*
  * CashTransfer.java
  *
- * Created on 2020-07-03
+ * Created on 2020-07-09
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -18,7 +18,7 @@ public class CashTransfer {
     private final String transactionID;
     private final String recipientIBAN;
     private final String applicantIBAN;
-    private final BigDecimal amount;
+    private BigDecimal amount;
     private final LocalDateTime date;
     private final String purpose;
 
@@ -66,6 +66,11 @@ public class CashTransfer {
 
     public java.lang.String getPurpose() {
         return purpose;
+    }
+
+    public void negateAmount() {
+
+        amount = amount.negate();
     }
 
     @Override
