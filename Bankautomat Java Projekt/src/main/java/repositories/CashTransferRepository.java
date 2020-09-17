@@ -1,7 +1,7 @@
 /*
  * CashTransferRepository.java
  *
- * Created on 2020-07-09
+ * Created on 2020-09-17
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -16,6 +16,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import com.google.common.annotations.VisibleForTesting;
 
@@ -27,12 +28,10 @@ import csvWriter.CSVWriter;
 public class CashTransferRepository {
 
     private static final String CLIENTS = "/Clients/";
-    private final Client client;
-    private List<CashTransfer> cTFList = new ArrayList<>();
+    private final List<CashTransfer> cTFList = new ArrayList<>();
     private final File cTfFromClient;
 
     public CashTransferRepository(final Client client) {
-        this.client = client;
 
         cTfFromClient = new File(
                 System.getProperty("user.dir") + CLIENTS + "/" + client.getIban() + "/" + client.getIban()
@@ -43,8 +42,7 @@ public class CashTransferRepository {
 
     private void initiateRepository() {
 
-        CashTransfer tempCf;
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
         try {
 
@@ -52,22 +50,27 @@ public class CashTransferRepository {
 
                 for (final String line : CSVReader.readCSVFile(cTfFromClient)) {
 
-                    String[] cfData = line.split(",");
+                    final String[] cfData = line.split(",");
 
-                    if (!(line.equals(""))) {
+                    if (!(line.isEmpty())) {
 
-                        String transactionID = cfData[0];
-                        String recipientIBAN = cfData[1];
-                        String applicantIBAN = cfData[2];
-                        BigDecimal amount = BigDecimal.valueOf(Double.parseDouble(cfData[3]));
+                        final String transactionID = cfData[0];
+                        final String recipientIBAN = cfData[1];
+                        final String applicantIBAN = cfData[2];
+                        final BigDecimal amount = BigDecimal.valueOf(Double.parseDouble(cfData[3]));
 
-                        LocalDateTime date = LocalDateTime.parse(cfData[4].replace('T', ' ').substring(0, 16),
-                                                                 formatter);
-                        String purpose = cfData[5];
+                        final LocalDateTime date = LocalDateTime.parse(cfData[4].replace('T', ' ').substring(0, 16),
+                                                                       formatter);
 
-                        tempCf = new CashTransfer(transactionID, recipientIBAN, applicantIBAN, amount, date, purpose);
+                        LocalDateTime.now().minusHours(2);
 
-                        cTFList.add(tempCf);
+                        String start = LocalDateTime.now().minusHours(2).toString() + "Z";
+                        String end = LocalDateTime.now().minusHours(2).toString() + "Z";
+
+                        final String purpose = cfData[5];
+
+                        cTFList.add(
+                                new CashTransfer(transactionID, recipientIBAN, applicantIBAN, amount, date, purpose));
                     }
                 }
             }
@@ -81,7 +84,7 @@ public class CashTransferRepository {
         return Collections.unmodifiableList(cTFList);
     }
 
-    public void addCashTransfer(CashTransfer cashTransfer) {
+    public void addCashTransfer(final CashTransfer cashTransfer) {
 
         if (!cTFList.contains(cashTransfer)) {
             cTFList.add(cashTransfer);
@@ -91,13 +94,21 @@ public class CashTransferRepository {
         }
     }
 
-    public CashTransfer findCashTarnsfer(String transactionID) {
+    public Optional<CashTransfer> findCashTarnsfer(final String transactionID) {
 
-        return cTFList.stream().filter(ct -> ct.getTransactionID().equals(transactionID)).findFirst().get();
+        final Optional<CashTransfer> ctf = cTFList.stream()
+                                                  .filter(ct -> ct.getTransactionID().equals(transactionID))
+                                                  .findFirst();
+
+        if (ctf.isPresent()) {
+            return ctf;
+        }
+
+        return Optional.empty();
     }
 
     @VisibleForTesting
-    private void persistCashTransfer(CashTransfer cf) {
+    private void persistCashTransfer(final CashTransfer cf) {
 
         try {
             CSVWriter.writeCashTransfer(cf, cTfFromClient);

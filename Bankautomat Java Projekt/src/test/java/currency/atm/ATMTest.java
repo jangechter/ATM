@@ -1,12 +1,12 @@
 /*
  * ATMTest.java
  *
- * Created on 2020-07-06
+ * Created on 2020-09-17
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
 
-package atm;
+package currency.atm;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -19,6 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import Exceptions.ClientParsingException;
+import atm.ATM;
 import cashbox.Cashbox;
 import client.Client;
 import csvWriter.CSVWriter;

@@ -1,2 +1,2 @@
 Name,Firstname,Iban ,Pin ,Bank Balance,Status,AnzahlVersuche
-Mustermann,Max,AccountSyncClientB,1234,5000,true,0
+Mustermann,Max,DE01 2345 6789 0123 4567 89,1234,0.0,true,0

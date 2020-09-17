@@ -1,7 +1,7 @@
 /*
  * CashTransfer.java
  *
- * Created on 2020-07-09
+ * Created on 2020-09-17
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -18,7 +18,7 @@ public class CashTransfer {
     private final String transactionID;
     private final String recipientIBAN;
     private final String applicantIBAN;
-    private BigDecimal amount;
+    private final BigDecimal amount;
     private final LocalDateTime date;
     private final String purpose;
 
@@ -68,11 +68,6 @@ public class CashTransfer {
         return purpose;
     }
 
-    public void negateAmount() {
-
-        amount = amount.negate();
-    }
-
     @Override
     public boolean equals(final Object o) {
         if (this == o) {
@@ -92,7 +87,7 @@ public class CashTransfer {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getTransactionID(), getRecipientIBAN(), getApplicantIBAN(), getAmount(), getDate(),
-                            getPurpose());
+        return Objects.hash(transactionID, recipientIBAN, applicantIBAN, amount, date,
+                            purpose);
     }
 }

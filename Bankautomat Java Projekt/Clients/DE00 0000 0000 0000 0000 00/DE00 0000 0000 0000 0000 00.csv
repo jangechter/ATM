@@ -1,0 +1,2 @@
+Name,Firstname,Iban ,Pin ,Bank Balance,Status,AnzahlVersuche
+Mustermann,Max,DE00 0000 0000 0000 0000 00,1234,hundertEuro,true,0

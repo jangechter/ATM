@@ -1,7 +1,7 @@
 /*
  * AccountSynchronizer.java
  *
- * Created on 2020-07-09
+ * Created on 2020-09-17
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -18,40 +18,41 @@ import repositories.ClientRepository;
 
 public class AccountSynchronizer {
 
-    private ClientRepository clientRepository = new ClientRepository();
-    private Client loggedInClient;
-    private Client recipientClient;
+    private final ClientRepository clientRepository = new ClientRepository();
+    private final Client loggedInClient;
+    private Client recipientClient = null;
 
     public AccountSynchronizer(final Client loggedInClient) {
         this.loggedInClient = loggedInClient;
     }
 
-    private boolean checkRecipientAvailability(String recipientIBAN) {
+    private boolean checkRecipientAvailability(final String recipientIBAN) {
 
         try {
             recipientClient = clientRepository.findClient(recipientIBAN);
 
             return recipientClient != null;
-        } catch (ClientParsingException e) {
+        } catch (final ClientParsingException e) {
             e.printStackTrace();
 
             return false;
         }
     }
 
-    public boolean sychronizeAccounts(String recipientIBAN, BigDecimal amount) {
+    public boolean sychronizeAccounts(final String recipientIBAN, final BigDecimal amount) {
 
+        //TODO
         if (checkRecipientAvailability(recipientIBAN)) {
 
-            BigDecimal newBankBalanceAfterAdd = recipientClient.getBankBalance().add(amount);
+            final BigDecimal newBalanceAfterAdd = recipientClient.getBankBalance().add(amount);
 
-            recipientClient.setBankBalance(newBankBalanceAfterAdd);
+            recipientClient.setBankBalance(newBalanceAfterAdd);
 
             clientRepository.persistClient(recipientClient);
 
-            BigDecimal newBankBalanceAfterSub = loggedInClient.getBankBalance().subtract(amount);
+            final BigDecimal newBalanceAfterSub = loggedInClient.getBankBalance().subtract(amount);
 
-            loggedInClient.setBankBalance(newBankBalanceAfterSub);
+            loggedInClient.setBankBalance(newBalanceAfterSub);
 
             clientRepository.persistClient(loggedInClient);
 
@@ -62,11 +63,10 @@ public class AccountSynchronizer {
         }
     }
 
-    public void addCashTransferToClients(CashTransfer ctf) {
+    public void addCashTransferToClients(final CashTransfer repCtf, final CashTransfer appCtf) {
 
-        recipientClient.getCashRepository().addCashTransfer(ctf);
+        recipientClient.getCashRepository().addCashTransfer(repCtf);
 
-        ctf.negateAmount();
-        loggedInClient.getCashRepository().addCashTransfer(ctf);
+        loggedInClient.getCashRepository().addCashTransfer(appCtf);
     }
 }

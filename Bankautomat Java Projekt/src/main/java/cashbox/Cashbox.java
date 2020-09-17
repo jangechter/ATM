@@ -1,7 +1,7 @@
 /*
  * Cashbox.java
  *
- * Created on 2020-06-08
+ * Created on 2020-09-17
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -11,6 +11,7 @@ package cashbox;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
@@ -57,6 +58,20 @@ public class Cashbox {
 
     public Cashbox(final Map<Moneynote, Integer> notes) {
         this.notes = (HashMap<Moneynote, Integer>) notes;
+    }
+
+    static public BigDecimal convertMoneynotesToAmount(final HashMap<Moneynote, Integer> notes) {
+
+        long amountTemp = 0;
+
+        List<Moneynote> moneynotes = notes.keySet().stream().sorted().collect(Collectors.toList());
+
+        for (Moneynote m : moneynotes) {
+
+            amountTemp += m.getValue() * notes.get(m);
+        }
+
+        return BigDecimal.valueOf(amountTemp);
     }
 
     //add the deposit cash into the cashbox

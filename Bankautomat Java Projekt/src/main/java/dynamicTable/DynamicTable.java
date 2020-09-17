@@ -1,7 +1,7 @@
 /*
  * DynamicTable.java
  *
- * Created on 2020-07-09
+ * Created on 2020-09-17
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -16,11 +16,11 @@ import java.util.stream.Collectors;
 
 public abstract class DynamicTable {
 
-    protected List<String> columnNameList;
-    protected List<Integer> columnWidthList;
-    protected Comparator<String> stringLengthComp = Comparator.comparingInt(String::length);
+    private final List<String> columnNameList;
+    List<Integer> columnWidthList;
+    Comparator<String> stringLengthComp = Comparator.comparingInt(String::length);
 
-    DynamicTable(String... columnNames) {
+    DynamicTable(final String... columnNames) {
 
         columnNameList = new ArrayList<>();
         columnWidthList = new ArrayList<>();
@@ -31,10 +31,9 @@ public abstract class DynamicTable {
     }
 
     protected abstract boolean computeColumnWidthList();
-
     public abstract void printTable();
 
-    protected void printDashLine() {
+    void printDashLine() {
 
         final StringBuilder dashLine = new StringBuilder("+");
 
@@ -51,7 +50,7 @@ public abstract class DynamicTable {
         System.out.println(dashLine);
     }
 
-    protected void printHeaderForAccountStatement() {
+    void printHeaderForAccountStatement() {
 
         printDashLine();
 

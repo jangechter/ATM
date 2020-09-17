@@ -1,14 +1,13 @@
 /*
  * OutgoingCashTransfers.java
  *
- * Created on 2020-07-09
+ * Created on 2020-09-17
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
 
 package dynamicTable;
 
-import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.stream.Collectors;
 
@@ -18,7 +17,6 @@ import cashTransfer.CashTransfer;
 public class OutgoingCashTransfers extends CashTrasferTable {
 
     protected ATM atm;
-    protected final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
 
     public OutgoingCashTransfers(final ATM atm, final String... columnNames) {
         super(atm, columnNames);

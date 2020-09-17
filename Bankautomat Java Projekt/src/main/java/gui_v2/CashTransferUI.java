@@ -1,7 +1,7 @@
 /*
  * CashTransferUI.java
  *
- * Created on 2020-07-09
+ * Created on 2020-09-17
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -40,6 +40,11 @@ public class CashTransferUI extends UI {
             if (recipientIban.equals("0")) {
                 return;
             }
+
+            if ((recipientIban.equals(getAtm().getLoggedInClient().getClient().getIban()))) {
+                System.out.println("Invalid recipient iban");
+                return;
+            }
         } catch (final IOException | NumberFormatException e) {
             e.printStackTrace();
             return;
@@ -49,7 +54,12 @@ public class CashTransferUI extends UI {
 
         amount = BigDecimal.valueOf(ConsoleInput.readDoubleInput());
 
-        if (amount.doubleValue() == 0.0) {
+        if (amount.doubleValue() == 0) {
+            return;
+        }
+
+        if (amount.doubleValue() < 0) {
+            System.out.println("Invalid amount");
             return;
         }
 
@@ -64,11 +74,11 @@ public class CashTransferUI extends UI {
             e.printStackTrace();
         }
 
-        if ((!purpose.isEmpty()) && (!(amount.compareTo(BigDecimal.ZERO) == 0)) && (!recipientIban.isEmpty())) {
+        if ((purpose.isEmpty()) && (amount.compareTo(BigDecimal.ZERO) == 0) && (recipientIban.isEmpty())) {
 
-            getAtm().transferMoney(recipientIban, amount, purpose);
-        } else {
             System.out.println("Invalid cash transfer data");
+            return;
         }
+        getAtm().transferMoney(recipientIban, amount, purpose);
     }
 }

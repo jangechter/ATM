@@ -1,7 +1,7 @@
 /*
  * DepositUI.java
  *
- * Created on 2020-06-08
+ * Created on 2020-09-17
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -38,7 +38,6 @@ public class DepositUI extends UI {
         } catch (final IOException e) {
             e.printStackTrace();
         }
-
     }
 
     private Optional<HashMap<Moneynote, Integer>> readNotesForDeposit() throws IOException {
@@ -46,25 +45,53 @@ public class DepositUI extends UI {
         final HashMap<Moneynote, Integer> notes = new HashMap<>();
         Integer moneynoteValue = 0;
         Integer amount = 0;
+        Integer differentNotes = 0;
 
-        Integer differentNotes = ConsoleInput.readIntegerInput();
+        while (differentNotes == 0) {
 
-        if (differentNotes != 0) {
-            for (int i = 0; i < differentNotes; i++) {
+            differentNotes = ConsoleInput.readIntegerInput();
 
+            if (differentNotes == 0) {
+                return Optional.empty();
+            }
+
+            if (differentNotes < 0) {
+                System.out.println("Please enter a number greater 0");
+                differentNotes = 0;
+            }
+        }
+
+        for (int i = 0; i < differentNotes; i++) {
+
+            while ((moneynoteValue == 0) || (amount == 0)) {
                 System.out.println("Banknote: ");
 
                 moneynoteValue = ConsoleInput.readIntegerInput();
 
+                if (moneynoteValue == 0) {
+                    return Optional.empty();
+                }
+
+                if (moneynoteValue < 0) {
+                    System.out.println("Please enter a number greater 0");
+                    differentNotes = 0;
+                }
+
+                if (amount == 0) {
+                    return Optional.empty();
+                }
+
+                if (amount < 0) {
+                    System.out.println("Please enter a number greater 0");
+                    differentNotes = 0;
+                }
+
                 System.out.println("Amount");
 
                 amount = ConsoleInput.readIntegerInput();
-
-                notes.put(new Moneynote(moneynoteValue), amount);
             }
-        } else {
 
-            return Optional.empty();
+            notes.put(new Moneynote(moneynoteValue), amount);
         }
 
         return Optional.of(notes);

@@ -1,7 +1,7 @@
 /*
  * ATM.java
  *
- * Created on 2020-07-09
+ * Created on 2020-09-17
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -15,29 +15,30 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.HashMap;
-import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.Properties;
-import java.util.stream.Collectors;
 
+import Exceptions.AccountSynchronisationException;
 import accountSynchronizer.AccountSynchronizer;
 import authentication.Authentication;
 import cashTransfer.CashTransfer;
 import cashbox.Cashbox;
+import currency.Currency;
 import moneynote.Moneynote;
 
 public class ATM {
 
-    private Authentication loggedInClient = new Authentication();
-    private Cashbox cashbox;
-    private String currency;
+    private final Authentication loggedInClient = new Authentication();
+    private final Cashbox cashbox;
+    private final currency.Currency currency = Currency.EURO;
     private AccountSynchronizer accountSynchronizer;
 
     public ATM() {
 
         cashbox = new Cashbox();
 
-        Properties properties = new Properties();
+        final Properties properties = new Properties();
 
         try (BufferedReader r = new BufferedReader(
                 new FileReader(new File(System.getProperty("user.dir") + "/properties/properties.env")))) {
@@ -48,86 +49,97 @@ public class ATM {
             e.printStackTrace();
         }
 
-        currency = (String) properties.get("currency");
-    }
-
-    private BigDecimal convertMoneynotesToAmount(final HashMap<Moneynote, Integer> notes) {
-
-        long amountTemp = 0;
-
-        List<Moneynote> moneynotes = notes.keySet().stream().sorted().collect(Collectors.toList());
-
-        for (Moneynote m : moneynotes) {
-
-            amountTemp += m.getValue() * notes.get(m);
-        }
-
-        return BigDecimal.valueOf(amountTemp);
     }
 
     public Optional<HashMap<Moneynote, Integer>> withdrawMoney(final Integer amount) {
 
         final HashMap<Moneynote, Integer> withdrawNotes;
 
-        if (loggedInClient != null) {
+        if (loggedInClient.getClient() == null) {
 
-            if (isLoggedInClientsBankBalanceValid(new BigDecimal(amount))) {
-
-                withdrawNotes = cashbox.withdraw(amount);
-
-                loggedInClient.getClient().setBankBalance(
-                        loggedInClient.getClient().getBankBalance().subtract(convertMoneynotesToAmount(withdrawNotes)));
-
-                loggedInClient.persistClient();
-
-                return Optional.of(withdrawNotes);
-            } else {
-                System.out.println("Not enough money");
-            }
+            return Optional.empty();
         }
 
-        return Optional.empty();
-    }
-
-    public void depositMoney(final HashMap<Moneynote, Integer> amount) {
-
-        if (loggedInClient.getClient() != null) {
-            cashbox.deposit(amount);
-
-            final BigDecimal currentBalance = loggedInClient.getClient().getBankBalance();
-            final BigDecimal newBankBalance = currentBalance.add(convertMoneynotesToAmount(amount));
-            loggedInClient.getClient().setBankBalance(newBankBalance);
-
-            loggedInClient.persistClient();
-        }
-    }
-
-    public void transferMoney(String recipientIBAN, BigDecimal amount, String purpose) {
-
-        if (isLoggedInClientsBankBalanceValid(amount)) {
-
-            CashTransfer cashTransfer = new CashTransfer(recipientIBAN, loggedInClient.getClient().getIban(), amount,
-                                                         LocalDateTime.now(), purpose);
-
-            accountSynchronizer.sychronizeAccounts(recipientIBAN, amount);
-
-            accountSynchronizer.addCashTransferToClients(cashTransfer);
-        } else {
+        if (isLoggedInClientsBankBalanceInvalid(new BigDecimal(amount))) {
 
             System.out.println("Not enough money");
+            return Optional.empty();
+        }
+
+        withdrawNotes = cashbox.withdraw(amount);
+
+        loggedInClient.getClient().setBankBalance(
+                loggedInClient.getClient().getBankBalance()
+                              .subtract(BigDecimal.valueOf(amount)));
+
+        final CashTransfer withdrawCT = new CashTransfer("ATM " + Locale.getDefault().getCountry(),
+                                                         loggedInClient.getClient().getIban(),
+                                                         BigDecimal.valueOf(amount).negate(), LocalDateTime.now(),
+                                                         String.format("ATM withdraw: %d", amount));
+
+        loggedInClient.getClient().getCashRepository().addCashTransfer(withdrawCT);
+
+        loggedInClient.persistClient();
+
+        return Optional.of(withdrawNotes);
+    }
+
+    public void depositMoney(final HashMap<Moneynote, Integer> amountMoneyNoteMap) {
+
+        if (loggedInClient.getClient() == null) {
+            return;
+        }
+        cashbox.deposit(amountMoneyNoteMap);
+
+        final BigDecimal amount = Cashbox.convertMoneynotesToAmount(amountMoneyNoteMap);
+
+        final BigDecimal currentBalance = loggedInClient.getClient().getBankBalance();
+        final BigDecimal newBankBalance = currentBalance.add(amount);
+        loggedInClient.getClient().setBankBalance(newBankBalance);
+
+        final CashTransfer depositCT = new CashTransfer(getLoggedInClient().getClient().getIban(),
+                                                        "ATM " + Locale.getDefault().getCountry(), amount,
+                                                        LocalDateTime.now(),
+                                                        String.format("ATM deposit: %d", amount.intValue()));
+
+        loggedInClient.getClient().getCashRepository().addCashTransfer(depositCT);
+
+        loggedInClient.persistClient();
+    }
+
+    public void transferMoney(final String recipientIBAN, final BigDecimal amount, final String purpose) {
+
+        if (isLoggedInClientsBankBalanceInvalid(amount)) {
+
+            System.out.println("Not enough money");
+            return;
+        }
+
+        final CashTransfer repCashTransfer = new CashTransfer(recipientIBAN, loggedInClient.getClient().getIban(),
+                                                              amount,
+                                                              LocalDateTime.now(), purpose);
+
+        final CashTransfer appCashTransfer = new CashTransfer(recipientIBAN, loggedInClient.getClient().getIban(),
+                                                              amount.negate(),
+                                                              LocalDateTime.now(), purpose);
+        try {
+
+            accountSynchronizer.sychronizeAccounts(recipientIBAN, amount);
+            accountSynchronizer.addCashTransferToClients(repCashTransfer, appCashTransfer);
+        } catch (final AccountSynchronisationException e) {
+            System.out.println("Cannot synchronize Accounts");
         }
     }
 
-    public boolean login(String iban, String pin) {
+    public boolean login(final String iban, final String pin) {
 
         if (loggedInClient.logIn(iban, pin)) {
 
             accountSynchronizer = new AccountSynchronizer(loggedInClient.getClient());
             return true;
-        } else {
-
-            return false;
         }
+
+        return false;
     }
 
     public boolean logout() {
@@ -140,7 +152,7 @@ public class ATM {
         return loggedInClient;
     }
 
-    public String getCurrency() {
+    public Currency getCurrency() {
         return currency;
     }
 
@@ -148,12 +160,8 @@ public class ATM {
         return cashbox;
     }
 
-    public void setLoggedInClient(final Authentication loggedInClient) {
-        this.loggedInClient = loggedInClient;
-    }
+    private boolean isLoggedInClientsBankBalanceInvalid(final BigDecimal amount) {
 
-    private boolean isLoggedInClientsBankBalanceValid(final BigDecimal amount) {
-
-        return (loggedInClient.getClient().getBankBalance().doubleValue() - amount.doubleValue()) >= 0;
+        return (loggedInClient.getClient().getBankBalance().doubleValue() - amount.doubleValue()) < 0;
     }
 }

@@ -1,7 +1,7 @@
 /*
  * CashTrasferTable.java
  *
- * Created on 2020-07-09
+ * Created on 2020-09-17
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -18,9 +18,9 @@ public abstract class CashTrasferTable extends DynamicTable {
 
     protected ATM atm;
 
-    protected final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+    final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
 
-    protected List<CashTransfer> cashTransfers;
+    List<CashTransfer> cashTransfers;
 
     public CashTrasferTable(final ATM atm, final String... columnNames) {
         super(columnNames);
@@ -99,7 +99,7 @@ public abstract class CashTrasferTable extends DynamicTable {
                         ct.getDate().format(formatter), ct.getAmount(), ct.getApplicantIBAN(), ct.getPurpose()));
     }
 
-    protected final boolean buildTable() {
+    final boolean buildTable() {
 
         if (computeColumnWidthList()) {
 

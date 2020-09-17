@@ -1,7 +1,7 @@
 /*
  * IncomingCashTransfersView.java
  *
- * Created on 2020-07-09
+ * Created on 2020-09-17
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -24,6 +24,7 @@ public class IncomingCashTransfersView extends UI {
     @Override
     public void printContext() {
 
+        System.out.println("Incoming cash transfers");
         IncomingCashTransfers table = new IncomingCashTransfers(getAtm(), "Date", "Amount", "ApplicantIban", "Purpose");
         table.printTable();
     }

@@ -1,7 +1,7 @@
 /*
  * CSVWriterTest.java
  *
- * Created on 2020-07-03
+ * Created on 2020-09-17
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -195,7 +195,7 @@ class CSVWriterTest extends TestData {
 
         client.getCashRepository().addCashTransfer(TEST_CASH_TRANSFER);
 
-        assertThat(client.getCashRepository().findCashTarnsfer(TEST_TRANSACTION_ID).equals(TEST_CASH_TRANSFER))
+        assertThat(client.getCashRepository().findCashTarnsfer(TEST_TRANSACTION_ID).get().equals(TEST_CASH_TRANSFER))
                 .isTrue();
 
         resetFile();

@@ -1,3 +1,7 @@
 TranactionID, RecipientIBAN, ApplicantIBAN, Amount, Date, Purpose
-e334e202-ee70-4eb7-bfbb-102731dce6a4,AccountSyncClientB,AccountSyncClientA,1000,2020-07-06T08:44:52.823814,UnitTest
-7ad6c1b2-81b3-4c37-a109-50ce9f64b27e,AccountSyncClientB,AccountSyncClientA,1000,2020-07-06T08:45:23.432365,UnitTest
+b3c85c13-6880-4be1-86d7-327449d3e973,AccountSyncClientB,AccountSyncClientA,10.0,2020-07-09T14:53:32.557467,Client A sends Client B 10 Euro
+57a6156f-384a-4816-856a-7743157b7e30,AccountSyncClientA,AccountSyncClientB,-50.0,2020-07-09T14:54:43.823080,Client B send Client A 50 euro
+a5eeeb37-08cf-4077-b18c-d8dc6fa44927,AccountSyncClientB,AccountSyncClientA,1000.0,2020-07-09T15:44:27.846257,Test Purpose
+0b170de5-bf72-4001-9b7c-ea6f487fa621,AccountSyncClientB,AccountSyncClientA,100.0,2020-07-14T15:26:17.413513,test
+1f4e528b-a31b-4134-8381-e109cf83233d,AccountSyncClientB,AccountSyncClientA,1000,2020-07-14T15:41:24.538106,UnitTest
+830e8f85-d0ae-43f2-a8ca-d8664fc03b0d,AccountSyncClientB,AccountSyncClientA,1000,2020-07-14T16:00:23.883253,UnitTest

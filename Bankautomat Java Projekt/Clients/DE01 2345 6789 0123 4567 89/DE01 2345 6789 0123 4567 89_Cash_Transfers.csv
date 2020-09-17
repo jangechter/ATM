@@ -1,0 +1,2 @@
+TranactionID, RecipientIBAN, ApplicantIBAN, Amount, Date, Purpose
+d881a2bd-20c8-40cd-9d42-5d1dde588c63,ATM DE,DE01 2345 6789 0123 4567 89,-100,2020-09-03T16:19:47.815364,ATM withdraw: 100
