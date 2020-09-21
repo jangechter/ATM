@@ -1,7 +1,7 @@
 /*
  * GUI_v3.java
  *
- * Created on 2020-09-17
+ * Created on 2020-09-21
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -39,6 +39,11 @@ public abstract class GUI_v3 extends JFrame {
     protected void showErrorDialog(final String title, final String message) {
 
         JOptionPane.showMessageDialog(this, message, title, JOptionPane.ERROR_MESSAGE);
+    }
+
+    protected void showInfoDialog(final String title, final String message) {
+
+        JOptionPane.showMessageDialog(this, message, title, JOptionPane.INFORMATION_MESSAGE);
     }
 
     protected void goBack() {

@@ -1,7 +1,7 @@
 /*
  * MainGUI.java
  *
- * Created on 2020-09-17
+ * Created on 2020-09-21
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -32,14 +32,30 @@ public class MainGUI extends GUI_v3 {
         logoutButton.addActionListener(e -> logout());
         withdrawMoneyButton.addActionListener(e -> goToWithdrawMenu());
         depositMoneyButton.addActionListener(e -> goToDepositMenu());
-        viewUserInformationButton.addActionListener(e -> goToViewUserInformation());
+        viewUserInformationButton.addActionListener(e -> goToViewUserInformationMenu());
+        tranferMoneyButton.addActionListener(e -> goToTransferMoneyMenu());
+        viewCashTransferButton.addActionListener(e -> goToViewCashTransfersMenu());
     }
 
-    private void goToViewUserInformation() {
+    private void goToViewUserInformationMenu() {
 
         setVisible(false);
 
         ViewUserInformationGUI userInformationGUI = new ViewUserInformationGUI(this, getAtm());
+    }
+
+    private void goToViewCashTransfersMenu() {
+
+        setVisible(false);
+
+        ViewCashTransferGUI viewCashTransferGUI = new ViewCashTransferGUI(this, getAtm());
+    }
+
+    private void goToTransferMoneyMenu() {
+
+        setVisible(false);
+
+        TransferMoneyGUI transferMoneyGUI = new TransferMoneyGUI(this, getAtm());
     }
 
     private void goToWithdrawMenu() {

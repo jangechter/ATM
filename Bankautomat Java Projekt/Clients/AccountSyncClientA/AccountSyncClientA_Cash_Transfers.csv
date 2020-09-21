@@ -1,17 +1,5 @@
 TranactionID, RecipientIBAN, ApplicantIBAN, Amount, Date, Purpose
-b3c85c13-6880-4be1-86d7-327449d3e973,AccountSyncClientB,AccountSyncClientA,-10.0,2020-07-09T14:53:32.557467,Client A sends Client B 10 Euro
-57a6156f-384a-4816-856a-7743157b7e30,AccountSyncClientA,AccountSyncClientB,50.0,2020-07-09T14:54:43.823080,Client B send Client A 50 euro
-a5eeeb37-08cf-4077-b18c-d8dc6fa44927,AccountSyncClientB,AccountSyncClientA,-1000.0,2020-07-09T15:44:27.846257,Test Purpose
-5f3987c9-87b9-4f44-895b-eaf55f57c65f,ATM DE,AccountSyncClientA,-500,2020-07-09T16:19:30.059957,ATM withdraw: 500
-a845425f-40e3-4222-889f-1fbe349aaa72,AccountSyncClientA,ATM DE,500,2020-07-09T16:19:58.953287,ATM deposit: 500
-0b170de5-bf72-4001-9b7c-ea6f487fa621,AccountSyncClientB,AccountSyncClientA,-100.0,2020-07-14T15:26:17.413513,test
-43a98f01-d417-4d84-a7cb-dde0da2551ce,AccountSyncClientB,AccountSyncClientA,-1000,2020-07-14T15:41:24.538238,UnitTest
-c430f883-bb0e-4579-b3ff-218e0108f2a5,AccountSyncClientB,AccountSyncClientA,-1000,2020-07-14T16:00:23.883400,UnitTest
-9c52976f-e0b0-4fa3-92e7-fb0595ffb241,ATM DE,AccountSyncClientA,-100,2020-09-03T16:22:10.965245,ATM withdraw: 100
-0b73a525-6474-4822-8b5c-631da2a9d8a7,ATM DE,AccountSyncClientA,-100,2020-09-03T16:25:13.572286,ATM withdraw: 100
-42bab5d3-1891-46dd-809e-ff59b7e8dd3f,ATM DE,AccountSyncClientA,-100,2020-09-03T16:25:56.382807,ATM withdraw: 100
-e5f778e2-569e-4c5e-bd87-f5f6af3d0f72,AccountSyncClientA,ATM DE,50,2020-09-16T12:57:58.027702,ATM deposit: 50
-de533394-6d14-4762-bcb9-838bfb5a54aa,AccountSyncClientA,ATM DE,150,2020-09-16T14:02:00.415816,ATM deposit: 150
-29f313a9-508b-4e5e-bdec-e509613348e2,AccountSyncClientA,ATM DE,170,2020-09-16T14:02:07.709926,ATM deposit: 170
-43e7fd61-72d0-419e-aa56-2d3a0595e6c8,AccountSyncClientA,ATM DE,700,2020-09-16T14:03:26.008579,ATM deposit: 700
-276c8cd0-595a-4e3e-945f-9e1695205f14,ATM DE,AccountSyncClientA,-20,2020-09-17T10:17:55.047958,ATM withdraw: 20
+
+3d8750c8-12de-4460-91a9-cab2cd0345f8,ATM DE,AccountSyncClientA,-100,2020-09-18T10:27:09.665604,ATM withdraw: 100
+69397eae-d21f-4735-9239-fbbd045745f5,AccountSyncClientA,ATM DE,200,2020-09-18T10:27:47.336851,ATM deposit: 200
+48652229-4a4a-40dd-b277-e6007fab7092,AccountSyncClientB,AccountSyncClientA,-150.0,2020-09-18T10:30:37.974514,Test transfer with GUI v3

@@ -1,7 +1,7 @@
 /*
  * ATM.java
  *
- * Created on 2020-09-17
+ * Created on 2020-09-21
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -84,7 +84,8 @@ public class ATM {
         return Optional.of(withdrawNotes);
     }
 
-    public void depositMoney(final HashMap<Moneynote, Integer> amountMoneyNoteMap) {
+    public void depositMoney(final HashMap<Moneynote, Integer> amountMoneyNoteMap)
+            throws AccountSynchronisationException {
 
         if (loggedInClient.getClient() == null) {
             return;
@@ -111,8 +112,7 @@ public class ATM {
 
         if (isLoggedInClientsBankBalanceInvalid(amount)) {
 
-            System.out.println("Not enough money");
-            return;
+            throw new AccountSynchronisationException("Not enough money");
         }
 
         final CashTransfer repCashTransfer = new CashTransfer(recipientIBAN, loggedInClient.getClient().getIban(),
@@ -122,13 +122,9 @@ public class ATM {
         final CashTransfer appCashTransfer = new CashTransfer(recipientIBAN, loggedInClient.getClient().getIban(),
                                                               amount.negate(),
                                                               LocalDateTime.now(), purpose);
-        try {
 
-            accountSynchronizer.sychronizeAccounts(recipientIBAN, amount);
-            accountSynchronizer.addCashTransferToClients(repCashTransfer, appCashTransfer);
-        } catch (final AccountSynchronisationException e) {
-            System.out.println("Cannot synchronize Accounts");
-        }
+        accountSynchronizer.sychronizeAccounts(recipientIBAN, amount);
+        accountSynchronizer.addCashTransferToClients(repCashTransfer, appCashTransfer);
     }
 
     public boolean login(final String iban, final String pin) {

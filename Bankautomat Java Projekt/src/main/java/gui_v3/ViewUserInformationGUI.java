@@ -1,7 +1,7 @@
 /*
  * ViewUserInformationGUI.java
  *
- * Created on 2020-09-17
+ * Created on 2020-09-21
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -28,6 +28,8 @@ public class ViewUserInformationGUI extends GUI_v3 {
         backButton.addActionListener(e -> goBack());
 
         Client user = getAtm().getLoggedInClient().getClient();
+
+        userInformationTextArea.append("User information: \n\n");
 
         String userInformation = String.format("Name: %s %nFirstname: %s %nIBAN: %s %nBankbalance %.2f",
                                                user.getName(),
