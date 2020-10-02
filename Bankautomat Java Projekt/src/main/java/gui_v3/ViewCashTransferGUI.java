@@ -1,24 +1,23 @@
 /*
  * ViewCashTransferGUI.java
  *
- * Created on 2020-09-21
+ * Created on 2020-10-02
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
 
 package gui_v3;
 
+import atm.ATM;
+import cashTransfer.CashTransfer;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.time.temporal.ChronoUnit;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-
-import atm.ATM;
-import cashTransfer.CashTransfer;
 
 public class ViewCashTransferGUI extends GUI_v3 {
     private JTable cashTransferTable;
@@ -33,6 +32,14 @@ public class ViewCashTransferGUI extends GUI_v3 {
         add(mainPanel);
 
         setSize(600, 600);
+
+        outgoingCashtransfers.setEnabled(false);
+        outgoingCashtransfers.setShowGrid(true);
+        outgoingCashtransfers.setGridColor(Color.BLACK);
+
+        incomingCashTransfers.setEnabled(false);
+        incomingCashTransfers.setShowGrid(true);
+        incomingCashTransfers.setGridColor(Color.BLACK);
 
         fillOutgoingCashTransferTable();
         fillIncomingcashTransferTable();
@@ -57,10 +64,12 @@ public class ViewCashTransferGUI extends GUI_v3 {
                                                    .sorted(Comparator.comparing(CashTransfer::getDate))
                                                    .collect(Collectors.toList());
 
-        for (final CashTransfer c : cashTransfers) {
+        for (final CashTransfer cashTransfer : cashTransfers) {
 
-            final Object[] content = {c.getDate().truncatedTo(ChronoUnit.MINUTES).toString().replace("T", " "),
-                                      c.getAmount(), c.getRecipientIBAN(), c.getPurpose()};
+            final Object[] content = {cashTransfer.getDate().truncatedTo(ChronoUnit.MINUTES).toString().replace("T",
+                    " "),
+                    cashTransfer.getAmount(), cashTransfer.getRecipientIBAN(),
+                    cashTransfer.getPurpose()};
 
             outgoingCashtransfersModel.addRow(content);
         }
@@ -72,22 +81,22 @@ public class ViewCashTransferGUI extends GUI_v3 {
 
         String[] columnHeaders = {"Date", "Amount", "Applicant Iban", "Purpose"};
 
-        List<CashTransfer> cashTransfers = getAtm().getLoggedInClient().getClient().getCashRepository()
-                                                   .getCashTransfers()
-                                                   .stream()
-                                                   .filter(ct -> ct.getAmount().doubleValue() > 0)
-                                                   .sorted(Comparator.comparing(CashTransfer::getDate))
-                                                   .collect(Collectors.toList());
-
         DefaultTableModel incomingCashtransfersModel = new DefaultTableModel(0, 0);
 
         incomingCashtransfersModel.setColumnIdentifiers(columnHeaders);
         incomingCashtransfersModel.addRow(columnHeaders);
 
+        List<CashTransfer> cashTransfers = getAtm().getLoggedInClient().getClient().getCashRepository()
+                .getCashTransfers()
+                .stream()
+                .filter(ct -> ct.getAmount().doubleValue() > 0)
+                .sorted(Comparator.comparing(CashTransfer::getDate))
+                .collect(Collectors.toList());
+
         for (final CashTransfer c : cashTransfers) {
 
             final Object[] content = {c.getDate().truncatedTo(ChronoUnit.MINUTES).toString().replace("T", " "),
-                                      c.getAmount(), c.getRecipientIBAN(), c.getPurpose()};
+                    c.getAmount(), c.getApplicantIBAN(), c.getPurpose()};
 
             incomingCashtransfersModel.addRow(content);
         }
@@ -144,14 +153,15 @@ public class ViewCashTransferGUI extends GUI_v3 {
                                                                                               new Dimension(150, 50),
                                                                                               null, 0, false));
         incomingCashTransfers = new JTable();
+        incomingCashTransfers.setShowVerticalLines(true);
         mainPanel.add(incomingCashTransfers, new com.intellij.uiDesigner.core.GridConstraints(4, 0, 1, 2,
-                                                                                              com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER,
-                                                                                              com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH,
-                                                                                              com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW,
-                                                                                              com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW,
-                                                                                              null,
-                                                                                              new Dimension(150, 50),
-                                                                                              null, 0, false));
+                com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER,
+                com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH,
+                com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW,
+                com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW,
+                null,
+                new Dimension(150, 50),
+                null, 0, false));
         final JLabel label2 = new JLabel();
         label2.setText("Incoming cash transfers:");
         mainPanel.add(label2, new com.intellij.uiDesigner.core.GridConstraints(3, 0, 1, 1,

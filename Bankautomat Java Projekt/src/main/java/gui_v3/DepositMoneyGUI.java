@@ -1,22 +1,21 @@
 /*
  * DepositMoneyGUI.java
  *
- * Created on 2020-09-17
+ * Created on 2020-10-02
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
 
 package gui_v3;
 
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import javax.swing.*;
-
 import atm.ATM;
 import currency.Currency;
 import moneynote.Moneynote;
+
+import javax.swing.*;
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class DepositMoneyGUI extends GUI_v3 {
 
@@ -127,38 +126,52 @@ public class DepositMoneyGUI extends GUI_v3 {
      */
     private void $$$setupUI$$$() {
         mainPanel = new JPanel();
-        mainPanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(4, 3, new Insets(0, 0, 0, 0), -1, -1));
+        mainPanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(4, 5, new Insets(0, 0, 0, 0), -1, -1));
         final com.intellij.uiDesigner.core.Spacer spacer1 = new com.intellij.uiDesigner.core.Spacer();
-        mainPanel.add(spacer1, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 2, 2,
-                                                                                com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER,
-                                                                                com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL,
-                                                                                com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW,
-                                                                                1, null, null, null, 0, false));
+        mainPanel.add(spacer1, new com.intellij.uiDesigner.core.GridConstraints(0, 1, 2, 2,
+                com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER,
+                com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL,
+                com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW,
+                1, null, null, null, 0, false));
         backButton = new JButton();
         backButton.setText("back");
-        mainPanel.add(backButton, new com.intellij.uiDesigner.core.GridConstraints(0, 2, 2, 1,
-                                                                                   com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER,
-                                                                                   com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL,
-                                                                                   com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK
-                                                                                   | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW,
-                                                                                   com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED,
-                                                                                   null, null, null, 0, false));
+        mainPanel.add(backButton, new com.intellij.uiDesigner.core.GridConstraints(0, 3, 2, 1,
+                com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER,
+                com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL,
+                com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK
+                        | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW,
+                com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED,
+                null, null, null, 0, false));
         depositButton = new JButton();
         depositButton.setText("Deposit");
-        mainPanel.add(depositButton, new com.intellij.uiDesigner.core.GridConstraints(3, 0, 1, 3,
-                                                                                      com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER,
-                                                                                      com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL,
-                                                                                      com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK
-                                                                                      | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW,
-                                                                                      com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED,
-                                                                                      null, null, null, 0, false));
+        mainPanel.add(depositButton, new com.intellij.uiDesigner.core.GridConstraints(3, 1, 1, 3,
+                com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER,
+                com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL,
+                com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK
+                        | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW,
+                com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED,
+                null, null, null, 0, false));
         dynamicComponentsPanel = new JPanel();
         dynamicComponentsPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-        mainPanel.add(dynamicComponentsPanel, new com.intellij.uiDesigner.core.GridConstraints(2, 0, 1, 3,
-                                                                                               com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER,
-                                                                                               com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH,
-                                                                                               1, 1, null, null, null,
-                                                                                               0, false));
+        mainPanel.add(dynamicComponentsPanel, new com.intellij.uiDesigner.core.GridConstraints(2, 1, 1, 3,
+                com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER,
+                com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH,
+                1, 1, null, null, null,
+                0, false));
+        final com.intellij.uiDesigner.core.Spacer spacer2 = new com.intellij.uiDesigner.core.Spacer();
+        mainPanel.add(spacer2, new com.intellij.uiDesigner.core.GridConstraints(2, 0, 1, 1,
+                com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER,
+                com.intellij.uiDesigner.core.GridConstraints.FILL_VERTICAL,
+                1,
+                com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW,
+                null, null, null, 0, false));
+        final com.intellij.uiDesigner.core.Spacer spacer3 = new com.intellij.uiDesigner.core.Spacer();
+        mainPanel.add(spacer3, new com.intellij.uiDesigner.core.GridConstraints(2, 4, 1, 1,
+                com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER,
+                com.intellij.uiDesigner.core.GridConstraints.FILL_VERTICAL,
+                1,
+                com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW,
+                null, null, null, 0, false));
     }
 
     /**

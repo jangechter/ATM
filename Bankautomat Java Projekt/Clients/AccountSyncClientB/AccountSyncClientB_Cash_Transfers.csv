@@ -1,2 +1,6 @@
 TranactionID, RecipientIBAN, ApplicantIBAN, Amount, Date, Purpose
 be2fbe0a-6d69-4f8c-9f3b-ca53830708eb,AccountSyncClientB,AccountSyncClientA,150.0,2020-09-18T10:30:37.964831,Test transfer with GUI v3
+c5e916dd-24b6-4fe8-8fc2-e9586f62ab74,AccountSyncClientB,AccountSyncClientA,50.0,2020-09-21T16:46:58.664901,Geburtstagsgeschenk
+d7e2daf6-d8db-4262-b743-40dc6008ed7b,AccountSyncClientB,AccountSyncClientA,1000,2020-09-21T17:24:22.623169,UnitTest
+59650696-dc65-4af2-814f-8701487930b9,AccountSyncClientB,AccountSyncClientA,1000,2020-09-21T17:26:47.851039,UnitTest
+26dca1e9-0805-4b5b-b8cb-6f54cb300503,AccountSyncClientB,AccountSyncClientA,111.0,2020-09-28T13:09:45.710024,fwfwef

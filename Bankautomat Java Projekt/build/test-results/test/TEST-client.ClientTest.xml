@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="client.ClientTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2020-04-03T07:57:57" hostname="Jans-MacBook-Pro.local" time="0.001">
+<testsuite name="client.ClientTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2020-05-07T13:06:38" hostname="Jans-MacBook-Pro.local" time="0.001">
   <properties/>
-  <testcase name="testEqualsPositive()" classname="client.ClientTest" time="0.0"/>
+  <testcase name="testEqualsPositive()" classname="client.ClientTest" time="0.001"/>
   <testcase name="testClientEqualsNegative()" classname="client.ClientTest" time="0.0"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>

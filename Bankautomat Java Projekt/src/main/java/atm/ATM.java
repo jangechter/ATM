@@ -1,12 +1,21 @@
 /*
  * ATM.java
  *
- * Created on 2020-09-21
+ * Created on 2020-10-02
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
 
 package atm;
+
+import Exceptions.AccountSynchronisationException;
+import Exceptions.WithdrawNotPossibleException;
+import accountSynchronizer.AccountSynchronizer;
+import authentication.Authentication;
+import cashTransfer.CashTransfer;
+import cashbox.Cashbox;
+import currency.Currency;
+import moneynote.Moneynote;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -18,14 +27,6 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.Properties;
-
-import Exceptions.AccountSynchronisationException;
-import accountSynchronizer.AccountSynchronizer;
-import authentication.Authentication;
-import cashTransfer.CashTransfer;
-import cashbox.Cashbox;
-import currency.Currency;
-import moneynote.Moneynote;
 
 public class ATM {
 
@@ -48,10 +49,10 @@ public class ATM {
 
             e.printStackTrace();
         }
-
     }
 
-    public Optional<HashMap<Moneynote, Integer>> withdrawMoney(final Integer amount) {
+    public Optional<HashMap<Moneynote, Integer>> withdrawMoney(final Integer amount) throws
+            WithdrawNotPossibleException {
 
         final HashMap<Moneynote, Integer> withdrawNotes;
 
@@ -63,7 +64,7 @@ public class ATM {
         if (isLoggedInClientsBankBalanceInvalid(new BigDecimal(amount))) {
 
             System.out.println("Not enough money");
-            return Optional.empty();
+            throw new WithdrawNotPossibleException("Not enough money");
         }
 
         withdrawNotes = cashbox.withdraw(amount);

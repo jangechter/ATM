@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="authentication.AuthenticationTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2020-04-03T07:57:57" hostname="Jans-MacBook-Pro.local" time="0.008">
+<testsuite name="authentication.AuthenticationTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2020-05-07T13:06:38" hostname="Jans-MacBook-Pro.local" time="0.009">
   <properties/>
   <testcase name="testCheckPinPositive()" classname="authentication.AuthenticationTest" time="0.001"/>
   <testcase name="testCheckPinNegative()" classname="authentication.AuthenticationTest" time="0.001"/>
   <testcase name="testCheckbankBalanceNegative()" classname="authentication.AuthenticationTest" time="0.001"/>
-  <testcase name="testBlockingAfter3Attempts()" classname="authentication.AuthenticationTest" time="0.001"/>
-  <testcase name="testCheckBankBalancePositive()" classname="authentication.AuthenticationTest" time="0.0"/>
-  <testcase name="testNoBlockingAfter2Attempts()" classname="authentication.AuthenticationTest" time="0.001"/>
-  <system-out><![CDATA[]]></system-out>
+  <testcase name="testBlockingAfter3Attempts()" classname="authentication.AuthenticationTest" time="0.002"/>
+  <testcase name="testCheckBankBalancePositive()" classname="authentication.AuthenticationTest" time="0.001"/>
+  <testcase name="testNoBlockingAfter2Attempts()" classname="authentication.AuthenticationTest" time="0.002"/>
+  <system-out><![CDATA[Invalid credentials
+Invalid credentials
+Invalid credentials
+Invalid credentials
+Invalid credentials
+Invalid credentials
+]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

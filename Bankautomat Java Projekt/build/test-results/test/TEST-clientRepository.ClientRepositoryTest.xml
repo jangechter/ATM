@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="clientRepository.ClientRepositoryTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2020-04-03T07:57:57" hostname="Jans-MacBook-Pro.local" time="0.008">
+<testsuite name="clientRepository.ClientRepositoryTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2020-05-07T13:06:38" hostname="Jans-MacBook-Pro.local" time="0.006">
   <properties/>
-  <testcase name="findClientTestPositive()" classname="clientRepository.ClientRepositoryTest" time="0.002"/>
+  <testcase name="findClientTestPositive()" classname="clientRepository.ClientRepositoryTest" time="0.001"/>
   <testcase name="findClientTestNegative()" classname="clientRepository.ClientRepositoryTest" time="0.001"/>
-  <testcase name="findClientTestWrongIBAN()" classname="clientRepository.ClientRepositoryTest" time="0.0"/>
-  <testcase name="persistClientTestPositive()" classname="clientRepository.ClientRepositoryTest" time="0.002"/>
+  <testcase name="findClientTestWrongIBAN()" classname="clientRepository.ClientRepositoryTest" time="0.001"/>
+  <testcase name="testToReadClientNegativeClientParsingException()" classname="clientRepository.ClientRepositoryTest" time="0.001"/>
+  <testcase name="persistClientTestPositive()" classname="clientRepository.ClientRepositoryTest" time="0.0"/>
   <testcase name="persistClientTestNegativeNPE()" classname="clientRepository.ClientRepositoryTest" time="0.0"/>
-  <system-out><![CDATA[]]></system-out>
+  <system-out><![CDATA[Cannot find this iban
+]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="FrameworkDetectionExcludesConfiguration">
+    <file type="web" url="file://$PROJECT_DIR$" />
+  </component>
   <component name="JSHintConfiguration" version="2.10.2" use-config-file="false">
     <option asi="false" />
     <option bitwise="true" />
@@ -101,11 +104,8 @@
     <auto-save>true</auto-save>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.4" />
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="13" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="false" project-jdk-name="13" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
-  </component>
-  <component name="SpringGeneralSettings">
-    <option name="allowAutoConfigurationMode" value="true" />
   </component>
   <component name="TypeScriptCompiler">
     <option name="nodeInterpreterTextField" value="node" />

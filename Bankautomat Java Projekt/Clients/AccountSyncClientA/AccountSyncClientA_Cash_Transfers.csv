@@ -3,3 +3,14 @@ TranactionID, RecipientIBAN, ApplicantIBAN, Amount, Date, Purpose
 3d8750c8-12de-4460-91a9-cab2cd0345f8,ATM DE,AccountSyncClientA,-100,2020-09-18T10:27:09.665604,ATM withdraw: 100
 69397eae-d21f-4735-9239-fbbd045745f5,AccountSyncClientA,ATM DE,200,2020-09-18T10:27:47.336851,ATM deposit: 200
 48652229-4a4a-40dd-b277-e6007fab7092,AccountSyncClientB,AccountSyncClientA,-150.0,2020-09-18T10:30:37.974514,Test transfer with GUI v3
+433f64cc-6bd9-45ba-966b-92fa35f95f77,AccountSyncClientA,ATM DE,120,2020-09-21T16:43:41.003560,ATM deposit: 120
+a6935aaa-6ec1-4013-b624-6f035e2585d5,ATM DE,AccountSyncClientA,-100,2020-09-21T16:45:56.456165,ATM withdraw: 100
+a4cd4f6f-a1f0-4d23-93b8-26cf9e846812,AccountSyncClientB,AccountSyncClientA,-50.0,2020-09-21T16:46:58.665003,Geburtstagsgeschenk
+49d584ac-1265-4c19-a85a-74584d14e930,ATM DE,AccountSyncClientA,-125,2020-09-21T16:50:04.304635,ATM withdraw: 125
+a1ec601f-b030-4875-995e-fa62787c8f10,ATM DE,AccountSyncClientA,-125,2020-09-21T17:02:37.747797,ATM withdraw: 125
+65424581-3cf6-40e6-8e6b-e21672449764,AccountSyncClientB,AccountSyncClientA,-1000,2020-09-21T17:24:22.623271,UnitTest
+c7019e34-1c52-4efd-8b50-8196652ff9a9,AccountSyncClientB,AccountSyncClientA,-1000,2020-09-21T17:26:47.851107,UnitTest
+8b589341-7798-4c28-bee4-4860db3161de,ATM DE,AccountSyncClientA,-125,2020-09-28T13:07:12.701917,ATM withdraw: 125
+d54c5ab9-2e45-43b5-844d-4aeafa680171,ATM DE,AccountSyncClientA,-100,2020-09-28T13:07:26.728968,ATM withdraw: 100
+eb2090b7-8c2b-457d-a538-1b7bcaa8b8c6,AccountSyncClientA,ATM DE,200,2020-09-28T13:08:53.458696,ATM deposit: 200
+68e8e43c-1efb-4c89-9734-5f1cbdc99aaf,AccountSyncClientB,AccountSyncClientA,-111.0,2020-09-28T13:09:45.710109,fwfwef

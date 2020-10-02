@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="csvReader.CSVReaderTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2020-04-03T07:57:57" hostname="Jans-MacBook-Pro.local" time="0.015">
+<testsuite name="csvReader.CSVReaderTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2020-05-07T13:06:38" hostname="Jans-MacBook-Pro.local" time="0.007">
   <properties/>
   <testcase name="testToReadCashboxWrongFile()" classname="csvReader.CSVReaderTest" time="0.001"/>
-  <testcase name="testToReadCashboxPositiveDollar()" classname="csvReader.CSVReaderTest" time="0.003"/>
-  <testcase name="testToReadClientNegativeClientParsingException()" classname="csvReader.CSVReaderTest" time="0.001"/>
-  <testcase name="testToReadClientWrongFile()" classname="csvReader.CSVReaderTest" time="0.0"/>
+  <testcase name="testToReadClientWrongFile()" classname="csvReader.CSVReaderTest" time="0.001"/>
   <testcase name="testToReadClientPositive()" classname="csvReader.CSVReaderTest" time="0.001"/>
-  <testcase name="testToReadClientNegative()" classname="csvReader.CSVReaderTest" time="0.001"/>
+  <testcase name="testToReadClientNegative()" classname="csvReader.CSVReaderTest" time="0.0"/>
   <testcase name="testToReadCashboxPositiveEuro()" classname="csvReader.CSVReaderTest" time="0.001"/>
-  <testcase name="testToReadCashboxPositiveUSDollar()" classname="csvReader.CSVReaderTest" time="0.001"/>
   <testcase name="testToReadCashboxNegativeEuro()" classname="csvReader.CSVReaderTest" time="0.001"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>

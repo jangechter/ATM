@@ -1,13 +1,14 @@
 /*
  * Authentication.java
  *
- * Created on 2020-06-25
+ * Created on 2020-10-02
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
 
 package authentication;
 
+import Exceptions.AuthenticationException;
 import Exceptions.ClientParsingException;
 import client.Client;
 import repositories.ClientRepository;
@@ -21,7 +22,7 @@ public class Authentication {
         return client;
     }
 
-    public boolean logIn(final java.lang.String iban, final java.lang.String pin) {
+    public boolean logIn(final java.lang.String iban, final java.lang.String pin) throws AuthenticationException {
 
         try {
 
@@ -38,8 +39,6 @@ public class Authentication {
                 return true;
             } else {
 
-                System.out.println("Invalid credentials");
-
                 client.setNumberAttempts(client.getNumberAttempts() + 1);
 
                 if (!(client.getNumberAttempts() < 3)) {
@@ -47,10 +46,12 @@ public class Authentication {
                 }
 
                 repository.persistClient(client);
-            }
-        }
 
-        return false;
+                throw new AuthenticationException("invalid credentials");
+            }
+        } else {
+            throw new AuthenticationException("client is not active");
+        }
     }
 
     public void persistClient() {

@@ -1,22 +1,22 @@
 /*
  * ClientRepository.java
  *
- * Created on 2020-06-25
+ * Created on 2020-10-02
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
 
 package repositories;
 
-import java.io.File;
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.List;
-
 import Exceptions.ClientParsingException;
 import client.Client;
 import csvReader.CSVReader;
 import csvWriter.CSVWriter;
+
+import java.io.File;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.List;
 
 public class ClientRepository {
 
@@ -32,7 +32,7 @@ public class ClientRepository {
 
     public Client findClient(final java.lang.String iban) throws ClientParsingException {
 
-        Client client;
+        final Client client;
         final List<java.lang.String> fileValues;
         final java.lang.String[] clientValues;
 

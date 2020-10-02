@@ -44,7 +44,9 @@
             <preferred-size width="150" height="50"/>
           </grid>
         </constraints>
-        <properties/>
+        <properties>
+          <showVerticalLines value="true"/>
+        </properties>
       </component>
       <component id="2cf10" class="javax.swing.JLabel">
         <constraints>

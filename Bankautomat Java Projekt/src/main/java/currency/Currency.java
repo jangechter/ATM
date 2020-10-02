@@ -1,7 +1,7 @@
 /*
  * Currency.java
  *
- * Created on 2020-09-17
+ * Created on 2020-10-02
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
@@ -19,6 +19,7 @@ public enum Currency {
     DOLLAR;
 
     public static List<Integer> getAllPossibleMoneyNotes(Currency currency) {
+
 
         ArrayList<Integer> possibleMoneyNotes = null;
 

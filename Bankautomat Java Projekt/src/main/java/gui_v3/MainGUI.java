@@ -1,18 +1,17 @@
 /*
  * MainGUI.java
  *
- * Created on 2020-09-21
+ * Created on 2020-10-02
  *
  * Copyright (C) 2020 Volkswagen AG, All rights reserved.
  */
 
 package gui_v3;
 
-import java.awt.*;
+import atm.ATM;
 
 import javax.swing.*;
-
-import atm.ATM;
+import java.awt.*;
 
 public class MainGUI extends GUI_v3 {
     private JPanel mainPanel;
@@ -41,7 +40,7 @@ public class MainGUI extends GUI_v3 {
 
         setVisible(false);
 
-        ViewUserInformationGUI userInformationGUI = new ViewUserInformationGUI(this, getAtm());
+        ViewUserInformationGUITest userInformationGUI = new ViewUserInformationGUITest(this, getAtm());
     }
 
     private void goToViewCashTransfersMenu() {
@@ -62,7 +61,7 @@ public class MainGUI extends GUI_v3 {
 
         setVisible(false);
 
-        WithdrawMoneyGUI withdrawMoneyGUI = new WithdrawMoneyGUI(getAtm(), this);
+        WithdrawMoneyGUITest withdrawMoneyGUITest = new WithdrawMoneyGUITest(getAtm(), this);
     }
 
     private void goToDepositMenu() {
